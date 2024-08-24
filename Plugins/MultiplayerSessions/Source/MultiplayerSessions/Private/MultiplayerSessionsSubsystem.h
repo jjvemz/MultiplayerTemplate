@@ -5,13 +5,18 @@
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
+
 #include "MultiplayerSessionsSubsystem.generated.h"
+
+//Declarando nuestro delegates personalizados para MenuClass para bindearlos a los callbacks
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnCreateSessionComplete, bool, bWasSuccesfull);
 
 /**
  * 
  */
 UCLASS()
-class UMultiplayerSessionsSubsystem : public UGameInstanceSubsystem
+class MULTIPLAYERSESSIONS_API UMultiplayerSessionsSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 public:
@@ -27,6 +32,11 @@ public:
 	void DestroySession();
 	void StartSession();
 
+	bool IsValidSessionInterface();
+	/*
+		Nuestro propio delegate customizable para la clase Menu para bindearlo con callbacks
+	*/
+	FMultiplayerOnCreateSessionComplete MultiplayerOnCreateSessionComplete;
 protected:
 
 
@@ -37,6 +47,8 @@ protected:
 	void OnStartSessionComplete(FName SessionName, bool bWasSuccessful);
 private:
 	IOnlineSessionPtr SessionInterface;
+	TSharedPtr<FOnlineSessionSettings> LastSessionSettings;
+	TSharedPtr<FOnlineSessionSearch> LastSessionSearch;
 
 	FOnCreateSessionCompleteDelegate CreateSessionCompleteDelegate;
 	FDelegateHandle CreateSessionCompleteDelegateHandle;
@@ -48,4 +60,8 @@ private:
 	FDelegateHandle DestroySessionCompleteDelegateHandle;
 	FOnStartSessionCompleteDelegate StartSessionCompleteDelegate;
 	FDelegateHandle StartSessionCompleteDelegateHandle;
+
+	bool bCreateSessionOnDestroy{ false };
+	int32 LastNumPublicConnections;
+	FString LastMatchType;
 };
