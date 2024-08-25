@@ -31,7 +31,7 @@ public:
 
 	void CreateSession(int32 NumPublicConnections, FString MatchType);
 	void FindSessions(int32 MaxSearchResults);
-	void JoinSession(const FOnlineSessionSearch& SessionResult);
+	void JoinSession(const FOnlineSessionSearchResult& SessionResult);
 	void DestroySession();
 	void StartSession();
 
