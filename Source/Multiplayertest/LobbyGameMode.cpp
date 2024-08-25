@@ -32,7 +32,7 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 					-11,
 					60.f,
 					FColor::Cyan,
-					FString::Printf(TEXT("%s has joined the game!"), PlayerName)
+					FString::Printf(TEXT("%s has joined the game!"), *PlayerName)
 				);
 			}
 			
@@ -62,7 +62,7 @@ void ALobbyGameMode::Logout(AController* Exiting)
 			-11,
 			60.f,
 			FColor::Cyan,
-			FString::Printf(TEXT("%s has left the game!"), PlayerName)
+			FString::Printf(TEXT("%s has left the game!"), *PlayerName)
 		);
 	}
 }
