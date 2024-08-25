@@ -3,6 +3,7 @@
 
 #include "MenuClass.h"
 #include "Components/Button.h"
+#include "OnlineSessionSettings.h"
 #include "MultiplayerSessionsSubsystem.h"
 
 void UMenuClass::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch)
@@ -35,6 +36,11 @@ void UMenuClass::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch)
 	if(MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->MultiplayerOnCreateSessionComplete.AddDynamic(this, &ThisClass::OnCreateSession);
+		MultiplayerSessionsSubsystem->MultiplayerOnFindSessionsComplete.AddUObject(this, &ThisClass::OnFindSessions);
+		MultiplayerSessionsSubsystem->MultiplayerOnJoinSessionComplete.AddUObject(this, &ThisClass::OnJoinSession);
+		MultiplayerSessionsSubsystem->MultiplayerOnDestroySessionComplete.AddDynamic(this, &ThisClass::OnDestroySession);
+		MultiplayerSessionsSubsystem->MultiplayerOnStartSessionComplete.AddDynamic(this, &ThisClass::OnStartSession);
+
 	}
 }
 
@@ -87,6 +93,22 @@ void UMenuClass::OnCreateSession(bool bWasSuccesful)
 			);
 		}
 	}
+}
+
+void UMenuClass::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful)
+{
+}
+
+void UMenuClass::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
+{
+}
+
+void UMenuClass::OnDestroySession(bool bWasSuccesful)
+{
+}
+
+void UMenuClass::OnStartSession(bool bWasSuccesful)
+{
 }
 
 void UMenuClass::NativeDestruct()

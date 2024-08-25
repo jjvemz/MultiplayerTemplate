@@ -28,6 +28,12 @@ protected:
 
 	UFUNCTION()
 	void OnCreateSession(bool bWasSuccesful);
+	void OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful);
+	void OnJoinSession(EOnJoinSessionCompleteResult::Type Result);
+	UFUNCTION()
+	void OnDestroySession(bool bWasSuccesful);
+	UFUNCTION()
+	void OnStartSession(bool bWasSuccesful);
 	virtual void NativeDestruct() override;
 
 private:
