@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "ShooterPlayer.generated.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "ShooterPlayer.generated.h"
+
 
 UCLASS()
 class MULTIPLAYERTEST_API AShooterPlayer : public ACharacter
