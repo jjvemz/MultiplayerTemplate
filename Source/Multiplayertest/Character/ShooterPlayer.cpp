@@ -4,6 +4,7 @@
 #include "ShooterPlayer.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -24,6 +25,8 @@ AShooterPlayer::AShooterPlayer()
 
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	OverHeadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
+	OverHeadWidget->SetupAttachment(RootComponent);
 }
 
 void AShooterPlayer::BeginPlay()
