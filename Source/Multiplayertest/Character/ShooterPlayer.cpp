@@ -7,6 +7,7 @@
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Net/UnrealNetwork.h"
 
 
 
@@ -28,7 +29,15 @@ AShooterPlayer::AShooterPlayer()
 	OverHeadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
 	OverHeadWidget->SetupAttachment(RootComponent);
 }
+/*
+void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeprops) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeprops);
 
+	DOREPLIFETIME_CONDITION(ABlasterCharacter, OverlappingWeapon, COND_OwnerOnly);
+}
+
+*/
 void AShooterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -49,6 +58,7 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 
 }
+
 
 void AShooterPlayer::Forward(float value)
 {
@@ -84,6 +94,7 @@ void AShooterPlayer::Yaw(float value)
 void AShooterPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 }
 

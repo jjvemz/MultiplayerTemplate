@@ -19,6 +19,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeprops) const override;
 
 protected:
 	
@@ -37,6 +39,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta= (AllowPrivateAccess= "true"))
 	class UWidgetComponent* OverHeadWidget;
+
+	class AWeapon* OverlappingWeapon;
 public:
+	//FORCEINLINE void SetOverlappingWeapon(AWeapon* Weapon) { OverlappingWeapon = Weapon; }
 
 };
