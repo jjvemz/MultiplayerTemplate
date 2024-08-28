@@ -4,7 +4,7 @@
 #include "Weapon.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Character/ShooterPlayer.h"
+#include "Multiplayertest/Character/ShooterPlayer.h"
 
 AWeapon::AWeapon()
 {
@@ -46,13 +46,22 @@ void AWeapon::BeginPlay()
 	
 }
 
+void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	AShooterPlayer* ShooterCharacter = Cast<AShooterPlayer>(OtherActor);
+	if (ShooterCharacter)
+	{
+		ShooterCharacter->SetOverlappingWeapon(nullptr);
+	}
+}
+
 void AWeapon::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AShooterPlayer* ShooterCharacter = Cast<AShooterPlayer>(OtherActor);
 
-	if(ShooterCharacter && PickupWidget)
+	if(ShooterCharacter)
 	{
-		PickupWidget->SetVisibility(true);
+		ShooterCharacter->SetOverlappingWeapon(nullptr);
 	}
 }
 
@@ -60,5 +69,13 @@ void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AWeapon::ShowPickupWidget(bool bShowWidget)
+{
+	if (PickupWidget)
+	{
+		PickupWidget->SetVisibility(bShowWidget);
+	}
 }
 
