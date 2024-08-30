@@ -132,6 +132,23 @@ void AShooterPlayer::SetOverlappingWeapon(AWeapon* Weapon)
 
 void AShooterPlayer::EquippedPressedButton() 
 {
+	if (Combat )
+	{
+		if (HasAuthority())
+		{
+			Combat->EquipWeapon(OverlappingWeapon);
+
+		}
+		else
+		{
+			ServerEquippedButtonPressed();
+		}
+	}
+
+}
+
+void AShooterPlayer::ServerEquippedButtonPressed_Implementation() 
+{
 	if (Combat && HasAuthority())
 	{
 		Combat->EquipWeapon(OverlappingWeapon);

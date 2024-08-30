@@ -40,5 +40,6 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 		HandSocket->AttachActor(EquippedWeapon, Character->GetMesh());
 	}
 	EquippedWeapon->SetOwner(Character);
-	EquippedWeapon->ShowPickupWidget(false);
+	//se comenta la linea de abajo para que el widget deje de replicarse
+	//EquippedWeapon->ShowPickupWidget(false);
 }
