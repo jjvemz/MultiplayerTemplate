@@ -9,11 +9,12 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Multiplayertest/Weapon.h"
+#include "Multiplayertest/Components/CombatComponent.h"
 
 
 AShooterPlayer::AShooterPlayer()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true; 
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetMesh());
@@ -28,6 +29,9 @@ AShooterPlayer::AShooterPlayer()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	OverHeadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
 	OverHeadWidget->SetupAttachment(RootComponent);
+
+	Combat = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
+	Combat->SetIsReplicated(true);
 }
 
 void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -48,16 +52,24 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AShooterPlayer::EquippedPressedButton);
+
 
 	PlayerInputComponent->BindAxis("Forward", this, &AShooterPlayer::Forward);
 	PlayerInputComponent->BindAxis("Right", this, &AShooterPlayer::Right);
 	PlayerInputComponent->BindAxis("Turn", this, &AShooterPlayer::Turn);
 	PlayerInputComponent->BindAxis("Yaw", this, &AShooterPlayer::Yaw);
 
-
-
 }
 
+void AShooterPlayer::PostInitializeComponents() 
+{
+	Super::PostInitializeComponents();
+		if (Combat)
+		{
+			Combat->Character = this;
+		}
+}
 
 void AShooterPlayer::Forward(float value)
 {
@@ -116,6 +128,15 @@ void AShooterPlayer::SetOverlappingWeapon(AWeapon* Weapon)
 			OverlappingWeapon->ShowPickupWidget(true);
 		}
 	}
+}
+
+void AShooterPlayer::EquippedPressedButton() 
+{
+	if (Combat && HasAuthority())
+	{
+		Combat->EquipWeapon(OverlappingWeapon);
+	}
+
 }
 
 void AShooterPlayer::Tick(float DeltaTime)
