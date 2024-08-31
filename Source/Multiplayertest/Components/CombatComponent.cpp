@@ -5,6 +5,7 @@
 #include "Multiplayertest/Character/ShooterPlayer.h"
 #include "Multiplayertest/Weapon.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "Net/UnrealNetwork.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -42,4 +43,12 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	EquippedWeapon->SetOwner(Character);
 	//se comenta la linea de abajo para que el widget deje de replicarse
 	//EquippedWeapon->ShowPickupWidget(false);
+}
+
+void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UCombatComponent, EquippedWeapon);
+
 }

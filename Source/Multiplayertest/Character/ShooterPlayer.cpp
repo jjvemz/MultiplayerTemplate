@@ -32,6 +32,8 @@ AShooterPlayer::AShooterPlayer()
 
 	Combat = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
 	Combat->SetIsReplicated(true);
+
+	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 }
 
 void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -154,6 +156,24 @@ void AShooterPlayer::ServerEquippedButtonPressed_Implementation()
 		Combat->EquipWeapon(OverlappingWeapon);
 	}
 
+}
+
+bool AShooterPlayer::IsWeaponEquipped()
+{
+	return (Combat && Combat->EquippedWeapon);
+
+}
+
+void AShooterPlayer::CrouchButtonPressed()
+{
+	if (bIsCrouched)
+	{
+		UnCrouch();
+	}
+	else
+	{
+		Crouch();
+	}
 }
 
 void AShooterPlayer::Tick(float DeltaTime)
