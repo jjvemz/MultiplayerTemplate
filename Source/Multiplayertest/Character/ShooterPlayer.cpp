@@ -55,7 +55,7 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AShooterPlayer::EquippedPressedButton);
-
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AShooterPlayer::CrouchButtonPressed);
 
 	PlayerInputComponent->BindAxis("Forward", this, &AShooterPlayer::Forward);
 	PlayerInputComponent->BindAxis("Right", this, &AShooterPlayer::Right);
