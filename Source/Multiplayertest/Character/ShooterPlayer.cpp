@@ -56,6 +56,8 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AShooterPlayer::EquippedPressedButton);
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AShooterPlayer::CrouchButtonPressed);
+	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AShooterPlayer::AimButtonPressed);
+	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AShooterPlayer::AimButtonReleased);
 
 	PlayerInputComponent->BindAxis("Forward", this, &AShooterPlayer::Forward);
 	PlayerInputComponent->BindAxis("Right", this, &AShooterPlayer::Right);
@@ -129,6 +131,27 @@ void AShooterPlayer::SetOverlappingWeapon(AWeapon* Weapon)
 		{
 			OverlappingWeapon->ShowPickupWidget(true);
 		}
+	}
+}
+
+bool AShooterPlayer::IsAiming()
+{
+	return (Combat && Combat->bAiming);
+}
+
+void AShooterPlayer::AimButtonPressed()
+{
+	if (Combat)
+	{
+		Combat->SetAiming(true);
+	}
+}
+
+void AShooterPlayer::AimButtonReleased()
+{
+	if (Combat)
+	{
+		Combat->SetAiming(false);
 	}
 }
 
