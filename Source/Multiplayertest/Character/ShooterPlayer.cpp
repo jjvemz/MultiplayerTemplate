@@ -30,8 +30,8 @@ AShooterPlayer::AShooterPlayer()
 	OverHeadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
 	OverHeadWidget->SetupAttachment(RootComponent);
 
-	Combat = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
-	Combat->SetIsReplicated(true);
+	CombatComp = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
+	CombatComp->SetIsReplicated(true);
 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 }
@@ -69,9 +69,9 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void AShooterPlayer::PostInitializeComponents() 
 {
 	Super::PostInitializeComponents();
-		if (Combat)
+		if (CombatComp)
 		{
-			Combat->Character = this;
+			CombatComp->Character = this;
 		}
 }
 
@@ -136,32 +136,32 @@ void AShooterPlayer::SetOverlappingWeapon(AWeapon* Weapon)
 
 bool AShooterPlayer::IsAiming()
 {
-	return (Combat && Combat->bAiming);
+	return (CombatComp && CombatComp->bAiming);
 }
 
 void AShooterPlayer::AimButtonPressed()
 {
-	if (Combat)
+	if (CombatComp)
 	{
-		Combat->SetAiming(true);
+		CombatComp->SetAiming(true);
 	}
 }
 
 void AShooterPlayer::AimButtonReleased()
 {
-	if (Combat)
+	if (CombatComp)
 	{
-		Combat->SetAiming(false);
+		CombatComp->SetAiming(false);
 	}
 }
 
 void AShooterPlayer::EquippedPressedButton() 
 {
-	if (Combat )
+	if (CombatComp)
 	{
 		if (HasAuthority())
 		{
-			Combat->EquipWeapon(OverlappingWeapon);
+			CombatComp->EquipWeapon(OverlappingWeapon);
 
 		}
 		else
@@ -174,16 +174,16 @@ void AShooterPlayer::EquippedPressedButton()
 
 void AShooterPlayer::ServerEquippedButtonPressed_Implementation() 
 {
-	if (Combat && HasAuthority())
+	if (CombatComp && HasAuthority())
 	{
-		Combat->EquipWeapon(OverlappingWeapon);
+		CombatComp->EquipWeapon(OverlappingWeapon);
 	}
 
 }
 
 bool AShooterPlayer::IsWeaponEquipped()
 {
-	return (Combat && Combat->EquippedWeapon);
+	return (CombatComp && CombatComp->EquippedWeapon);
 
 }
 
@@ -198,6 +198,7 @@ void AShooterPlayer::CrouchButtonPressed()
 		Crouch();
 	}
 }
+
 
 void AShooterPlayer::Tick(float DeltaTime)
 {

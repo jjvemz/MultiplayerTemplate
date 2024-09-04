@@ -46,18 +46,18 @@ private:
 	class UWidgetComponent* OverHeadWidget;
 
 	UPROPERTY(ReplicatedUsing = OnRep_OverlappingWeapon)
-	class AWeapon* OverlappingWeapon;
+	class AWeaponActor* OverlappingWeapon;
 	
 	UFUNCTION()
-	void OnRep_OverlappingWeapon(AWeapon* LastWeapon);
+	void OnRep_OverlappingWeapon(AWeaponActor* LastWeapon);
 
 	UPROPERTY(VisibleAnywhere)
-	class UCombatComponent* Combat;
+	class UCombatComponent* CombatComp;
 
 	UFUNCTION(Server, Reliable)
 	void ServerEquippedButtonPressed();
 public:
-	void SetOverlappingWeapon(AWeapon* Weapon);
+	void SetOverlappingWeapon(AWeaponActor* Weapon);
 	bool IsWeaponEquipped();
 	bool IsAiming();
 };
