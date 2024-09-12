@@ -6,14 +6,16 @@
 #include "GameFramework/Actor.h"
 #include "WeaponActor.generated.h"
 
+
 UENUM(BlueprintType)
-enum class EWeaponStates : uint8
+enum class EWeaponState : uint8
 {
 	EWS_Initial UMETA(DisplayName = "Initial State"),
 	EWS_Equipped UMETA(DisplayName = "Equipped"),
 	EWS_Dropped UMETA(DisplayName = "Dropped"),
 
-	EWS_MAX UMETA(DisplayName = "DefaultMAX")
+	EWS_MAX UMETA(DisplayName = "DefaultMax")
+
 };
 
 UCLASS()
@@ -24,9 +26,27 @@ class MULTIPLAYERTEST_API AWeaponActor : public AActor
 public:
 	AWeaponActor();
 	virtual void Tick(float DeltaTime) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	void ShowPickupWidget(bool bShowWidget);
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	virtual void OnSphereOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	);
+	UFUNCTION()
+	void OnSphereEndOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex
+	);
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
 	USkeletalMeshComponent* WeaponMesh;
@@ -34,9 +54,14 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
 	class USphereComponent* AreaSphere;
 
-	UPROPERTY(VisibleAnywhere)
-	EWeaponStates WeaponState;
+	UPROPERTY(ReplicatedUsing = OnRep_WeaponState, VisibleAnywhere, Category = "Weapon Properties")
+	EWeaponState WeaponState;
+
+	UFUNCTION()
+	void OnRep_WeaponState();
+
+	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
+	class UWidgetComponent* PickupWidget;
 public:
-
-
+	FORCEINLINE void SetWeaponState(EWeaponState State);
 };

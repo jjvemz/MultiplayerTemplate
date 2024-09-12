@@ -20,7 +20,7 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 
-	void EquipWeapon(class AWeapon* WeaponToEquip);
+	void EquipWeapon(class AWeaponActor* WeaponToEquip);
 protected:
 	virtual void BeginPlay() override;
 	void SetAiming(bool bIsAiming);
@@ -35,10 +35,16 @@ private:
 	class AShooterPlayer* Character;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_EquippedWeapon)
-	class AWeapon* EquippedWeapon;
+	class AWeaponActor* EquippedWeapon;
 
 	UPROPERTY(Replicated)
 	bool bAiming;
+
+	UPROPERTY(EditAnywhere)
+	float BaseWalkSpeed;
+
+	UPROPERTY(EditAnywhere)
+	float AimWalkSpeed;
 
 public:	
 

@@ -7,8 +7,9 @@
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Net/UnrealNetwork.h"
-#include "Multiplayertest/Weapon.h"
+#include "Multiplayertest/Weapons/WeaponActor.h"
 #include "Multiplayertest/Components/CombatComponent.h"
 
 
@@ -34,6 +35,8 @@ AShooterPlayer::AShooterPlayer()
 	CombatComp->SetIsReplicated(true);
 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 }
 
 void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -106,7 +109,7 @@ void AShooterPlayer::Yaw(float value)
 
 }
 
-void AShooterPlayer::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
+void AShooterPlayer::OnRep_OverlappingWeapon(AWeaponActor* LastWeapon)
 {
 	if (OverlappingWeapon)
 	{
@@ -118,7 +121,7 @@ void AShooterPlayer::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
 	}
 }
 
-void AShooterPlayer::SetOverlappingWeapon(AWeapon* Weapon)
+void AShooterPlayer::SetOverlappingWeapon(AWeaponActor* Weapon)
 {
 	if (OverlappingWeapon)
 	{
