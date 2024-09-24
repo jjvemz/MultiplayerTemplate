@@ -23,6 +23,8 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostInitializeComponents() override;
 
+	void PlayShootingMontage(bool bAiming);
+
 protected:
 	
 	virtual void BeginPlay() override;
@@ -31,10 +33,15 @@ protected:
 	void Right(float value);
 	void Turn(float value);
 	void Yaw(float value);
+	
+	virtual void Jump() override;
+
 	void EquippedPressedButton();
 	void CrouchButtonPressed();
+	
 	void AimButtonPressed();
 	void AimButtonReleased();
+
 	void AimOffset(float DeltaTime);
 
 	void FireButtonPressed();
@@ -70,6 +77,9 @@ private:
 
 	ETurningInPlace TurningInPlace;
 	void TurnInPlace(float DeltaTime);
+
+	UPROPERTY(EditAnywhere, Category= Combat)
+	class UAnimMontage* FireWeaponMontage;
 
 
 public:

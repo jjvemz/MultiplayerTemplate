@@ -23,9 +23,12 @@ class MULTIPLAYERTEST_API AWeaponActor : public AActor
 
 public:
 	AWeaponActor();
+
 	virtual void Tick(float DeltaTime) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	void ShowPickupWidget(bool bShowWidget);
+
+	void Fire();
 protected:
 	virtual void BeginPlay() override;
 
@@ -60,6 +63,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
 	class UWidgetComponent* PickupWidget;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
+	class UAnimationAsset* FireAnimation;
 public:
 	FORCEINLINE void SetWeaponState(EWeaponState State);
 	FORCEINLINE USphereComponent* GetAreaSphere() const { return AreaSphere; }

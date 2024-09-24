@@ -39,6 +39,8 @@ AShooterPlayer::AShooterPlayer()
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 850.f);
+
 
 	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 	NetUpdateFrequency = 66.f;
@@ -55,8 +57,8 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AShooterPlayer::CrouchButtonPressed);
 	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AShooterPlayer::AimButtonPressed);
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AShooterPlayer::AimButtonReleased);
-	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AShooterPlayer::FireButtonReleased);
-	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AShooterPlayer::FireButtonPressed);
+	PlayerInputComponent->BindAction("Shoot", IE_Released, this, &AShooterPlayer::FireButtonReleased);
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AShooterPlayer::FireButtonPressed);
 
 
 	PlayerInputComponent->BindAxis("Forward", this, &AShooterPlayer::Forward);
@@ -90,6 +92,22 @@ void AShooterPlayer::PostInitializeComponents()
 	if (CombatComp)
 	{
 		CombatComp->Character = this;
+	}
+}
+
+void AShooterPlayer::PlayShootingMontage(bool bAiming)
+{
+
+	if (CombatComp == nullptr || CombatComp->EquippedWeapon == nullptr) return;
+
+	UAnimInstance* AnimationInstance = GetMesh()->GetAnimInstance();
+
+	if (AnimationInstance && FireWeaponMontage)
+	{
+		AnimationInstance->Montage_Play(FireWeaponMontage);
+		FName SectionName;
+		SectionName = bAiming ? FName("RifleAim") : FName("RifleHip");
+		AnimationInstance->Montage_JumpToSection(SectionName);
 	}
 }
 
@@ -133,6 +151,18 @@ void AShooterPlayer::Turn(float Value)
 void AShooterPlayer::Yaw(float Value)
 {
 	AddControllerPitchInput(Value);
+}
+
+void AShooterPlayer::Jump()
+{
+	if (bIsCrouched)
+	{
+		UnCrouch();
+	}
+	else
+	{
+		Super::Jump();
+	}
 }
 
 void AShooterPlayer::EquippedPressedButton()

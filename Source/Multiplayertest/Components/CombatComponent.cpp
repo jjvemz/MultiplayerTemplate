@@ -17,6 +17,15 @@ UCombatComponent::UCombatComponent()
 }
 
 
+void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps); 
+
+	DOREPLIFETIME(UCombatComponent, EquippedWeapon); 
+	DOREPLIFETIME(UCombatComponent, bAiming);
+
+}
+
 void UCombatComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -58,7 +67,30 @@ void UCombatComponent::OnRep_EquippedWeapon()
 
 void UCombatComponent::FireButtonPressed(bool bPressed)
 {
+	bFirePressed = bPressed;
+	if (bFirePressed)
+	{
+		ServerFire();
+	}
 }
+
+void UCombatComponent::ServerFire_Implementation()
+{
+	MulticastFire();
+}
+
+void UCombatComponent::MulticastFire_Implementation()
+{
+	if (EquippedWeapon == nullptr) return;
+
+	if (Character)
+	{
+		Character->PlayShootingMontage(bAiming);
+		EquippedWeapon->Fire();
+	}
+}
+
+
 
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -82,13 +114,4 @@ void UCombatComponent::EquipWeapon(AWeaponActor* WeaponToEquip)
 	Character->bUseControllerRotationYaw = true;
 	//se comenta la linea de abajo para que el widget deje de replicarse
 	//EquippedWeapon->ShowPickupWidget(false);
-}
-
-void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(UCombatComponent, EquippedWeapon);
-	DOREPLIFETIME(UCombatComponent, bAiming);
-
 }
