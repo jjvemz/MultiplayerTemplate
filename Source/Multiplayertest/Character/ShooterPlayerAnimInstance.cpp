@@ -4,8 +4,8 @@
 #include "ShooterPlayerAnimInstance.h"
 #include "ShooterPlayer.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Multiplayertest/Weapons/WeaponActor.h"
 #include "Kismet/KismetMathLibrary.h"
-
 
 void UShooterPlayerAnimInstance::NativeInitializeAnimation()
 {
@@ -33,10 +33,13 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	bWeaponEquipped = ShooterPlayer->IsWeaponEquipped();
 	bIsCrouched = ShooterPlayer->bIsCrouched;
 	bAiming = ShooterPlayer->IsAiming();
+	TurningInPlace = ShooterPlayer->GetTurningInPlace();
 
 	FRotator AimRotation = ShooterPlayer->GetBaseAimRotation();
 	FRotator MovementRotation = UKismetMathLibrary::MakeRotFromX(ShooterPlayer->GetVelocity());
-	YawOffset = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
+	FRotator DeltaRot = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation);
+	DeltaRotation = FMath::RInterpTo(DeltaRotation, DeltaRot, DeltaTime, 6.f);
+	YawOffset = DeltaRotation.Yaw;
 
 	CharacterRotationLastFrame = CharacterRotation;
 	CharacterRotation = ShooterPlayer->GetActorRotation();
@@ -44,4 +47,17 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	const float Target = Delta.Yaw / DeltaTime;
 	const float Interp = FMath::FInterpTo(Lean, Target, DeltaTime, 6.f);
 	Lean = FMath::Clamp(Interp, -90.f, 90.f);
+
+	AO_Yaw = ShooterPlayer->GetAO_Yaw();
+	AO_Pitch = ShooterPlayer->GetAO_Pitch();
+
+	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && ShooterPlayer->GetMesh())
+	{
+		LeftHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("LeftHandSocket"), ERelativeTransformSpace::RTS_World);
+		FVector OutPosition;
+		FRotator OutRotation;
+		ShooterPlayer->GetMesh()->TransformToBoneSpace(FName("Hand_R"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
+		LeftHandTransform.SetLocation(OutPosition);
+		LeftHandTransform.SetRotation(FQuat(OutRotation));
+	}
 }

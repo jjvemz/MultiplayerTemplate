@@ -3,16 +3,16 @@
 #include "WeaponActor.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Net/UnrealNetwork.h"
 #include "Multiplayertest/Character/ShooterPlayer.h"
+#include "Net/UnrealNetwork.h"
 
+// Sets default values
 AWeaponActor::AWeaponActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
-	WeaponMesh->SetupAttachment(RootComponent);
 	SetRootComponent(WeaponMesh);
 
 	WeaponMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
@@ -24,7 +24,7 @@ AWeaponActor::AWeaponActor()
 	AreaSphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	AreaSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	PickupWidget = CreateDefaultSubobject <UWidgetComponent>(TEXT("PickupWidget"));
+	PickupWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("PickupWidget"));
 	PickupWidget->SetupAttachment(RootComponent);
 }
 
@@ -37,12 +37,24 @@ void AWeaponActor::BeginPlay()
 		AreaSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		AreaSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 		AreaSphere->OnComponentBeginOverlap.AddDynamic(this, &AWeaponActor::OnSphereOverlap);
+		AreaSphere->OnComponentEndOverlap.AddDynamic(this, &AWeaponActor::OnSphereEndOverlap);
 	}
 	if (PickupWidget)
 	{
 		PickupWidget->SetVisibility(false);
 	}
-	
+}
+
+void AWeaponActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+void AWeaponActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AWeaponActor, WeaponState);
 }
 
 void AWeaponActor::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -63,17 +75,6 @@ void AWeaponActor::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, 
 	}
 }
 
-void AWeaponActor::OnRep_WeaponState()
-{
-	switch (WeaponState)
-	{
-	case EWeaponState::EWS_Equipped:
-		ShowPickupWidget(false);
-		break;
-	}
-}
-
-
 void AWeaponActor::SetWeaponState(EWeaponState State)
 {
 	WeaponState = State;
@@ -86,17 +87,14 @@ void AWeaponActor::SetWeaponState(EWeaponState State)
 	}
 }
 
-void AWeaponActor::Tick(float DeltaTime)
+void AWeaponActor::OnRep_WeaponState()
 {
-	Super::Tick(DeltaTime);
-
-}
-
-void AWeaponActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(AWeaponActor, WeaponState);
+	switch (WeaponState)
+	{
+	case EWeaponState::EWS_Equipped:
+		ShowPickupWidget(false);
+		break;
+	}
 }
 
 void AWeaponActor::ShowPickupWidget(bool bShowWidget)
