@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
-
+#define TRACE_LENGTH 8000;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MULTIPLAYERTEST_API UCombatComponent : public UActorComponent
@@ -34,14 +34,21 @@ protected:
 	void FireButtonPressed(bool bPressed);
 
 	UFUNCTION(Server, Reliable)
-	void ServerFire();
+	void ServerFire(const FVector_NetQuantize& TraceHitTarget);
 	
 	UFUNCTION(NetMulticast, Reliable)
-	void MulticastFire();
+	void MulticastFire(const FVector_NetQuantize& TraceHitTarget);
+
+	void TraceUnderCrosshair(FHitResult& TraceHitResult);
+
+	void SetHUDCrosshairs(float DeltaTime);
 
 
 private:
 	class AShooterPlayer* Character;
+	class AShooterPlayerController* Controller;
+	class AShooterHUD* HUD;
+
 	
 	UPROPERTY(ReplicatedUsing = OnRep_EquippedWeapon)
 	class AWeaponActor* EquippedWeapon;
@@ -56,6 +63,8 @@ private:
 	float AimWalkSpeed;
 
 	bool bFirePressed;
+
+	FVector HitTarget;
 
 public:	
 

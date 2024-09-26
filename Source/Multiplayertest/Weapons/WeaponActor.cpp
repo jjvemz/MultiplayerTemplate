@@ -8,7 +8,6 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Net/UnrealNetwork.h"
 
-// Sets default values
 AWeaponActor::AWeaponActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -107,7 +106,7 @@ void AWeaponActor::ShowPickupWidget(bool bShowWidget)
 	}
 }
 
-void AWeaponActor::Fire()
+void AWeaponActor::Fire(const FVector& HitTarget)
 {
 	if (FireAnimation)
 	{
