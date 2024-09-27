@@ -31,6 +31,7 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	bIsInAir = ShooterPlayer->GetCharacterMovement()->IsFalling();
 	bIsAccelerating = ShooterPlayer->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.f ? true : false;
 	bWeaponEquipped = ShooterPlayer->IsWeaponEquipped();
+	EquippedWeapon = ShooterPlayer->GetEquippedWeapon();
 	bIsCrouched = ShooterPlayer->bIsCrouched;
 	bAiming = ShooterPlayer->IsAiming();
 	TurningInPlace = ShooterPlayer->GetTurningInPlace();
@@ -59,5 +60,15 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 		ShooterPlayer->GetMesh()->TransformToBoneSpace(FName("Hand_R"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
 		LeftHandTransform.SetLocation(OutPosition);
 		LeftHandTransform.SetRotation(FQuat(OutRotation));
+
+		if (ShooterPlayer->IsLocallyControlled())
+		{
+			bLocallyControlled = true;
+			FTransform RightHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("Hand_R"), ERelativeTransformSpace::RTS_World);
+			RightHandRotation = UKismetMathLibrary::FindLookAtRotation(RightHandTransform.GetLocation(), RightHandTransform.GetLocation() + (RightHandTransform.GetLocation() - ShooterPlayer->GetHitTarget()));
+		}
+
+		FTransform MuzzleTipTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("MuzzleFlash"), ERelativeTransformSpace::RTS_World);
+		FVector MuzzleX(FRotationMatrix(MuzzleTipTransform.GetRotation().Rotator()).GetUnitAxis(EAxis::X));
 	}
 }

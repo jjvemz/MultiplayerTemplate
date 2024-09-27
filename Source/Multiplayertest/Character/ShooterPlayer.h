@@ -5,12 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Multiplayertest/Interfaces/InteractCrosshairsInterface.h"
 #include "Multiplayertest/BlasterTypes/TurnInPlace.h"
 #include "ShooterPlayer.generated.h"
 
 
 UCLASS()
-class MULTIPLAYERTEST_API AShooterPlayer : public ACharacter
+class MULTIPLAYERTEST_API AShooterPlayer : public ACharacter, public IInteractCrosshairsInterface
 {
 	GENERATED_BODY()
 
@@ -86,8 +87,12 @@ public:
 	void SetOverlappingWeapon(AWeaponActor* Weapon);
 	bool IsWeaponEquipped();
 	bool IsAiming();
+
+	FVector GetHitTarget() const;
+	AWeaponActor* GetEquippedWeapon();
+
+	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
-	AWeaponActor* GetEquippedWeapon();
-	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
+	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };

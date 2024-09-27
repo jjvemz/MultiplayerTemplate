@@ -41,6 +41,7 @@ AShooterPlayer::AShooterPlayer()
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 850.f);
 
 
@@ -323,4 +324,11 @@ AWeaponActor* AShooterPlayer::GetEquippedWeapon()
 {
 	if (CombatComp == nullptr) return nullptr;
 	return CombatComp->EquippedWeapon;
+}
+
+FVector AShooterPlayer::GetHitTarget() const
+{
+	if (CombatComp == nullptr) return FVector();
+
+	return CombatComp->HitTarget;
 }

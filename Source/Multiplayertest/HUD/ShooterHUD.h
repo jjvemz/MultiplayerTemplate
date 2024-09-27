@@ -16,6 +16,8 @@ public:
 	class UTexture2D* CrosshairsRight;
 	class UTexture2D* CrosshairsUp;
 	class UTexture2D* CrosshairsDown;
+	float CrosshairSpread;
+	FLinearColor CrosshairColor;
 
 };
 
@@ -30,6 +32,11 @@ class MULTIPLAYERTEST_API AShooterHUD : public AHUD
 	virtual void DrawHUD() override;
 private:
 	FHUDPackage HUDPackage;
+
+	UPROPERTY(EditAnywhere)
+	float CrosshairSpreadMax = 16.f;
+
+	void DrawCrosshair(UTexture2D* Texture, FVector2D ViewportCenter, FVector2D Spread, FLinearColor CrossHairColor);
 public:
 	FORCEINLINE void SetHUDPackage(const FHUDPackage& Package) { HUDPackage = Package; }
 };
