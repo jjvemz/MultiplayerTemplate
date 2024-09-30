@@ -26,6 +26,9 @@ public:
 
 	void PlayShootingMontage(bool bAiming);
 
+
+	virtual void OnRep_ReplicatedMovement() override;
+
 protected:
 	
 	virtual void BeginPlay() override;
@@ -44,10 +47,17 @@ protected:
 	void AimButtonReleased();
 
 	void AimOffset(float DeltaTime);
+	void CalculateAO_Pitch();
+	void SimProxiesTurn();
 
 	void FireButtonPressed();
 	void FireButtonReleased();
 
+	void PlayHitReactMontage();
+
+	UFUNCTION()
+	void ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCausor);
+	void UpdateHUDHealth();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
@@ -82,6 +92,42 @@ private:
 	UPROPERTY(EditAnywhere, Category= Combat)
 	class UAnimMontage* FireWeaponMontage;
 
+	UPROPERTY(EditAnywhere, Category = Combat)
+	class UAnimMontage* HitReactMontage;
+
+	
+
+	void HideCameraIfTheCaharacterisClose();
+
+	UPROPERTY(EditAnywhere, Category = CameraTweaks)
+	float CameraThreshold = 200.f;
+
+	bool bRotateRootBone;
+
+	UPROPERTY(EditAnywhere, Category = CameraTweaks)
+
+	float TurnThreshold = 0.5f;
+
+	FRotator ProxyRotationLastFrame;
+	FRotator ProxyRotation;
+
+	float ProxyYaw;
+	float TimeSinceLastMovementReplication;
+	float CalculateSpeed();
+
+	//Vida del jugador
+
+	UPROPERTY(EditAnywhere, Category="Player Stats")
+	float MaxHealth = 100.f;
+
+	UPROPERTY(ReplicatedUsing= OnRep_Health, VisibleAnywhere, Category="PlayerStats")
+
+	float CurrHealth = 100.f;
+
+	UFUNCTION()
+	void OnRep_Health();
+
+	class AShooterPlayerController* ShooterPlayerController;
 
 public:
 	void SetOverlappingWeapon(AWeaponActor* Weapon);
@@ -95,4 +141,5 @@ public:
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE bool ShouldRotateRootBone() const { return bRotateRootBone; }
 };

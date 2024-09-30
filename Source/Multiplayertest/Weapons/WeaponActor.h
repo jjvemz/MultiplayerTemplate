@@ -54,6 +54,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float ZoomedInterpSpeed= 20.f;
 
+	//Modo de fuego automatico
+	UPROPERTY(EditAnywhere, Category = Combat)
+	float FireDelay = .15f;
+	UPROPERTY(EditAnywhere, Category = Combat)
+	bool bAutomatic = true;
+
 protected:
 	virtual void BeginPlay() override;
 

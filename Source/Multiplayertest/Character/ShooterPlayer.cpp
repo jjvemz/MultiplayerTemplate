@@ -11,6 +11,8 @@
 #include "Net/UnrealNetwork.h"
 #include "Multiplayertest/Weapons/WeaponActor.h"
 #include "Multiplayertest/Components/CombatComponent.h"
+#include "Multiplayertest/Multiplayertest.h"
+#include "Multiplayertest/PlayerController/ShooterPlayerController.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -40,6 +42,8 @@ AShooterPlayer::AShooterPlayer()
 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+	GetMesh()->SetCollisionObjectType(ECC_SkeletalMesh);
+
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 850.f);
@@ -75,18 +79,46 @@ void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION(AShooterPlayer, OverlappingWeapon, COND_OwnerOnly);
+	DOREPLIFETIME(AShooterPlayer, CurrHealth);
+}
+
+void AShooterPlayer::OnRep_ReplicatedMovement()
+{
+	Super::OnRep_ReplicatedMovement();
+
+	SimProxiesTurn();
+	TimeSinceLastMovementReplication = 0.f;
 }
 
 void AShooterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UpdateHUDHealth();
+	if (HasAuthority())
+	{
+		OnTakeAnyDamage.AddDynamic(this, &AShooterPlayer::ReceiveDamage);
+	}
 }
 
 void AShooterPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	AimOffset(DeltaTime);
+	if (GetLocalRole() > ENetRole::ROLE_SimulatedProxy && IsLocallyControlled())
+	{
+		AimOffset(DeltaTime);
+	}
+	else
+	{
+		TimeSinceLastMovementReplication += DeltaTime;
+		if (TimeSinceLastMovementReplication > 0.10f)
+		{
+			OnRep_ReplicatedMovement();
+		}
+		CalculateAO_Pitch();
+	}
+	HideCameraIfTheCaharacterisClose();
 }
 
 void AShooterPlayer::PostInitializeComponents()
@@ -111,6 +143,38 @@ void AShooterPlayer::PlayShootingMontage(bool bAiming)
 		FName SectionName;
 		SectionName = bAiming ? FName("RifleAim") : FName("RifleHip");
 		AnimationInstance->Montage_JumpToSection(SectionName);
+	}
+}
+
+void AShooterPlayer::PlayHitReactMontage()
+{
+
+	if (CombatComp == nullptr || CombatComp->EquippedWeapon == nullptr) return;
+
+	UAnimInstance* AnimationInstance = GetMesh()->GetAnimInstance();
+
+	if (AnimationInstance && HitReactMontage)
+	{
+		AnimationInstance->Montage_Play(HitReactMontage);
+		FName SectionName("FromFront");
+		AnimationInstance->Montage_JumpToSection(SectionName);
+	}
+}
+
+void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, 
+	AController* InstigatorController, AActor* DamageCausor)
+{
+	CurrHealth = FMath::Clamp(CurrHealth - Damage, 0.f, MaxHealth);
+	UpdateHUDHealth();
+	PlayHitReactMontage();
+}
+
+void AShooterPlayer::UpdateHUDHealth()
+{
+	ShooterPlayerController = ShooterPlayerController == nullptr ? Cast<AShooterPlayerController>(Controller) : ShooterPlayerController;
+	if (ShooterPlayerController)
+	{
+		ShooterPlayerController->SetHUDHealth(CurrHealth, MaxHealth);
 	}
 }
 
@@ -222,16 +286,22 @@ void AShooterPlayer::AimButtonReleased()
 	}
 }
 
+float AShooterPlayer::CalculateSpeed()
+{
+	FVector Velocity = GetVelocity();
+	Velocity.Z = 0.f;
+	return Velocity.Size();
+}
+
 void AShooterPlayer::AimOffset(float DeltaTime)
 {
 	if (CombatComp && CombatComp->EquippedWeapon == nullptr) return;
-	FVector Velocity = GetVelocity();
-	Velocity.Z = 0.f;
-	float Speed = Velocity.Size();
+	float Speed = CalculateSpeed();
 	bool bIsInAir = GetCharacterMovement()->IsFalling();
 
 	if (Speed == 0.f && !bIsInAir) 
 	{
+		bRotateRootBone = true;
 		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
 		AO_Yaw = DeltaAimRotation.Yaw;
@@ -240,6 +310,7 @@ void AShooterPlayer::AimOffset(float DeltaTime)
 	}
 	if (Speed > 0.f || bIsInAir) 
 	{
+		bRotateRootBone = false;
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		AO_Yaw = 0.f;
 		bUseControllerRotationYaw = true;
@@ -257,6 +328,11 @@ void AShooterPlayer::AimOffset(float DeltaTime)
 		}
 	}
 
+	CalculateAO_Pitch();
+}
+
+void AShooterPlayer::CalculateAO_Pitch()
+{
 	AO_Pitch = GetBaseAimRotation().Pitch;
 	if (AO_Pitch > 90.f && !IsLocallyControlled())
 	{
@@ -264,6 +340,44 @@ void AShooterPlayer::AimOffset(float DeltaTime)
 		FVector2D OutRange(-90.f, 0.f);
 		AO_Pitch = FMath::GetMappedRangeValueClamped(InRange, OutRange, AO_Pitch);
 	}
+}
+
+void AShooterPlayer::SimProxiesTurn()
+{
+	if (CombatComp == nullptr && CombatComp->EquippedWeapon == nullptr) return;
+	
+	bRotateRootBone = false;
+	float Speed = CalculateSpeed();
+	if (Speed > 0.f) {
+		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+		return;
+	}
+
+	
+
+	ProxyRotationLastFrame = ProxyRotation;
+	ProxyRotation = GetActorRotation();
+	ProxyYaw = UKismetMathLibrary::NormalizedDeltaRotator(ProxyRotation, ProxyRotationLastFrame).Yaw;
+
+
+	if (FMath::Abs(ProxyYaw) > TurnThreshold)
+	{
+		if (ProxyYaw > TurnThreshold)
+		{
+			TurningInPlace = ETurningInPlace::ETIP_Right;
+		}
+		else if (ProxyYaw > TurnThreshold)
+		{
+			TurningInPlace = ETurningInPlace::ETIP_Left;
+
+		}
+		else 
+		{
+			TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+
+		}
+	}
+	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 }
 
 void AShooterPlayer::FireButtonPressed()
@@ -280,6 +394,40 @@ void AShooterPlayer::FireButtonReleased()
 	{
 		CombatComp->FireButtonPressed(false);
 	}
+}
+/*
+void AShooterPlayer::MulticastHit_Implementation()
+{
+	PlayHitReactMontage();
+}
+*/
+void AShooterPlayer::HideCameraIfTheCaharacterisClose()
+{
+	if (!IsLocallyControlled()) return;
+
+	if ((FollowCamera->GetComponentLocation() - GetActorLocation()).Size()< CameraThreshold)
+	{
+		GetMesh()->SetVisibility(false);
+		if (CombatComp && CombatComp->EquippedWeapon && CombatComp->EquippedWeapon->GetWeaponMesh())
+		{
+			CombatComp->EquippedWeapon->GetWeaponMesh()->bOwnerNoSee = true;
+		}
+		
+	}
+	else
+	{
+		GetMesh()->SetVisibility(true);
+		if (CombatComp && CombatComp->EquippedWeapon && CombatComp->EquippedWeapon->GetWeaponMesh())
+		{
+			CombatComp->EquippedWeapon->GetWeaponMesh()->bOwnerNoSee = false;
+		}
+	}
+}
+
+void AShooterPlayer::OnRep_Health()
+{
+	UpdateHUDHealth();
+	PlayHitReactMontage();
 }
 
 void AShooterPlayer::SetOverlappingWeapon(AWeaponActor* Weapon)

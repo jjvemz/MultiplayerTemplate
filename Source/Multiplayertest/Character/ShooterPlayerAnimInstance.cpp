@@ -35,6 +35,7 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	bIsCrouched = ShooterPlayer->bIsCrouched;
 	bAiming = ShooterPlayer->IsAiming();
 	TurningInPlace = ShooterPlayer->GetTurningInPlace();
+	bRotateRootBone = ShooterPlayer->ShouldRotateRootBone();
 
 	FRotator AimRotation = ShooterPlayer->GetBaseAimRotation();
 	FRotator MovementRotation = UKismetMathLibrary::MakeRotFromX(ShooterPlayer->GetVelocity());
