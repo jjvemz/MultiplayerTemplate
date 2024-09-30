@@ -25,9 +25,14 @@ public:
 	virtual void PostInitializeComponents() override;
 
 	void PlayShootingMontage(bool bAiming);
-
+	void PlayEliminationMontage();
 
 	virtual void OnRep_ReplicatedMovement() override;
+	
+	void Elim();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastElim();
 
 protected:
 	
@@ -95,7 +100,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = Combat)
 	class UAnimMontage* HitReactMontage;
 
-	
+	UPROPERTY(EditAnywhere, Category = Combat)
+	class UAnimMontage* EliminationMontage;
 
 	void HideCameraIfTheCaharacterisClose();
 
@@ -121,8 +127,16 @@ private:
 	float MaxHealth = 100.f;
 
 	UPROPERTY(ReplicatedUsing= OnRep_Health, VisibleAnywhere, Category="PlayerStats")
-
 	float CurrHealth = 100.f;
+
+	bool bIsEliminated = false;
+
+	FTimerHandle ElimTimer;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ElimDelay = 3.f;
+
+	void ElimTimerFinished();
 
 	UFUNCTION()
 	void OnRep_Health();
@@ -142,4 +156,6 @@ public:
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	FORCEINLINE bool ShouldRotateRootBone() const { return bRotateRootBone; }
+	FORCEINLINE bool IsEliminated() const { return bIsEliminated; }
+
 };

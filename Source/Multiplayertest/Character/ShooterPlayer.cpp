@@ -2,18 +2,23 @@
 
 
 #include "ShooterPlayer.h"
+
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Net/UnrealNetwork.h"
+
 #include "Multiplayertest/Weapons/WeaponActor.h"
 #include "Multiplayertest/Components/CombatComponent.h"
 #include "Multiplayertest/Multiplayertest.h"
 #include "Multiplayertest/PlayerController/ShooterPlayerController.h"
+#include "Multiplayertest/GameMode/ShooterPlayerGameMode.h"
+
 #include "Kismet/KismetMathLibrary.h"
+#include "TimerManager.h"
+#include "Net/UnrealNetwork.h"
 
 
 AShooterPlayer::AShooterPlayer()
@@ -90,6 +95,40 @@ void AShooterPlayer::OnRep_ReplicatedMovement()
 	TimeSinceLastMovementReplication = 0.f;
 }
 
+void AShooterPlayer::Elim()
+{
+	if (CombatComp && CombatComp->EquippedWeapon)
+	{
+		CombatComp->EquippedWeapon->DroppedWeapon();
+	}
+	MulticastElim();
+	GetWorldTimerManager().SetTimer(
+		ElimTimer,
+		this,
+		&AShooterPlayer::ElimTimerFinished,
+		ElimDelay
+	);
+}
+
+void AShooterPlayer::MulticastElim_Implementation()
+{
+	bIsEliminated = true;
+	PlayEliminationMontage();
+
+	//Quitar el movimiento al ser eliminado
+
+	GetCharacterMovement()->DisableMovement();
+	GetCharacterMovement()->StopMovementImmediately();
+	if (ShooterPlayerController)
+	{
+		DisableInput(ShooterPlayerController);
+	}
+	
+	//Quitar las colisiones
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
 void AShooterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -143,50 +182,6 @@ void AShooterPlayer::PlayShootingMontage(bool bAiming)
 		FName SectionName;
 		SectionName = bAiming ? FName("RifleAim") : FName("RifleHip");
 		AnimationInstance->Montage_JumpToSection(SectionName);
-	}
-}
-
-void AShooterPlayer::PlayHitReactMontage()
-{
-
-	if (CombatComp == nullptr || CombatComp->EquippedWeapon == nullptr) return;
-
-	UAnimInstance* AnimationInstance = GetMesh()->GetAnimInstance();
-
-	if (AnimationInstance && HitReactMontage)
-	{
-		AnimationInstance->Montage_Play(HitReactMontage);
-		FName SectionName("FromFront");
-		AnimationInstance->Montage_JumpToSection(SectionName);
-	}
-}
-
-void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, 
-	AController* InstigatorController, AActor* DamageCausor)
-{
-	CurrHealth = FMath::Clamp(CurrHealth - Damage, 0.f, MaxHealth);
-	UpdateHUDHealth();
-	PlayHitReactMontage();
-}
-
-void AShooterPlayer::UpdateHUDHealth()
-{
-	ShooterPlayerController = ShooterPlayerController == nullptr ? Cast<AShooterPlayerController>(Controller) : ShooterPlayerController;
-	if (ShooterPlayerController)
-	{
-		ShooterPlayerController->SetHUDHealth(CurrHealth, MaxHealth);
-	}
-}
-
-void AShooterPlayer::TurnInPlace(float DeltaTime)
-{
-	if (AO_Yaw > 90.f)
-	{
-		TurningInPlace = ETurningInPlace::ETIP_Right;
-	}
-	else if (AO_Yaw < -90.f)
-	{
-		TurningInPlace = ETurningInPlace::ETIP_Left;
 	}
 }
 
@@ -299,7 +294,7 @@ void AShooterPlayer::AimOffset(float DeltaTime)
 	float Speed = CalculateSpeed();
 	bool bIsInAir = GetCharacterMovement()->IsFalling();
 
-	if (Speed == 0.f && !bIsInAir) 
+	if (Speed == 0.f && !bIsInAir)
 	{
 		bRotateRootBone = true;
 		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
@@ -308,7 +303,7 @@ void AShooterPlayer::AimOffset(float DeltaTime)
 		bUseControllerRotationYaw = true;
 		TurnInPlace(DeltaTime);
 	}
-	if (Speed > 0.f || bIsInAir) 
+	if (Speed > 0.f || bIsInAir)
 	{
 		bRotateRootBone = false;
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
@@ -341,6 +336,78 @@ void AShooterPlayer::CalculateAO_Pitch()
 		AO_Pitch = FMath::GetMappedRangeValueClamped(InRange, OutRange, AO_Pitch);
 	}
 }
+
+
+void AShooterPlayer::PlayHitReactMontage()
+{
+
+	if (CombatComp == nullptr || CombatComp->EquippedWeapon == nullptr) return;
+
+	UAnimInstance* AnimationInstance = GetMesh()->GetAnimInstance();
+
+	if (AnimationInstance && HitReactMontage)
+	{
+		AnimationInstance->Montage_Play(HitReactMontage);
+		FName SectionName("FromFront");
+		AnimationInstance->Montage_JumpToSection(SectionName);
+	}
+}
+
+void AShooterPlayer::PlayEliminationMontage()
+{
+	UAnimInstance* AnimationInstance = GetMesh()->GetAnimInstance();
+
+	if (AnimationInstance && EliminationMontage)
+	{
+		AnimationInstance->Montage_Play(EliminationMontage);
+	}
+}
+
+void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, 
+	AController* InstigatorController, AActor* DamageCausor)
+{
+	CurrHealth = FMath::Clamp(CurrHealth - Damage, 0.f, MaxHealth);
+	UpdateHUDHealth();
+	PlayHitReactMontage();
+	AShooterPlayerGameMode* ShooterGameMode= GetWorld()->GetAuthGameMode<AShooterPlayerGameMode>();
+
+	if (CurrHealth == 0.f)
+	{
+		if (ShooterGameMode)
+		{
+			ShooterPlayerController = ShooterPlayerController == NULL ? 
+				Cast<AShooterPlayerController>(Controller) 
+				: ShooterPlayerController;
+			AShooterPlayerController* AttackerController = Cast<AShooterPlayerController>(InstigatorController);
+			//ShooterGameMode->PlayerElim(this, ShooterPlayerController, AttackerController);
+			ShooterGameMode->PlayerElim(this, ShooterPlayerController, AttackerController);
+
+		}
+	}
+	
+}
+
+void AShooterPlayer::UpdateHUDHealth()
+{
+	ShooterPlayerController = ShooterPlayerController == nullptr ? Cast<AShooterPlayerController>(Controller) : ShooterPlayerController;
+	if (ShooterPlayerController)
+	{
+		ShooterPlayerController->SetHUDHealth(CurrHealth, MaxHealth);
+	}
+}
+
+void AShooterPlayer::TurnInPlace(float DeltaTime)
+{
+	if (AO_Yaw > 90.f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Right;
+	}
+	else if (AO_Yaw < -90.f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Left;
+	}
+}
+
 
 void AShooterPlayer::SimProxiesTurn()
 {
@@ -421,6 +488,15 @@ void AShooterPlayer::HideCameraIfTheCaharacterisClose()
 		{
 			CombatComp->EquippedWeapon->GetWeaponMesh()->bOwnerNoSee = false;
 		}
+	}
+}
+
+void AShooterPlayer::ElimTimerFinished()
+{
+	AShooterPlayerGameMode* ShooterPlayerGameMode = GetWorld()->GetAuthGameMode<AShooterPlayerGameMode>();
+	if (ShooterPlayerGameMode)
+	{
+		ShooterPlayerGameMode->RequestRespawn(this, Controller);
 	}
 }
 

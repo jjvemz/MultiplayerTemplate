@@ -1,0 +1,8 @@
+Begin Object Class=/Script/Engine.CurveFloat Name="DissolveCurve"
+   Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+   End Object
+   Begin Object Name="AssetImportData"
+   End Object
+   FloatCurve=(Keys=((InterpMode=RCIM_Cubic,TangentMode=RCTM_User,Value=0.550000,ArriveTangent=0.031754,LeaveTangent=0.031754),(Time=1.000000,Value=-0.550000)))
+   AssetImportData=AssetImportData'"AssetImportData"'
+End Object

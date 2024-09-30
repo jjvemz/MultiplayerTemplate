@@ -30,6 +30,8 @@ public:
 
 	virtual void Fire(const FVector& HitTarget);
 
+	void DroppedWeapon();
+
 
 	UPROPERTY(EditAnywhere, Category = "Crosshairs")
 	class UTexture2D* CrosshairsCenter;

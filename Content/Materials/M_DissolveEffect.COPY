@@ -1,0 +1,227 @@
+Begin Object Class=/Script/Engine.Material Name="M_DissolveEffect"
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionClamp Name="MaterialExpressionClamp_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMaterialFunctionCall Name="MaterialExpressionMaterialFunctionCall_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMaterialFunctionCall Name="MaterialExpressionMaterialFunctionCall_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionOneMinus Name="MaterialExpressionOneMinus_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionOneMinus Name="MaterialExpressionOneMinus_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionReroute Name="MaterialExpressionReroute_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_2"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Begin Object Name="MaterialExpressionAdd_0"
+      A=(Expression=MaterialExpressionTextureSample'"M_DissolveEffect:MaterialExpressionTextureSample_0"',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression=MaterialExpressionScalarParameter'"M_DissolveEffect:MaterialExpressionScalarParameter_0"')
+      MaterialExpressionEditorX=-832
+      MaterialExpressionEditorY=544
+      MaterialExpressionGuid=32C4F08C4DDEF77A75669486C97E49F6
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_1"
+      A=(Expression=MaterialExpressionClamp'"M_DissolveEffect:MaterialExpressionClamp_1"')
+      B=(Expression=MaterialExpressionConstant'"M_DissolveEffect:MaterialExpressionConstant_6"')
+      MaterialExpressionEditorX=-128
+      MaterialExpressionEditorY=320
+      MaterialExpressionGuid=5649299642D47A4F801B7EA07B790445
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionClamp_1"
+      Input=(Expression=MaterialExpressionOneMinus'"M_DissolveEffect:MaterialExpressionOneMinus_0"')
+      MaterialExpressionEditorX=-384
+      MaterialExpressionEditorY=320
+      MaterialExpressionGuid=2B68B4354D863273C70AF3B670D2B5F6
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_1"
+      R=5.000000
+      MaterialExpressionEditorX=-704
+      MaterialExpressionEditorY=640
+      MaterialExpressionGuid=4B6B82CB470E69AF87C564A599137809
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_6"
+      MaterialExpressionEditorX=-128
+      MaterialExpressionEditorY=432
+      MaterialExpressionGuid=28578E2641494052C8FC50839F1CDEA5
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_7"
+      R=2.000000
+      MaterialExpressionEditorX=272
+      MaterialExpressionEditorY=432
+      MaterialExpressionGuid=3AC0E97D47F2E8AC4FF9B58AE5CC3D7A
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_0"
+      Constant=(R=0.000000,G=0.369226,B=1.000000,A=0.000000)
+      MaterialExpressionEditorX=384
+      MaterialExpressionEditorY=144
+      MaterialExpressionGuid=D16DAF2F41454848AF7B51974C2B535D
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_2"
+      Constant=(R=1.000000,G=0.000000,B=0.069429,A=0.000000)
+      MaterialExpressionEditorX=1104
+      MaterialExpressionEditorY=-80
+      MaterialExpressionGuid=2E1198C54096302A3A69F4A575B3D393
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionMaterialFunctionCall_0"
+      MaterialFunction=MaterialFunction'"/Engine/Functions/Engine_MaterialFunctions01/ImageAdjustment/CheapContrast.CheapContrast"'
+      FunctionInputs(0)=(ExpressionInputId=95C9DA0E48D34168E34AD3A607BAA34E,Input=(Expression=MaterialExpressionAdd'"M_DissolveEffect:MaterialExpressionAdd_0"',InputName="In"))
+      FunctionInputs(1)=(ExpressionInputId=3C3E177E485D8FFFC35D1482F0A20020,Input=(Expression=MaterialExpressionConstant'"M_DissolveEffect:MaterialExpressionConstant_1"',InputName="Contrast"))
+      FunctionOutputs(0)=(ExpressionOutputId=5067ED8C4A2EFE82DB33F99EBE37E80E,Output=(OutputName="Result"))
+      MaterialExpressionEditorX=-720
+      MaterialExpressionEditorY=544
+      MaterialExpressionGuid=9FC78A1F4DEB5E7439C581BF8C2997F9
+      Material=Material'"M_DissolveEffect"'
+      Outputs(0)=(OutputName="Result")
+   End Object
+   Begin Object Name="MaterialExpressionMaterialFunctionCall_2"
+      MaterialFunction=MaterialFunction'"/Engine/Functions/Engine_MaterialFunctions01/ImageAdjustment/CheapContrast.CheapContrast"'
+      FunctionInputs(0)=(ExpressionInputId=95C9DA0E48D34168E34AD3A607BAA34E,Input=(Expression=MaterialExpressionTextureSample'"M_DissolveEffect:MaterialExpressionTextureSample_2"',InputName="In",Mask=1,MaskR=1,MaskG=1,MaskB=1))
+      FunctionInputs(1)=(ExpressionInputId=3C3E177E485D8FFFC35D1482F0A20020,Input=(Expression=MaterialExpressionConstant'"M_DissolveEffect:MaterialExpressionConstant_7"',InputName="Contrast"))
+      FunctionOutputs(0)=(ExpressionOutputId=5067ED8C4A2EFE82DB33F99EBE37E80E,Output=(OutputName="Result"))
+      MaterialExpressionEditorX=272
+      MaterialExpressionEditorY=320
+      MaterialExpressionGuid=A668968542142CB4DE352086FD1B0D4C
+      Material=Material'"M_DissolveEffect"'
+      Outputs(0)=(OutputName="Result")
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_0"
+      A=(Expression=MaterialExpressionConstant3Vector'"M_DissolveEffect:MaterialExpressionConstant3Vector_0"')
+      B=(Expression=MaterialExpressionOneMinus'"M_DissolveEffect:MaterialExpressionOneMinus_2"')
+      MaterialExpressionEditorX=576
+      MaterialExpressionEditorY=304
+      MaterialExpressionGuid=5FEF47DD4BD7B222FC1882BF51B87E51
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_1"
+      A=(Expression=MaterialExpressionScalarParameter'"M_DissolveEffect:MaterialExpressionScalarParameter_1"')
+      B=(Expression=MaterialExpressionMultiply'"M_DissolveEffect:MaterialExpressionMultiply_0"')
+      MaterialExpressionEditorX=864
+      MaterialExpressionEditorY=272
+      MaterialExpressionGuid=951923E34A4BB953697CFE83A9AA188D
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionOneMinus_0"
+      Input=(Expression=MaterialExpressionMaterialFunctionCall'"M_DissolveEffect:MaterialExpressionMaterialFunctionCall_0"')
+      MaterialExpressionEditorX=-496
+      MaterialExpressionEditorY=544
+      MaterialExpressionGuid=2502E20F42BA7E19109880AEE81534C4
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionOneMinus_2"
+      Input=(Expression=MaterialExpressionMaterialFunctionCall'"M_DissolveEffect:MaterialExpressionMaterialFunctionCall_2"')
+      MaterialExpressionEditorX=464
+      MaterialExpressionEditorY=320
+      MaterialExpressionGuid=5C7BE47942B934452681BC93D2725FF5
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionReroute_0"
+      Input=(Expression=MaterialExpressionOneMinus'"M_DissolveEffect:MaterialExpressionOneMinus_0"')
+      MaterialExpressionEditorX=992
+      MaterialExpressionEditorY=560
+      MaterialExpressionGuid=30525BBA4CD203CD4B3A48B7FBD9FAF3
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_0"
+      DefaultValue=0.275841
+      ParameterName="Dissolve"
+      ExpressionGUID=048DFEAA45EC3CA755DC5988ADD80FF9
+      MaterialExpressionEditorX=-928
+      MaterialExpressionEditorY=640
+      MaterialExpressionGuid=A6B8FCDE48531D5CD5901CA1989DADBC
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_1"
+      DefaultValue=155.208542
+      ParameterName="Glow"
+      ExpressionGUID=EAD394714CC182DD4AF73780E1ABA6A3
+      MaterialExpressionEditorX=704
+      MaterialExpressionEditorY=240
+      MaterialExpressionGuid=AC20AC4F4B206F1CE475538A5929CB21
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_0"
+      Texture=Texture2D'"/Engine/MaterialTemplates/Textures/T_Noise01.T_Noise01"'
+      MaterialExpressionEditorX=-1168
+      MaterialExpressionEditorY=544
+      MaterialExpressionGuid=05E4BA51446E824D1CB51488350EF060
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_2"
+      Coordinates=(Expression=MaterialExpressionAppendVector'"M_DissolveEffect:MaterialExpressionAppendVector_1"')
+      Texture=Texture2D'"/Engine/Functions/Engine_MaterialFunctions02/ExampleContent/Textures/LowResBlurredNoise.LowResBlurredNoise"'
+      SamplerType=SAMPLERTYPE_LinearGrayscale
+      MaterialExpressionEditorY=320
+      MaterialExpressionGuid=EB0E2115426B56D2C1F43DBE1632EBF5
+      Material=Material'"M_DissolveEffect"'
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   BaseColor=(Expression=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_2"')
+   EmissiveColor=(Expression=MaterialExpressionMultiply'"MaterialExpressionMultiply_1"')
+   OpacityMask=(Expression=MaterialExpressionReroute'"MaterialExpressionReroute_0"')
+   BlendMode=BLEND_Masked
+   EditorX=1120
+   EditorY=160
+   Expressions(0)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_2"'
+   Expressions(1)=MaterialExpressionMultiply'"MaterialExpressionMultiply_1"'
+   Expressions(2)=MaterialExpressionReroute'"MaterialExpressionReroute_0"'
+   Expressions(3)=MaterialExpressionTextureSample'"MaterialExpressionTextureSample_0"'
+   Expressions(4)=MaterialExpressionAdd'"MaterialExpressionAdd_0"'
+   Expressions(5)=MaterialExpressionMaterialFunctionCall'"MaterialExpressionMaterialFunctionCall_0"'
+   Expressions(6)=MaterialExpressionConstant'"MaterialExpressionConstant_1"'
+   Expressions(7)=MaterialExpressionOneMinus'"MaterialExpressionOneMinus_0"'
+   Expressions(8)=MaterialExpressionMultiply'"MaterialExpressionMultiply_0"'
+   Expressions(9)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_0"'
+   Expressions(10)=MaterialExpressionScalarParameter'"MaterialExpressionScalarParameter_0"'
+   Expressions(11)=MaterialExpressionScalarParameter'"MaterialExpressionScalarParameter_1"'
+   Expressions(12)=MaterialExpressionClamp'"MaterialExpressionClamp_1"'
+   Expressions(13)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_1"'
+   Expressions(14)=MaterialExpressionConstant'"MaterialExpressionConstant_6"'
+   Expressions(15)=MaterialExpressionTextureSample'"MaterialExpressionTextureSample_2"'
+   Expressions(16)=MaterialExpressionMaterialFunctionCall'"MaterialExpressionMaterialFunctionCall_2"'
+   Expressions(17)=MaterialExpressionConstant'"MaterialExpressionConstant_7"'
+   Expressions(18)=MaterialExpressionOneMinus'"MaterialExpressionOneMinus_2"'
+   ParameterGroupData(0)=(GroupName="None")
+   ParameterGroupData(1)=(GroupName="None")
+   StateId=A29A73F34800C9E80566ADB2A51934C5
+   ReferencedTextureGuids(0)=4A5E0D934F750FF7D1236B93EC658367
+   ReferencedTextureGuids(1)=2878FB4D4A49AC5A5CF62FAE6E0051DC
+   TextureStreamingDataVersion=1
+   TextureStreamingData(0)=(SamplingScale=1.000000,UVChannelIndex=0,TextureName="T_Noise01",TextureReference="/Engine/MaterialTemplates/Textures/T_Noise01.T_Noise01")
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'"SceneThumbnailInfoWithPrimitive_0"'
+   LightingGuid=3BA14F2141B918E39E9896A6D5686D03
+End Object

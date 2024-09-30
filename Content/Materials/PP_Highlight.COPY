@@ -1,0 +1,1368 @@
+Begin Object Class=/Script/Engine.Material Name="PP_Highlight"
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_10"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_11"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_12"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_13"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_14"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_8"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_9"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionCeil Name="MaterialExpressionCeil_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionCeil Name="MaterialExpressionCeil_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionCeil Name="MaterialExpressionCeil_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionClamp Name="MaterialExpressionClamp_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionClamp Name="MaterialExpressionClamp_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionClamp Name="MaterialExpressionClamp_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_10"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_11"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_12"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_13"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_14"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_15"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_16"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_17"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_18"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_19"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_20"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_21"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_22"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_23"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_24"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_25"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_26"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_27"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_8"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_9"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_10"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_11"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_12"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_13"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_14"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_15"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_16"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_17"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_8"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_9"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_10"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_11"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_8"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_9"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionIf Name="MaterialExpressionIf_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionIf Name="MaterialExpressionIf_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionIf Name="MaterialExpressionIf_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionLinearInterpolate Name="MaterialExpressionLinearInterpolate_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionOneMinus Name="MaterialExpressionOneMinus_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionOneMinus Name="MaterialExpressionOneMinus_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionReroute Name="MaterialExpressionReroute_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexelSize Name="MaterialExpressionSceneTexelSize_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_10"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_11"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_12"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_13"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_8"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSceneTexture Name="MaterialExpressionSceneTexture_9"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_2"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_3"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_4"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_5"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_6"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScreenPosition Name="MaterialExpressionScreenPosition_7"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSubtract Name="MaterialExpressionSubtract_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSubtract Name="MaterialExpressionSubtract_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionSubtract Name="MaterialExpressionSubtract_2"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Begin Object Name="MaterialExpressionAdd_0"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_0"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_0"')
+      MaterialExpressionEditorX=-2329
+      MaterialExpressionEditorY=-796
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_1"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_1"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_1"')
+      MaterialExpressionEditorX=-2320
+      MaterialExpressionEditorY=-288
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_10"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_9"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_10"')
+      MaterialExpressionEditorX=-880
+      MaterialExpressionEditorY=1280
+      MaterialExpressionGuid=E18D4165497C1CF47A138AB116E1F3ED
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_11"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_11"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_12"')
+      MaterialExpressionEditorX=-896
+      MaterialExpressionEditorY=2128
+      MaterialExpressionGuid=E18D4165497C1CF47A138AB116E1F3ED
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_12"
+      A=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_8"')
+      B=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_9"')
+      MaterialExpressionEditorX=-480
+      MaterialExpressionEditorY=-96
+      MaterialExpressionGuid=3B22E552476E92E05D9CCAA3CA10D892
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_13"
+      A=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_10"')
+      B=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_11"')
+      MaterialExpressionEditorX=-528
+      MaterialExpressionEditorY=1712
+      MaterialExpressionGuid=3B22E552476E92E05D9CCAA3CA10D892
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_14"
+      A=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_12"')
+      B=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_13"')
+      MaterialExpressionEditorX=-33
+      MaterialExpressionEditorY=985
+      MaterialExpressionGuid=BA90F9544F85BD3B68FF568715B1A9E4
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_2"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_2"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_2"')
+      MaterialExpressionEditorX=-2320
+      MaterialExpressionEditorY=208
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_3"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_3"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_3"')
+      MaterialExpressionEditorX=-2320
+      MaterialExpressionEditorY=656
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_4"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_4"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_4"')
+      MaterialExpressionEditorX=-2352
+      MaterialExpressionEditorY=1136
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_5"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_5"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_5"')
+      MaterialExpressionEditorX=-2352
+      MaterialExpressionEditorY=1488
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_6"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_6"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_6"')
+      MaterialExpressionEditorX=-2368
+      MaterialExpressionEditorY=1936
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_7"
+      A=(Expression=MaterialExpressionAppendVector'"PP_Highlight:MaterialExpressionAppendVector_7"')
+      B=(Expression=MaterialExpressionScreenPosition'"PP_Highlight:MaterialExpressionScreenPosition_7"')
+      MaterialExpressionEditorX=-2368
+      MaterialExpressionEditorY=2352
+      MaterialExpressionGuid=77E89B6A4CBA3684E7D642AD426303F9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_8"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_5"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_6"')
+      MaterialExpressionEditorX=-880
+      MaterialExpressionEditorY=-560
+      MaterialExpressionGuid=E18D4165497C1CF47A138AB116E1F3ED
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAdd_9"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_7"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_8"')
+      MaterialExpressionEditorX=-832
+      MaterialExpressionEditorY=400
+      MaterialExpressionGuid=E18D4165497C1CF47A138AB116E1F3ED
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_0"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_1"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_1"')
+      MaterialExpressionEditorX=-2837
+      MaterialExpressionEditorY=-796
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_1"
+      A=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_1"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_2"')
+      MaterialExpressionEditorX=-2814
+      MaterialExpressionEditorY=-286
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_2"
+      A=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_4"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_2"')
+      MaterialExpressionEditorX=-2832
+      MaterialExpressionEditorY=208
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_3"
+      A=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_6"')
+      B=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_2"')
+      MaterialExpressionEditorX=-2824
+      MaterialExpressionEditorY=656
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_4"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_1"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_2"')
+      MaterialExpressionEditorX=-2862
+      MaterialExpressionEditorY=1122
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_5"
+      A=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_1"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_2"')
+      MaterialExpressionEditorX=-2896
+      MaterialExpressionEditorY=1488
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_6"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_1"')
+      B=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_2"')
+      MaterialExpressionEditorX=-2912
+      MaterialExpressionEditorY=1936
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_7"
+      A=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_1"')
+      B=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_2"')
+      MaterialExpressionEditorX=-2912
+      MaterialExpressionEditorY=2368
+      MaterialExpressionGuid=42F11D1F4A55A8775D7756AE16F26035
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionCeil_0"
+      Input=(Expression=MaterialExpressionSubtract'"PP_Highlight:MaterialExpressionSubtract_0"')
+      MaterialExpressionEditorX=1049
+      MaterialExpressionEditorY=996
+      MaterialExpressionGuid=6E3B77B746DD0C65219770927C1D7304
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionCeil_1"
+      Input=(Expression=MaterialExpressionSubtract'"PP_Highlight:MaterialExpressionSubtract_1"')
+      MaterialExpressionEditorX=1311
+      MaterialExpressionEditorY=1581
+      MaterialExpressionGuid=672B478E490A760243CC62AAC895DF10
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionCeil_2"
+      Input=(Expression=MaterialExpressionSubtract'"PP_Highlight:MaterialExpressionSubtract_2"')
+      MaterialExpressionEditorX=1968
+      MaterialExpressionEditorY=2400
+      MaterialExpressionGuid=EEE8C44A4F61E53F7BBB7DA74D93A801
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionClamp_0"
+      Input=(Expression=MaterialExpressionCeil'"PP_Highlight:MaterialExpressionCeil_0"')
+      MaterialExpressionEditorX=1225
+      MaterialExpressionEditorY=996
+      MaterialExpressionGuid=561CA14E41B72877DDF2EDBB6CDB25CB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionClamp_1"
+      Input=(Expression=MaterialExpressionCeil'"PP_Highlight:MaterialExpressionCeil_1"')
+      MaterialExpressionEditorX=1476
+      MaterialExpressionEditorY=1551
+      MaterialExpressionGuid=0DAD486842577B44129727B843DE23A0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionClamp_2"
+      Input=(Expression=MaterialExpressionCeil'"PP_Highlight:MaterialExpressionCeil_2"')
+      MaterialExpressionEditorX=2096
+      MaterialExpressionEditorY=2384
+      MaterialExpressionGuid=31B436BE44F52EB360B43081D6DDDB84
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_0"
+      SizeX=208
+      SizeY=156
+      Text="U (horizontal)"
+      MaterialExpressionEditorX=-3744
+      MaterialExpressionEditorY=-704
+      MaterialExpressionGuid=C8BB03C841493CE5BB5FA0888D7B8EBA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_1"
+      SizeX=208
+      SizeY=160
+      Text="V (vertical"
+      MaterialExpressionEditorX=-3744
+      MaterialExpressionEditorY=-112
+      MaterialExpressionGuid=E34DF1A941C941CDE17E258F727F5A54
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_10"
+      SizeX=247
+      SizeY=242
+      Text="(0, V)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=576
+      MaterialExpressionGuid=E6F28FA447EC2743E721098A35DC8524
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_11"
+      SizeX=352
+      SizeY=288
+      Text="Bottom Texel"
+      MaterialExpressionEditorX=-2576
+      MaterialExpressionEditorY=592
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_12"
+      SizeX=194
+      SizeY=180
+      Text="(U, V)"
+      MaterialExpressionEditorX=-2944
+      MaterialExpressionEditorY=1072
+      MaterialExpressionGuid=AE3539C54DCFC6F8931446B25FD7D4C0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_13"
+      SizeX=194
+      SizeY=180
+      Text="(-U, V)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=1440
+      MaterialExpressionGuid=ACDE57EE47808A3653E0D9A0602B2DEA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_14"
+      SizeX=194
+      SizeY=180
+      Text="(U, -V)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=1888
+      MaterialExpressionGuid=ACDE57EE47808A3653E0D9A0602B2DEA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_15"
+      SizeX=194
+      SizeY=180
+      Text="(-U, -V)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=2304
+      MaterialExpressionGuid=ACDE57EE47808A3653E0D9A0602B2DEA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_16"
+      SizeX=352
+      SizeY=288
+      Text="Right Bottom Texel"
+      MaterialExpressionEditorX=-2592
+      MaterialExpressionEditorY=1072
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_17"
+      SizeX=352
+      SizeY=288
+      Text="Left Bottom Texel"
+      MaterialExpressionEditorX=-2592
+      MaterialExpressionEditorY=1440
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_18"
+      SizeX=352
+      SizeY=288
+      Text="Right Top Texel"
+      MaterialExpressionEditorX=-2608
+      MaterialExpressionEditorY=1888
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_19"
+      SizeX=352
+      SizeY=288
+      Text="Left Top Texel"
+      MaterialExpressionEditorX=-2608
+      MaterialExpressionEditorY=2304
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_2"
+      SizeX=240
+      SizeY=208
+      Text="(U, 0)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=-848
+      MaterialExpressionGuid=E6F28FA447EC2743E721098A35DC8524
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_20"
+      SizeX=853
+      SizeY=297
+      Text="0=pixel on mesh, 1=background + border"
+      MaterialExpressionEditorX=619
+      MaterialExpressionEditorY=942
+      MaterialExpressionGuid=96A7691B46257C5D6503BD9FD3F6491C
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_21"
+      SizeX=1325
+      SizeY=380
+      Text="0=pixel not on mesh, 1=pixel on mesh"
+      MaterialExpressionEditorX=528
+      MaterialExpressionEditorY=1488
+      MaterialExpressionGuid=16F4AC7A4CBD5D283FFE5D8593C1725A
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_22"
+      SizeX=256
+      SizeY=288
+      Text="1=border of objects"
+      MaterialExpressionEditorX=2110
+      MaterialExpressionEditorY=1182
+      MaterialExpressionGuid=6CC21EF54B381E6C07D1B19366CACD17
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_23"
+      SizeX=1229
+      SizeY=519
+      Text="1=ocluded objects, 1=not occluded"
+      MaterialExpressionEditorX=1232
+      MaterialExpressionEditorY=2224
+      MaterialExpressionGuid=4CBFE1434282DFC9A7F23A9983220B92
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_24"
+      SizeX=224
+      SizeY=224
+      Text="Mask occluded objects"
+      MaterialExpressionEditorX=2560
+      MaterialExpressionEditorY=1456
+      MaterialExpressionGuid=2DC9A3414EB9111584078BA7B091E577
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_25"
+      SizeX=423
+      SizeY=275
+      Text="Get size of a single Texel"
+      MaterialExpressionEditorX=-5120
+      MaterialExpressionEditorY=-576
+      MaterialExpressionGuid=6F1526DF407724E8244DD497D75862AD
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_26"
+      SizeX=2096
+      SizeY=800
+      Text="Custom Stencil value. 250 = Purple. 251 = Blue, 252 = Tan"
+      MaterialExpressionEditorX=320
+      MaterialExpressionEditorY=-464
+      MaterialExpressionGuid=2E8922834E09D1DA357C2EBCAC6B20B9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_27"
+      SizeX=192
+      SizeY=208
+      Text="Add all values"
+      MaterialExpressionEditorX=-101
+      MaterialExpressionEditorY=910
+      MaterialExpressionGuid=2CFFD9E94F7857B05D822B8A0DF6FD63
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_3"
+      SizeX=352
+      SizeY=288
+      Text="Right Texel"
+      MaterialExpressionEditorX=-2576
+      MaterialExpressionEditorY=-848
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_4"
+      SizeX=288
+      SizeY=192
+      Text="-U (horizontal)"
+      MaterialExpressionEditorX=-3744
+      MaterialExpressionEditorY=-432
+      MaterialExpressionGuid=CE22223E483BB917D89A0787F4FBF48E
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_5"
+      SizeX=272
+      SizeY=240
+      Text="(-U, 0)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=-336
+      MaterialExpressionGuid=F946FBA44DB0647BDE4709B3EE5D47E3
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_6"
+      SizeX=352
+      SizeY=288
+      Text="Left Texel"
+      MaterialExpressionEditorX=-2576
+      MaterialExpressionEditorY=-336
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_7"
+      SizeX=247
+      SizeY=242
+      Text="(0, V)"
+      MaterialExpressionEditorX=-2960
+      MaterialExpressionEditorY=128
+      MaterialExpressionGuid=E6F28FA447EC2743E721098A35DC8524
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_8"
+      SizeX=352
+      SizeY=256
+      Text="Bottom Texel"
+      MaterialExpressionEditorX=-2576
+      MaterialExpressionEditorY=160
+      MaterialExpressionGuid=323CAB2F42A0FF9B05451C9BF97888BB
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComment_9"
+      SizeX=352
+      SizeY=272
+      Text="-V (vertical)"
+      MaterialExpressionEditorX=-3760
+      MaterialExpressionEditorY=256
+      MaterialExpressionGuid=CE22223E483BB917D89A0787F4FBF48E
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_1"
+      Input=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_5"')
+      R=True
+      MaterialExpressionEditorX=-3696
+      MaterialExpressionEditorY=-640
+      MaterialExpressionGuid=15BD61EB4CDC1769BCEB6DBD8D5F71B9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_10"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_6"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1280
+      MaterialExpressionEditorY=1488
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_11"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_7"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1312
+      MaterialExpressionEditorY=1936
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_12"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_8"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1312
+      MaterialExpressionEditorY=2336
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_13"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_9"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=912
+      MaterialExpressionEditorY=1554
+      MaterialExpressionGuid=16835BEA43A8FD146FBBC9B29AE93C6C
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_14"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_10"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      G=True
+      B=True
+      MaterialExpressionEditorX=3514
+      MaterialExpressionEditorY=936
+      MaterialExpressionGuid=18ED693644A4992A3CB23581B12B066C
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_15"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_11"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=1616
+      MaterialExpressionEditorY=2272
+      MaterialExpressionGuid=8327EC9D4DFB3F0C4BEA62AD349BFEC3
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_16"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_12"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=1616
+      MaterialExpressionEditorY=2560
+      MaterialExpressionGuid=8327EC9D4DFB3F0C4BEA62AD349BFEC3
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_17"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_13"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=736
+      MaterialExpressionEditorY=-304
+      MaterialExpressionGuid=5C95F5FD4C3D93419A457D9315302A8F
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_2"
+      Input=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_5"')
+      G=True
+      MaterialExpressionEditorX=-3695
+      MaterialExpressionEditorY=-58
+      MaterialExpressionGuid=15BD61EB4CDC1769BCEB6DBD8D5F71B9
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_5"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_1"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1264
+      MaterialExpressionEditorY=-784
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_6"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_2"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1264
+      MaterialExpressionEditorY=-256
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_7"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_3"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1264
+      MaterialExpressionEditorY=160
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_8"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_4"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1264
+      MaterialExpressionEditorY=672
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_9"
+      Input=(Expression=MaterialExpressionSceneTexture'"PP_Highlight:MaterialExpressionSceneTexture_5"',Mask=1,MaskR=1,MaskG=1,MaskB=1,MaskA=1)
+      R=True
+      MaterialExpressionEditorX=-1280
+      MaterialExpressionEditorY=1120
+      MaterialExpressionGuid=DF1D4B37452437DA149AD1ADBE5C65CA
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_0"
+      R=251.000000
+      MaterialExpressionEditorX=1152
+      MaterialExpressionEditorY=-144
+      MaterialExpressionGuid=81CDF41147696DDEA4E690B21AA80937
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_1"
+      MaterialExpressionEditorX=-2928
+      MaterialExpressionEditorY=-736
+      MaterialExpressionGuid=1570B0644CC51A59A30253B456649AE4
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_10"
+      R=250.000000
+      MaterialExpressionEditorX=1776
+      MaterialExpressionEditorY=-240
+      MaterialExpressionGuid=81CDF41147696DDEA4E690B21AA80937
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_11"
+      R=252.000000
+      MaterialExpressionEditorX=688
+      MaterialExpressionEditorY=-64
+      MaterialExpressionGuid=81CDF41147696DDEA4E690B21AA80937
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_2"
+      MaterialExpressionEditorX=-2912
+      MaterialExpressionEditorY=-224
+      MaterialExpressionGuid=1570B0644CC51A59A30253B456649AE4
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_3"
+      R=-1.000000
+      MaterialExpressionEditorX=-3704
+      MaterialExpressionEditorY=-336
+      MaterialExpressionGuid=E8F3162E4A966E6E0FE1A280F4D35110
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_4"
+      MaterialExpressionEditorX=-2928
+      MaterialExpressionEditorY=192
+      MaterialExpressionGuid=1570B0644CC51A59A30253B456649AE4
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_5"
+      R=-1.000000
+      MaterialExpressionEditorX=-3688
+      MaterialExpressionEditorY=416
+      MaterialExpressionGuid=E8F3162E4A966E6E0FE1A280F4D35110
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_6"
+      MaterialExpressionEditorX=-2920
+      MaterialExpressionEditorY=640
+      MaterialExpressionGuid=1570B0644CC51A59A30253B456649AE4
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_7"
+      R=10000000.000000
+      MaterialExpressionEditorX=669
+      MaterialExpressionEditorY=1133
+      MaterialExpressionGuid=2F184AE745E1257606E59BBD4089410A
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_8"
+      R=10000000.000000
+      MaterialExpressionEditorX=953
+      MaterialExpressionEditorY=1714
+      MaterialExpressionGuid=2F184AE745E1257606E59BBD4089410A
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant_9"
+      R=1.250000
+      MaterialExpressionEditorX=-5038
+      MaterialExpressionEditorY=-414
+      MaterialExpressionGuid=CEF7704D49AC6A904B22A980F4AA7320
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_1"
+      Constant=(R=0.177083,G=0.520075,B=1.000000,A=0.000000)
+      MaterialExpressionEditorX=752
+      MaterialExpressionEditorY=144
+      MaterialExpressionGuid=BCC69A6C4A11372EBCA61392C7731FFC
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_2"
+      Constant=(R=1.000000,G=0.995122,B=0.696305,A=0.000000)
+      MaterialExpressionEditorX=432
+      MaterialExpressionEditorY=144
+      MaterialExpressionGuid=BCC69A6C4A11372EBCA61392C7731FFC
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_3"
+      Constant=(R=0.247003,G=0.000000,B=0.734375,A=0.000000)
+      MaterialExpressionEditorX=1792
+      MaterialExpressionEditorY=144
+      MaterialExpressionGuid=4751DB444B5F20B6E09AF8A4B3BA6FE7
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionIf_0"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_17"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_10"')
+      AGreaterThanB=(Expression=MaterialExpressionIf'"PP_Highlight:MaterialExpressionIf_2"')
+      AEqualsB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_3"')
+      ALessThanB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_3"')
+      MaterialExpressionEditorX=2032
+      MaterialExpressionEditorY=-304
+      MaterialExpressionGuid=B1AC5B534594B0D33BBBECBBD8F5D090
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionIf_2"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_17"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_0"')
+      AGreaterThanB=(Expression=MaterialExpressionIf'"PP_Highlight:MaterialExpressionIf_3"')
+      AEqualsB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_1"')
+      ALessThanB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_1"')
+      MaterialExpressionEditorX=1536
+      MaterialExpressionEditorY=-160
+      MaterialExpressionGuid=B1AC5B534594B0D33BBBECBBD8F5D090
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionIf_3"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_17"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_11"')
+      AGreaterThanB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_2"')
+      AEqualsB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_2"')
+      ALessThanB=(Expression=MaterialExpressionConstant3Vector'"PP_Highlight:MaterialExpressionConstant3Vector_1"')
+      MaterialExpressionEditorX=944
+      MaterialExpressionEditorY=-96
+      MaterialExpressionGuid=B1AC5B534594B0D33BBBECBBD8F5D090
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionLinearInterpolate_0"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_14"')
+      B=(Expression=MaterialExpressionReroute'"PP_Highlight:MaterialExpressionReroute_0"')
+      Alpha=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_4"')
+      MaterialExpressionEditorX=3872
+      MaterialExpressionEditorY=944
+      MaterialExpressionGuid=A75D4718498E4EC359804286DA06BF8F
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_1"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_1"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_3"')
+      MaterialExpressionEditorX=-3605
+      MaterialExpressionEditorY=-382
+      MaterialExpressionGuid=4475D7044317F6BB56E947A4E57032C6
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_2"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_2"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_5"')
+      MaterialExpressionEditorX=-3560
+      MaterialExpressionEditorY=336
+      MaterialExpressionGuid=4475D7044317F6BB56E947A4E57032C6
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_3"
+      A=(Expression=MaterialExpressionClamp'"PP_Highlight:MaterialExpressionClamp_0"')
+      B=(Expression=MaterialExpressionOneMinus'"PP_Highlight:MaterialExpressionOneMinus_0"')
+      MaterialExpressionEditorX=2224
+      MaterialExpressionEditorY=1312
+      MaterialExpressionGuid=01F3143E42AFDC777FE6DCAD3CA29508
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_4"
+      A=(Expression=MaterialExpressionMultiply'"PP_Highlight:MaterialExpressionMultiply_3"')
+      B=(Expression=MaterialExpressionOneMinus'"PP_Highlight:MaterialExpressionOneMinus_1"')
+      MaterialExpressionEditorX=2610
+      MaterialExpressionEditorY=1548
+      MaterialExpressionGuid=CA8508BC4E23DE635DD7C79D279640BE
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_5"
+      A=(Expression=MaterialExpressionSceneTexelSize'"PP_Highlight:MaterialExpressionSceneTexelSize_0"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_9"')
+      MaterialExpressionEditorX=-4304
+      MaterialExpressionEditorY=-480
+      MaterialExpressionGuid=A03585674EA58980B4D1F68367DAB1B0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionOneMinus_0"
+      Input=(Expression=MaterialExpressionClamp'"PP_Highlight:MaterialExpressionClamp_1"')
+      MaterialExpressionEditorX=1732
+      MaterialExpressionEditorY=1590
+      MaterialExpressionGuid=F85F431349670E4F1502338B8F020ED6
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionOneMinus_1"
+      Input=(Expression=MaterialExpressionClamp'"PP_Highlight:MaterialExpressionClamp_2"')
+      MaterialExpressionEditorX=2370
+      MaterialExpressionEditorY=2422
+      MaterialExpressionGuid=D3FA1C2B490E7345372788956E0F0280
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionReroute_0"
+      Input=(Expression=MaterialExpressionIf'"PP_Highlight:MaterialExpressionIf_0"')
+      MaterialExpressionEditorX=3056
+      MaterialExpressionEditorY=1024
+      MaterialExpressionGuid=683E21C24537BA8C354AF2979072E7BD
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexelSize_0"
+      MaterialExpressionEditorX=-5070
+      MaterialExpressionEditorY=-526
+      MaterialExpressionGuid=4135522C4CDF59C8D324C1A251C69899
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_1"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_0"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1664
+      MaterialExpressionEditorY=-800
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_10"
+      SceneTextureId=PPI_PostProcessInput0
+      MaterialExpressionEditorX=3136
+      MaterialExpressionEditorY=896
+      MaterialExpressionGuid=52A7E30044B097D9CDCBF8A4309ACB30
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_11"
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=1312
+      MaterialExpressionEditorY=2252
+      MaterialExpressionGuid=77C41A634EBA3440C73911928F762B88
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_12"
+      SceneTextureId=PPI_SceneDepth
+      MaterialExpressionEditorX=1330
+      MaterialExpressionEditorY=2548
+      MaterialExpressionGuid=2F03F297483276178C77EEAF7EAAA130
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_13"
+      SceneTextureId=PPI_CustomStencil
+      MaterialExpressionEditorX=419
+      MaterialExpressionEditorY=-369
+      MaterialExpressionGuid=F6A7E6A8498FF1711D99F9A032956588
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_2"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_1"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=-272
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_3"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_2"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=160
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_4"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_3"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=656
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_5"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_4"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=1120
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_6"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_5"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=1488
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_7"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_6"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=1920
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_8"
+      Coordinates=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_7"')
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=-1648
+      MaterialExpressionEditorY=2336
+      MaterialExpressionGuid=983007F24D9148177F8E079FF3E643D0
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSceneTexture_9"
+      SceneTextureId=PPI_CustomDepth
+      MaterialExpressionEditorX=578
+      MaterialExpressionEditorY=1490
+      MaterialExpressionGuid=AFF1E36A41B9705A5DB22DBDC22AF792
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_0"
+      MaterialExpressionEditorX=-2507
+      MaterialExpressionEditorY=-702
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_1"
+      MaterialExpressionEditorX=-2496
+      MaterialExpressionEditorY=-192
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_2"
+      MaterialExpressionEditorX=-2512
+      MaterialExpressionEditorY=272
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_3"
+      MaterialExpressionEditorX=-2544
+      MaterialExpressionEditorY=736
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_4"
+      MaterialExpressionEditorX=-2528
+      MaterialExpressionEditorY=1232
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_5"
+      MaterialExpressionEditorX=-2528
+      MaterialExpressionEditorY=1584
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_6"
+      MaterialExpressionEditorX=-2544
+      MaterialExpressionEditorY=2032
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionScreenPosition_7"
+      MaterialExpressionEditorX=-2544
+      MaterialExpressionEditorY=2448
+      MaterialExpressionGuid=DFA75E0E425C8B8F2D21A188B35DEC49
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSubtract_0"
+      A=(Expression=MaterialExpressionAdd'"PP_Highlight:MaterialExpressionAdd_14"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_7"')
+      MaterialExpressionEditorX=816
+      MaterialExpressionEditorY=992
+      MaterialExpressionGuid=DD7BD8194920533D1A74D2843CB27B32
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSubtract_1"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_13"')
+      B=(Expression=MaterialExpressionConstant'"PP_Highlight:MaterialExpressionConstant_8"')
+      MaterialExpressionEditorX=1123
+      MaterialExpressionEditorY=1595
+      MaterialExpressionGuid=03625F49464B2A054BB232A30A8419EF
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="MaterialExpressionSubtract_2"
+      A=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_15"')
+      B=(Expression=MaterialExpressionComponentMask'"PP_Highlight:MaterialExpressionComponentMask_16"')
+      MaterialExpressionEditorX=1824
+      MaterialExpressionEditorY=2400
+      MaterialExpressionGuid=708DDAC2406BF710105AA9825D48ABF8
+      Material=Material'"PP_Highlight"'
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   EmissiveColor=(Expression=MaterialExpressionLinearInterpolate'"MaterialExpressionLinearInterpolate_0"')
+   MaterialDomain=MD_PostProcess
+   EditorX=4128
+   EditorY=816
+   Expressions(0)=MaterialExpressionLinearInterpolate'"MaterialExpressionLinearInterpolate_0"'
+   Expressions(1)=MaterialExpressionSceneTexelSize'"MaterialExpressionSceneTexelSize_0"'
+   Expressions(2)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_1"'
+   Expressions(3)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_2"'
+   Expressions(4)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_0"'
+   Expressions(5)=MaterialExpressionConstant'"MaterialExpressionConstant_1"'
+   Expressions(6)=MaterialExpressionAdd'"MaterialExpressionAdd_0"'
+   Expressions(7)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_0"'
+   Expressions(8)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_1"'
+   Expressions(9)=MaterialExpressionConstant'"MaterialExpressionConstant_2"'
+   Expressions(10)=MaterialExpressionMultiply'"MaterialExpressionMultiply_1"'
+   Expressions(11)=MaterialExpressionConstant'"MaterialExpressionConstant_3"'
+   Expressions(12)=MaterialExpressionAdd'"MaterialExpressionAdd_1"'
+   Expressions(13)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_1"'
+   Expressions(14)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_2"'
+   Expressions(15)=MaterialExpressionConstant'"MaterialExpressionConstant_4"'
+   Expressions(16)=MaterialExpressionAdd'"MaterialExpressionAdd_2"'
+   Expressions(17)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_2"'
+   Expressions(18)=MaterialExpressionMultiply'"MaterialExpressionMultiply_2"'
+   Expressions(19)=MaterialExpressionConstant'"MaterialExpressionConstant_5"'
+   Expressions(20)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_3"'
+   Expressions(21)=MaterialExpressionConstant'"MaterialExpressionConstant_6"'
+   Expressions(22)=MaterialExpressionAdd'"MaterialExpressionAdd_3"'
+   Expressions(23)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_3"'
+   Expressions(24)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_4"'
+   Expressions(25)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_5"'
+   Expressions(26)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_6"'
+   Expressions(27)=MaterialExpressionAppendVector'"MaterialExpressionAppendVector_7"'
+   Expressions(28)=MaterialExpressionAdd'"MaterialExpressionAdd_4"'
+   Expressions(29)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_4"'
+   Expressions(30)=MaterialExpressionAdd'"MaterialExpressionAdd_5"'
+   Expressions(31)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_5"'
+   Expressions(32)=MaterialExpressionAdd'"MaterialExpressionAdd_6"'
+   Expressions(33)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_6"'
+   Expressions(34)=MaterialExpressionAdd'"MaterialExpressionAdd_7"'
+   Expressions(35)=MaterialExpressionScreenPosition'"MaterialExpressionScreenPosition_7"'
+   Expressions(36)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_1"'
+   Expressions(37)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_5"'
+   Expressions(38)=MaterialExpressionAdd'"MaterialExpressionAdd_8"'
+   Expressions(39)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_2"'
+   Expressions(40)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_6"'
+   Expressions(41)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_3"'
+   Expressions(42)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_7"'
+   Expressions(43)=MaterialExpressionAdd'"MaterialExpressionAdd_9"'
+   Expressions(44)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_4"'
+   Expressions(45)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_8"'
+   Expressions(46)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_5"'
+   Expressions(47)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_9"'
+   Expressions(48)=MaterialExpressionAdd'"MaterialExpressionAdd_10"'
+   Expressions(49)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_6"'
+   Expressions(50)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_10"'
+   Expressions(51)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_7"'
+   Expressions(52)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_11"'
+   Expressions(53)=MaterialExpressionAdd'"MaterialExpressionAdd_11"'
+   Expressions(54)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_8"'
+   Expressions(55)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_12"'
+   Expressions(56)=MaterialExpressionAdd'"MaterialExpressionAdd_12"'
+   Expressions(57)=MaterialExpressionAdd'"MaterialExpressionAdd_13"'
+   Expressions(58)=MaterialExpressionAdd'"MaterialExpressionAdd_14"'
+   Expressions(59)=MaterialExpressionConstant'"MaterialExpressionConstant_7"'
+   Expressions(60)=MaterialExpressionSubtract'"MaterialExpressionSubtract_0"'
+   Expressions(61)=MaterialExpressionCeil'"MaterialExpressionCeil_0"'
+   Expressions(62)=MaterialExpressionClamp'"MaterialExpressionClamp_0"'
+   Expressions(63)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_9"'
+   Expressions(64)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_13"'
+   Expressions(65)=MaterialExpressionSubtract'"MaterialExpressionSubtract_1"'
+   Expressions(66)=MaterialExpressionConstant'"MaterialExpressionConstant_8"'
+   Expressions(67)=MaterialExpressionCeil'"MaterialExpressionCeil_1"'
+   Expressions(68)=MaterialExpressionClamp'"MaterialExpressionClamp_1"'
+   Expressions(69)=MaterialExpressionOneMinus'"MaterialExpressionOneMinus_0"'
+   Expressions(70)=MaterialExpressionMultiply'"MaterialExpressionMultiply_3"'
+   Expressions(71)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_10"'
+   Expressions(72)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_14"'
+   Expressions(73)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_11"'
+   Expressions(74)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_12"'
+   Expressions(75)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_15"'
+   Expressions(76)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_16"'
+   Expressions(77)=MaterialExpressionSubtract'"MaterialExpressionSubtract_2"'
+   Expressions(78)=MaterialExpressionCeil'"MaterialExpressionCeil_2"'
+   Expressions(79)=MaterialExpressionClamp'"MaterialExpressionClamp_2"'
+   Expressions(80)=MaterialExpressionOneMinus'"MaterialExpressionOneMinus_1"'
+   Expressions(81)=MaterialExpressionMultiply'"MaterialExpressionMultiply_4"'
+   Expressions(82)=MaterialExpressionMultiply'"MaterialExpressionMultiply_5"'
+   Expressions(83)=MaterialExpressionConstant'"MaterialExpressionConstant_9"'
+   Expressions(84)=MaterialExpressionSceneTexture'"MaterialExpressionSceneTexture_13"'
+   Expressions(85)=MaterialExpressionComponentMask'"MaterialExpressionComponentMask_17"'
+   Expressions(86)=MaterialExpressionIf'"MaterialExpressionIf_0"'
+   Expressions(87)=MaterialExpressionConstant'"MaterialExpressionConstant_10"'
+   Expressions(88)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_3"'
+   Expressions(89)=MaterialExpressionIf'"MaterialExpressionIf_2"'
+   Expressions(90)=MaterialExpressionConstant'"MaterialExpressionConstant_0"'
+   Expressions(91)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_1"'
+   Expressions(92)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_2"'
+   Expressions(93)=MaterialExpressionIf'"MaterialExpressionIf_3"'
+   Expressions(94)=MaterialExpressionConstant'"MaterialExpressionConstant_11"'
+   Expressions(95)=MaterialExpressionReroute'"MaterialExpressionReroute_0"'
+   EditorComments(0)=MaterialExpressionComment'"MaterialExpressionComment_0"'
+   EditorComments(1)=MaterialExpressionComment'"MaterialExpressionComment_1"'
+   EditorComments(2)=MaterialExpressionComment'"MaterialExpressionComment_2"'
+   EditorComments(3)=MaterialExpressionComment'"MaterialExpressionComment_3"'
+   EditorComments(4)=MaterialExpressionComment'"MaterialExpressionComment_4"'
+   EditorComments(5)=MaterialExpressionComment'"MaterialExpressionComment_5"'
+   EditorComments(6)=MaterialExpressionComment'"MaterialExpressionComment_6"'
+   EditorComments(7)=MaterialExpressionComment'"MaterialExpressionComment_7"'
+   EditorComments(8)=MaterialExpressionComment'"MaterialExpressionComment_8"'
+   EditorComments(9)=MaterialExpressionComment'"MaterialExpressionComment_9"'
+   EditorComments(10)=MaterialExpressionComment'"MaterialExpressionComment_10"'
+   EditorComments(11)=MaterialExpressionComment'"MaterialExpressionComment_11"'
+   EditorComments(12)=MaterialExpressionComment'"MaterialExpressionComment_12"'
+   EditorComments(13)=MaterialExpressionComment'"MaterialExpressionComment_13"'
+   EditorComments(14)=MaterialExpressionComment'"MaterialExpressionComment_14"'
+   EditorComments(15)=MaterialExpressionComment'"MaterialExpressionComment_15"'
+   EditorComments(16)=MaterialExpressionComment'"MaterialExpressionComment_16"'
+   EditorComments(17)=MaterialExpressionComment'"MaterialExpressionComment_17"'
+   EditorComments(18)=MaterialExpressionComment'"MaterialExpressionComment_18"'
+   EditorComments(19)=MaterialExpressionComment'"MaterialExpressionComment_19"'
+   EditorComments(20)=MaterialExpressionComment'"MaterialExpressionComment_20"'
+   EditorComments(21)=MaterialExpressionComment'"MaterialExpressionComment_21"'
+   EditorComments(22)=MaterialExpressionComment'"MaterialExpressionComment_22"'
+   EditorComments(23)=MaterialExpressionComment'"MaterialExpressionComment_23"'
+   EditorComments(24)=MaterialExpressionComment'"MaterialExpressionComment_24"'
+   EditorComments(25)=MaterialExpressionComment'"MaterialExpressionComment_26"'
+   EditorComments(26)=MaterialExpressionComment'"MaterialExpressionComment_25"'
+   EditorComments(27)=MaterialExpressionComment'"MaterialExpressionComment_27"'
+   bCanMaskedBeAssumedOpaque=True
+   BlendableLocation=BL_BeforeTranslucency
+   StateId=E7C7D500446410517A0756B604395B29
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'"SceneThumbnailInfoWithPrimitive_0"'
+   LightingGuid=9D6B6A674CBD87178A734CA6171D6171
+End Object
