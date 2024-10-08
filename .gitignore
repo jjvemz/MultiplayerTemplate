@@ -72,3 +72,11 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+/Content/Assets/LearningKit_Games/Assets/Props
+/Content/Assets/LearningKit_Games/Assets/SFX
+/Content/Assets/LearningKit_Games/MaterialLibrary/ObjBasedGradients
+/Content/Assets/LearningKit_Games/Maps
+/Content/Assets/LearningKit_Games/Blueprints
+/Content/Assets/LearningKit_Games/Assets/VFX/LightRay
+/Content/Assets/LearningKit_Games/Assets/VFX
+/Content/Assets/LearningKit_Games/Assets/Architecture
