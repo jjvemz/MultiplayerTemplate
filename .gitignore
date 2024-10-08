@@ -95,3 +95,10 @@ DerivedDataCache/*
 /Content/Assets/ParagonDekker/Characters/Global/MaterialLayers/Metal
 /Content/Assets/LearningKit_Games/Assets/_Shared/Materials
 /Content/Assets/LearningKit_Games/Assets/Environment/Clouds
+/Content/Assets/ParagonDekker/Characters/Maps
+/Content/Assets/ParagonDekker/FX/Materials/Energy
+/Content/Assets/ParagonDekker/FX/Materials/Splines
+/Content/Assets/ParagonDekker/FX/Particles/Abilities/Cage
+/Content/Assets/ParagonDekker/FX/Particles/Abilities
+/Content/Blueprints/LearningKit_Robots/Blueprints/Robots
+/Content/Blueprints/LearningKit_Robots/StaticMeshes/Robot
