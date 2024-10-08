@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Multiplayertest/HUD/ShooterHUD.h"
+#include "Multiplayertest/Weapons/WeaponTypes.h"
+#include "Multiplayertest/BlasterTypes/CombatState.h"
 #include "CombatComponent.generated.h"
 
-#define TRACE_LENGTH 8000;
+//#define TRACE_LENGTH 12000.f;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MULTIPLAYERTEST_API UCombatComponent : public UActorComponent
@@ -22,6 +24,13 @@ public:
 	
 
 	void EquipWeapon(class AWeaponActor* WeaponToEquip);
+
+	void Reload();
+
+	UFUNCTION(BlueprintCallable)
+	void FinishReloading();
+	void FireButtonPressed(bool bPressed);
+
 protected:
 	virtual void BeginPlay() override;
 	void SetAiming(bool bIsAiming);
@@ -29,10 +38,16 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void ServerSetAiming(bool bIsAiming);
 
+	UFUNCTION(Server, Reliable)
+	void ServerReload();
+
+	void HandleReload();
+
+	int32 AmountToReload();
+
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
 
-	void FireButtonPressed(bool bPressed);
 
 	void Fire();
 
@@ -47,9 +62,15 @@ protected:
 	void SetHUDCrosshairs(float DeltaTime);
 
 
+
 private:
+	UPROPERTY()
 	class AShooterPlayer* Character;
+
+	UPROPERTY()
 	class AShooterPlayerController* Controller;
+	
+	UPROPERTY()
 	class AShooterHUD* HUD;
 
 	
@@ -86,8 +107,6 @@ private:
 
 	//Apuntado y FOV
 
-
-
 	float DefaultFOV;
 
 	UPROPERTY(EditAnywhere, Category= Combat)
@@ -107,6 +126,44 @@ private:
 
 	void StartFireTimer();
 	void FireTimerFinished();
+	bool CanFire();
+
+	UPROPERTY(ReplicatedUsing = OnRep_CarriedAmmo)
+	int32 CarriedAmmo;
+
+	UFUNCTION()
+	void OnRep_CarriedAmmo();
+
+	TMap <EWeaponType, int32> CarriedAmmoMap;
+
+	//Ammo types
+	UPROPERTY(EditAnywhere)
+	int32 StartingARAmmo = 30;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingRocketAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingPistolAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingSMGAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingShotgunAmmo = 0;
+	
+	UPROPERTY(EditAnywhere)
+	int32 StartingSniperRifleAmmo = 0;
+
+	UPROPERTY(ReplicatedUsing = OnRep_CombatState)
+	ECombatState CombatState = ECombatState::ECS_Unoccupied;
+
+	UFUNCTION()
+	void OnRep_CombatState();
+
+	void UpdateAmmoValues();
+
+	void InitializeCarriedAmmo();
 public:	
 
 

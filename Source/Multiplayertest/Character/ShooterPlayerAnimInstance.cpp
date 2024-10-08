@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Multiplayertest/Weapons/WeaponActor.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Multiplayertest/BlasterTypes/CombatState.h"
 
 void UShooterPlayerAnimInstance::NativeInitializeAnimation()
 {
@@ -69,6 +70,10 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 			FTransform RightHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("Hand_R"), ERelativeTransformSpace::RTS_World);
 			RightHandRotation = UKismetMathLibrary::FindLookAtRotation(RightHandTransform.GetLocation(), RightHandTransform.GetLocation() + (RightHandTransform.GetLocation() - ShooterPlayer->GetHitTarget()));
 		}
+
+		bUseFABRIK = ShooterPlayer->GetCombatState() != ECombatState::ECS_Reloading;
+		bUseAimOffsets = ShooterPlayer->GetCombatState() != ECombatState::ECS_Reloading && !ShooterPlayer->GetDisableGameplay();
+		bTransformRightHand = ShooterPlayer->GetCombatState() != ECombatState::ECS_Reloading && !ShooterPlayer->GetDisableGameplay();
 
 		FTransform MuzzleTipTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("MuzzleFlash"), ERelativeTransformSpace::RTS_World);
 		FVector MuzzleX(FRotationMatrix(MuzzleTipTransform.GetRotation().Rotator()).GetUnitAxis(EAxis::X));

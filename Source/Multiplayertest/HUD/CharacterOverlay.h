@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "CharacterOverlay.generated.h"
 
 /**
@@ -17,4 +18,19 @@ class MULTIPLAYERTEST_API UCharacterOverlay : public UUserWidget
 public:
 	UPROPERTY(meta=(BindWidget))
 	class UProgressBar* HealthBar;
+
+	UPROPERTY(meta=(BindWidget))
+	 UTextBlock* PointsText;
+
+	UPROPERTY(meta=(BindWidget))
+	 UTextBlock* DefeatsAmount;
+
+	 UPROPERTY(meta = (BindWidget))
+	 UTextBlock* WeaponAmmoAmount;
+
+	 UPROPERTY(meta = (BindWidget))
+	 UTextBlock* MagCapacity;
+
+	 UPROPERTY(meta = (BindWidget))
+	 UTextBlock* MatchCountdownText;
 };

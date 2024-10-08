@@ -5,8 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
 #include "Multiplayertest/Interfaces/InteractCrosshairsInterface.h"
 #include "Multiplayertest/BlasterTypes/TurnInPlace.h"
+#include "Multiplayertest/PlayerState/ShooterPlayerState.h"
+#include "Multiplayertest/BlasterTypes/CombatState.h"
+
 #include "ShooterPlayer.generated.h"
 
 
@@ -26,6 +30,7 @@ public:
 
 	void PlayShootingMontage(bool bAiming);
 	void PlayEliminationMontage();
+	void PlayReloadMontage();
 
 	virtual void OnRep_ReplicatedMovement() override;
 	
@@ -33,6 +38,11 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastElim();
+
+	virtual void Destroyed() override;
+
+	UPROPERTY(Replicated)
+	bool bDisableGameplay = false;
 
 protected:
 	
@@ -58,12 +68,16 @@ protected:
 	void FireButtonPressed();
 	void FireButtonReleased();
 
+	void ReloadButtonPressed();
+
 	void PlayHitReactMontage();
 
 	UFUNCTION()
 	void ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCausor);
 	void UpdateHUDHealth();
 
+	void PollInit();
+	void RotateInPlace(float DeltaTime);
 private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	class USpringArmComponent* CameraBoom;
@@ -80,7 +94,7 @@ private:
 	UFUNCTION()
 	void OnRep_OverlappingWeapon(AWeaponActor* LastWeapon);
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCombatComponent* CombatComp;
 
 	UFUNCTION(Server, Reliable)
@@ -102,6 +116,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Combat)
 	class UAnimMontage* EliminationMontage;
+
+	UPROPERTY(EditAnywhere, Category = Combat)
+	class UAnimMontage* ReloadMontage;
 
 	void HideCameraIfTheCaharacterisClose();
 
@@ -141,7 +158,21 @@ private:
 	UFUNCTION()
 	void OnRep_Health();
 
+	UPROPERTY()
 	class AShooterPlayerController* ShooterPlayerController;
+
+	//Elim Bot
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* ElimBotEffect;
+	
+	UPROPERTY(VisibleAnywhere)
+	UParticleSystemComponent* ElimBotComponent;
+	
+	UPROPERTY(EditAnywhere)
+	class USoundCue* ElimBotSound;
+
+	UPROPERTY()
+	class AShooterPlayerState* ShooterPlayerState;
 
 public:
 	void SetOverlappingWeapon(AWeaponActor* Weapon);
@@ -157,5 +188,9 @@ public:
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	FORCEINLINE bool ShouldRotateRootBone() const { return bRotateRootBone; }
 	FORCEINLINE bool IsEliminated() const { return bIsEliminated; }
-
+	FORCEINLINE float GetCurrHealth() const { return CurrHealth; }
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+	FORCEINLINE UCombatComponent* GetCombat() const { return CombatComp; }
+	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
+	ECombatState GetCombatState() const;
 };

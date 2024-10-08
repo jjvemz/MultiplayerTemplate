@@ -15,10 +15,15 @@
 #include "Multiplayertest/Multiplayertest.h"
 #include "Multiplayertest/PlayerController/ShooterPlayerController.h"
 #include "Multiplayertest/GameMode/ShooterPlayerGameMode.h"
+#include "Multiplayertest/Weapons/WeaponTypes.h"
+#include "Multiplayertest/BlasterTypes/CombatState.h"
 
+#include "Sound/SoundCue.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "TimerManager.h"
 #include "Net/UnrealNetwork.h"
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 
 
 AShooterPlayer::AShooterPlayer()
@@ -71,6 +76,8 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AShooterPlayer::AimButtonReleased);
 	PlayerInputComponent->BindAction("Shoot", IE_Released, this, &AShooterPlayer::FireButtonReleased);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AShooterPlayer::FireButtonPressed);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AShooterPlayer::ReloadButtonPressed);
+
 
 
 	PlayerInputComponent->BindAxis("Forward", this, &AShooterPlayer::Forward);
@@ -85,12 +92,13 @@ void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 
 	DOREPLIFETIME_CONDITION(AShooterPlayer, OverlappingWeapon, COND_OwnerOnly);
 	DOREPLIFETIME(AShooterPlayer, CurrHealth);
+	DOREPLIFETIME(AShooterPlayer, bDisableGameplay);
+
 }
 
 void AShooterPlayer::OnRep_ReplicatedMovement()
 {
 	Super::OnRep_ReplicatedMovement();
-
 	SimProxiesTurn();
 	TimeSinceLastMovementReplication = 0.f;
 }
@@ -110,23 +118,65 @@ void AShooterPlayer::Elim()
 	);
 }
 
+void AShooterPlayer::Destroyed()
+{
+	Super::Destroyed();
+
+	if (ElimBotComponent)
+	{
+		ElimBotComponent->DestroyComponent();
+	}
+
+	AShooterPlayerGameMode* ShooterPlayerGameMode= Cast<AShooterPlayerGameMode>(UGameplayStatics::GetGameMode(this));
+	bool bMatchNotInProgress = ShooterPlayerGameMode && ShooterPlayerGameMode->GetMatchState() != MatchState::InProgress;
+	if (CombatComp && CombatComp->EquippedWeapon && bMatchNotInProgress)
+	{
+		CombatComp->EquippedWeapon->Destroy();
+	}
+}
+
 void AShooterPlayer::MulticastElim_Implementation()
 {
+	if (ShooterPlayerController)
+	{
+		ShooterPlayerController->SetHUDWeaponAmmo(0);
+	}
+
 	bIsEliminated = true;
 	PlayEliminationMontage();
 
 	//Quitar el movimiento al ser eliminado
-
+	bDisableGameplay = true;
 	GetCharacterMovement()->DisableMovement();
-	GetCharacterMovement()->StopMovementImmediately();
-	if (ShooterPlayerController)
+	if (CombatComp)
 	{
-		DisableInput(ShooterPlayerController);
+		CombatComp->FireButtonPressed(false);
 	}
-	
+
 	//Quitar las colisiones
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	//Spawnear Elimbot
+
+	if (ElimBotEffect) 
+	{
+		FVector ElimBotSpawnPoint(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 200.f);
+		ElimBotComponent = UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(),
+			ElimBotEffect,
+			ElimBotSpawnPoint,
+			GetActorRotation()
+		);
+	}
+	if (ElimBotSound) 
+	{
+		UGameplayStatics::SpawnSoundAtLocation(
+			this,
+			ElimBotSound,
+			GetActorLocation()
+		);
+	}
 }
 
 void AShooterPlayer::BeginPlay()
@@ -144,20 +194,9 @@ void AShooterPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GetLocalRole() > ENetRole::ROLE_SimulatedProxy && IsLocallyControlled())
-	{
-		AimOffset(DeltaTime);
-	}
-	else
-	{
-		TimeSinceLastMovementReplication += DeltaTime;
-		if (TimeSinceLastMovementReplication > 0.10f)
-		{
-			OnRep_ReplicatedMovement();
-		}
-		CalculateAO_Pitch();
-	}
+	RotateInPlace(DeltaTime);
 	HideCameraIfTheCaharacterisClose();
+	PollInit();
 }
 
 void AShooterPlayer::PostInitializeComponents()
@@ -187,6 +226,7 @@ void AShooterPlayer::PlayShootingMontage(bool bAiming)
 
 void AShooterPlayer::Forward(float Value)
 {
+	if (bDisableGameplay) return;
 	if (Controller != nullptr && Value != 0.f)
 	{
 		const FRotator YawRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
@@ -197,6 +237,7 @@ void AShooterPlayer::Forward(float Value)
 
 void AShooterPlayer::Right(float Value)
 {
+	if (bDisableGameplay) return;
 	if (Controller != nullptr && Value != 0.f)
 	{
 		const FRotator YawRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
@@ -217,6 +258,7 @@ void AShooterPlayer::Yaw(float Value)
 
 void AShooterPlayer::Jump()
 {
+	if (bDisableGameplay) return;
 	if (bIsCrouched)
 	{
 		UnCrouch();
@@ -229,19 +271,18 @@ void AShooterPlayer::Jump()
 
 void AShooterPlayer::EquippedPressedButton()
 {
+	if (bDisableGameplay) return;
 	if (CombatComp)
 	{
 		if (HasAuthority())
 		{
 			CombatComp->EquipWeapon(OverlappingWeapon);
-
 		}
 		else
 		{
 			ServerEquippedButtonPressed();
 		}
 	}
-
 }
 
 void AShooterPlayer::ServerEquippedButtonPressed_Implementation()
@@ -255,6 +296,7 @@ void AShooterPlayer::ServerEquippedButtonPressed_Implementation()
 
 void AShooterPlayer::CrouchButtonPressed()
 {
+	if (bDisableGameplay) return;
 	if (bIsCrouched)
 	{
 		UnCrouch();
@@ -267,6 +309,7 @@ void AShooterPlayer::CrouchButtonPressed()
 
 void AShooterPlayer::AimButtonPressed()
 {
+	if (bDisableGameplay) return;
 	if (CombatComp)
 	{
 		CombatComp->SetAiming(true);
@@ -275,6 +318,7 @@ void AShooterPlayer::AimButtonPressed()
 
 void AShooterPlayer::AimButtonReleased()
 {
+	if (bDisableGameplay) return;
 	if (CombatComp)
 	{
 		CombatComp->SetAiming(false);
@@ -363,6 +407,45 @@ void AShooterPlayer::PlayEliminationMontage()
 	}
 }
 
+void AShooterPlayer::PlayReloadMontage()
+{
+	if (CombatComp == nullptr || CombatComp->EquippedWeapon == nullptr) return;
+
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+
+	if (AnimInstance && ReloadMontage)
+	{
+		AnimInstance->Montage_Play(ReloadMontage);
+		FName SectionName;
+
+		switch (CombatComp->EquippedWeapon->GetWeaponType())
+		{
+
+		case EWeaponType::EWT_AssaultRifle:
+			SectionName = FName("Rifle"); 
+			break;
+
+		case EWeaponType::EWT_RocketLauncher:
+			SectionName = FName("Rifle");
+			break;
+
+		case EWeaponType::EWT_SubmachineGun:
+			SectionName = FName("Rifle");
+			break;
+
+		case EWeaponType::EWT_Shotgun:
+			SectionName = FName("Rifle");
+			break;
+		case EWeaponType::EWT_SniperRifle:
+			SectionName = FName("Rifle");
+			break;
+		}
+
+
+		AnimInstance->Montage_JumpToSection(SectionName);
+	}
+}
+
 void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, 
 	AController* InstigatorController, AActor* DamageCausor)
 {
@@ -396,6 +479,44 @@ void AShooterPlayer::UpdateHUDHealth()
 	}
 }
 
+void AShooterPlayer::PollInit()
+{
+	if (ShooterPlayerState == nullptr)
+	{
+		ShooterPlayerState = GetPlayerState<AShooterPlayerState>();
+		if (ShooterPlayerState)
+		{
+			ShooterPlayerState->AddToScore(0.f);
+			ShooterPlayerState->AddToDefeats(0);
+
+		}
+	}
+}
+
+void AShooterPlayer::RotateInPlace(float DeltaTime)
+{
+	
+	if (bDisableGameplay)
+	{
+		bUseControllerRotationYaw = false;
+		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+		return;
+	}
+	if (GetLocalRole() > ENetRole::ROLE_SimulatedProxy && IsLocallyControlled())
+	{
+		AimOffset(DeltaTime);
+	}
+	else
+	{
+		TimeSinceLastMovementReplication += DeltaTime;
+		if (TimeSinceLastMovementReplication > 0.25f)
+		{
+			OnRep_ReplicatedMovement();
+		}
+		CalculateAO_Pitch();
+	}
+}
+
 void AShooterPlayer::TurnInPlace(float DeltaTime)
 {
 	if (AO_Yaw > 90.f)
@@ -411,7 +532,7 @@ void AShooterPlayer::TurnInPlace(float DeltaTime)
 
 void AShooterPlayer::SimProxiesTurn()
 {
-	if (CombatComp == nullptr && CombatComp->EquippedWeapon == nullptr) return;
+	if (CombatComp == nullptr || CombatComp->EquippedWeapon == nullptr) return;
 	
 	bRotateRootBone = false;
 	float Speed = CalculateSpeed();
@@ -420,7 +541,6 @@ void AShooterPlayer::SimProxiesTurn()
 		return;
 	}
 
-	
 
 	ProxyRotationLastFrame = ProxyRotation;
 	ProxyRotation = GetActorRotation();
@@ -433,7 +553,7 @@ void AShooterPlayer::SimProxiesTurn()
 		{
 			TurningInPlace = ETurningInPlace::ETIP_Right;
 		}
-		else if (ProxyYaw > TurnThreshold)
+		else if (ProxyYaw < -TurnThreshold)
 		{
 			TurningInPlace = ETurningInPlace::ETIP_Left;
 
@@ -449,6 +569,7 @@ void AShooterPlayer::SimProxiesTurn()
 
 void AShooterPlayer::FireButtonPressed()
 {
+	if (bDisableGameplay) return;
 	if (CombatComp)
 	{
 		CombatComp->FireButtonPressed(true);
@@ -457,17 +578,30 @@ void AShooterPlayer::FireButtonPressed()
 
 void AShooterPlayer::FireButtonReleased()
 {
+	if (bDisableGameplay) return;
 	if (CombatComp)
 	{
 		CombatComp->FireButtonPressed(false);
 	}
 }
+
+void AShooterPlayer::ReloadButtonPressed()
+{
+	if (bDisableGameplay) return;
+	if (CombatComp)
+	{
+		CombatComp->Reload();
+	}
+}
+
+
 /*
 void AShooterPlayer::MulticastHit_Implementation()
 {
 	PlayHitReactMontage();
 }
 */
+
 void AShooterPlayer::HideCameraIfTheCaharacterisClose()
 {
 	if (!IsLocallyControlled()) return;
@@ -498,6 +632,7 @@ void AShooterPlayer::ElimTimerFinished()
 	{
 		ShooterPlayerGameMode->RequestRespawn(this, Controller);
 	}
+	
 }
 
 void AShooterPlayer::OnRep_Health()
@@ -548,6 +683,12 @@ AWeaponActor* AShooterPlayer::GetEquippedWeapon()
 {
 	if (CombatComp == nullptr) return nullptr;
 	return CombatComp->EquippedWeapon;
+}
+
+ECombatState AShooterPlayer::GetCombatState() const
+{
+	if (CombatComp == nullptr) return ECombatState::ECS_MAX;
+	return CombatComp->CombatState;
 }
 
 FVector AShooterPlayer::GetHitTarget() const
