@@ -1,0 +1,70 @@
+Begin Object Class=/Script/Engine.Material Name="M_TrailSmoke"
+   Begin Object Class=/Script/Engine.MaterialExpressionDepthFade Name="MaterialExpressionDepthFade_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionParticleColor Name="MaterialExpressionParticleColor_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSampleParameterSubUV Name="MaterialExpressionTextureSampleParameterSubUV_0"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Begin Object Name="MaterialExpressionDepthFade_0"
+      InOpacity=(Expression=MaterialExpressionMultiply'"M_TrailSmoke:MaterialExpressionMultiply_1"')
+      MaterialExpressionEditorX=-304
+      MaterialExpressionEditorY=256
+      MaterialExpressionGuid=26452C724394ACAFB5CF8D9F3CF04782
+      Material=Material'"M_TrailSmoke"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_0"
+      A=(Expression=MaterialExpressionTextureSampleParameterSubUV'"M_TrailSmoke:MaterialExpressionTextureSampleParameterSubUV_0"',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression=MaterialExpressionParticleColor'"M_TrailSmoke:MaterialExpressionParticleColor_0"',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      MaterialExpressionEditorX=-448
+      MaterialExpressionEditorY=128
+      MaterialExpressionGuid=A5F2C8434132EEC22A978EBC9A2D3258
+      Material=Material'"M_TrailSmoke"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_1"
+      A=(Expression=MaterialExpressionTextureSampleParameterSubUV'"M_TrailSmoke:MaterialExpressionTextureSampleParameterSubUV_0"',OutputIndex=4,Mask=1,MaskA=1)
+      B=(Expression=MaterialExpressionParticleColor'"M_TrailSmoke:MaterialExpressionParticleColor_0"',OutputIndex=4,Mask=1,MaskA=1)
+      MaterialExpressionEditorX=-480
+      MaterialExpressionEditorY=272
+      MaterialExpressionGuid=536488444BFD08F1A08913BA9E9ADB96
+      Material=Material'"M_TrailSmoke"'
+   End Object
+   Begin Object Name="MaterialExpressionParticleColor_0"
+      MaterialExpressionEditorX=-768
+      MaterialExpressionEditorY=256
+      MaterialExpressionGuid=4DC48A444A2DAF70D48826A9268C66BA
+      Material=Material'"M_TrailSmoke"'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSampleParameterSubUV_0"
+      ParameterName="T_SmokeFlipbook"
+      ExpressionGUID=B995BB7D4FD194941A3E7EBF2C333AA6
+      Texture=Texture2D'"/Engine/Tutorial/SubEditors/TutorialAssets/T_SmokeSubUV_8X8.T_SmokeSubUV_8X8"'
+      MaterialExpressionEditorX=-816
+      MaterialExpressionGuid=555E8EBF4885AB23AD630CABA1A085E0
+      Material=Material'"M_TrailSmoke"'
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   EmissiveColor=(Expression=MaterialExpressionMultiply'"MaterialExpressionMultiply_0"')
+   Opacity=(Expression=MaterialExpressionDepthFade'"MaterialExpressionDepthFade_0"')
+   BlendMode=BLEND_Translucent
+   bUsedWithNiagaraSprites=True
+   EditorX=16
+   Expressions(0)=MaterialExpressionTextureSampleParameterSubUV'"MaterialExpressionTextureSampleParameterSubUV_0"'
+   Expressions(1)=MaterialExpressionParticleColor'"MaterialExpressionParticleColor_0"'
+   Expressions(2)=MaterialExpressionMultiply'"MaterialExpressionMultiply_0"'
+   Expressions(3)=MaterialExpressionMultiply'"MaterialExpressionMultiply_1"'
+   Expressions(4)=MaterialExpressionDepthFade'"MaterialExpressionDepthFade_0"'
+   ParameterGroupData(0)=(GroupName="None")
+   bCanMaskedBeAssumedOpaque=True
+   StateId=21464C08454495B837089CBDFC9FE6D5
+   ReferencedTextureGuids(0)=1B2399E54AF4A1F72A7F7E9C9C0CA5AA
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'"SceneThumbnailInfoWithPrimitive_0"'
+   ParameterOverviewExpansion=(("-12Global", True))
+   LightingGuid=8568B5AB4477169DD5B89EAC4999A7A6
+End Object

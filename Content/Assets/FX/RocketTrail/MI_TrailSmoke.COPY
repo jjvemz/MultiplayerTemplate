@@ -1,0 +1,11 @@
+Begin Object Class=/Script/Engine.MaterialInstanceConstant Name="MI_TrailSmoke"
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Parent=Material'"/Game/Assets/FX/RocketTrail/M_TrailSmoke.M_TrailSmoke"'
+   BasePropertyOverrides=(BlendMode=BLEND_Translucent,OpacityMaskClipValue=0.333300)
+   ReferencedTextureGuids(0)=1B2399E54AF4A1F72A7F7E9C9C0CA5AA
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'"SceneThumbnailInfoWithPrimitive_0"'
+   LightingGuid=F88E0E764BEE7A186576D284097610FF
+End Object
