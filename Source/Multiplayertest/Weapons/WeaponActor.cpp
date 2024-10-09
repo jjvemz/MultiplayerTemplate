@@ -27,6 +27,10 @@ AWeaponActor::AWeaponActor()
 	WeaponMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	EnableCustomDepth(true);
+	WeaponMesh->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
+	WeaponMesh->MarkRenderStateDirty();
+
 	AreaSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AreaSphere"));
 	AreaSphere->SetupAttachment(RootComponent);
 	AreaSphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
@@ -34,6 +38,14 @@ AWeaponActor::AWeaponActor()
 
 	PickupWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("PickupWidget"));
 	PickupWidget->SetupAttachment(RootComponent);
+}
+
+void AWeaponActor::EnableCustomDepth(bool bEnable)
+{
+	if (WeaponMesh)
+	{
+		WeaponMesh->SetRenderCustomDepth(bEnable);
+	}
 }
 
 void AWeaponActor::BeginPlay()
@@ -139,16 +151,22 @@ void AWeaponActor::SetWeaponState(EWeaponState State)
 	{
 	case EWeaponState::EWS_Equipped:
 		ShowPickupWidget(false);
+
 		AreaSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 		WeaponMesh->SetSimulatePhysics(false);
 		WeaponMesh->SetEnableGravity(false);
 		WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 		if (WeaponType == EWeaponType::EWT_SubmachineGun)
 		{
 			WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 			WeaponMesh->SetEnableGravity(true);
 			WeaponMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 		}
+
+		EnableCustomDepth(false);
+
 		break;
 	case EWeaponState::EWS_Dropped:
 		if (HasAuthority())
@@ -157,10 +175,16 @@ void AWeaponActor::SetWeaponState(EWeaponState State)
 		}
 		WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		WeaponMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
 		WeaponMesh->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 		WeaponMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 		WeaponMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 		WeaponMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+
+		WeaponMesh->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
+		WeaponMesh->MarkRenderStateDirty();
+		EnableCustomDepth(true);
+
 		break;
 	}
 }
@@ -181,23 +205,35 @@ void AWeaponActor::OnRep_WeaponState()
 	{
 	case EWeaponState::EWS_Equipped:
 		ShowPickupWidget(false);
+
 		WeaponMesh->SetSimulatePhysics(false);
 		WeaponMesh->SetEnableGravity(false);
 		WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 		if (WeaponType == EWeaponType::EWT_SubmachineGun)
 		{
+
 			WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 			WeaponMesh->SetEnableGravity(true);
 			WeaponMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+
 		}
 		break;
 	case EWeaponState::EWS_Dropped:
+
 		WeaponMesh->SetSimulatePhysics(true);
 		WeaponMesh->SetEnableGravity(true);
+
 		WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
 		WeaponMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 		WeaponMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 		WeaponMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+
+		WeaponMesh->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
+		WeaponMesh->MarkRenderStateDirty();
+		EnableCustomDepth(true);
+
 		break;
 	}
 }
