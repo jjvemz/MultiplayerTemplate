@@ -71,9 +71,9 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 			RightHandRotation = UKismetMathLibrary::FindLookAtRotation(RightHandTransform.GetLocation(), RightHandTransform.GetLocation() + (RightHandTransform.GetLocation() - ShooterPlayer->GetHitTarget()));
 		}
 
-		bUseFABRIK = ShooterPlayer->GetCombatState() != ECombatState::ECS_Reloading;
-		bUseAimOffsets = ShooterPlayer->GetCombatState() != ECombatState::ECS_Reloading && !ShooterPlayer->GetDisableGameplay();
-		bTransformRightHand = ShooterPlayer->GetCombatState() != ECombatState::ECS_Reloading && !ShooterPlayer->GetDisableGameplay();
+		bUseFABRIK = ShooterPlayer->GetCombatState() == ECombatState::ECS_Unoccupied;
+		bUseAimOffsets = ShooterPlayer->GetCombatState() == ECombatState::ECS_Unoccupied && !ShooterPlayer->GetDisableGameplay();
+		bTransformRightHand = ShooterPlayer->GetCombatState() == ECombatState::ECS_Unoccupied && !ShooterPlayer->GetDisableGameplay();
 
 		FTransform MuzzleTipTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("MuzzleFlash"), ERelativeTransformSpace::RTS_World);
 		FVector MuzzleX(FRotationMatrix(MuzzleTipTransform.GetRotation().Rotator()).GetUnitAxis(EAxis::X));

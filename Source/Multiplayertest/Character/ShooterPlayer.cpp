@@ -77,6 +77,7 @@ void AShooterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Shoot", IE_Released, this, &AShooterPlayer::FireButtonReleased);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AShooterPlayer::FireButtonPressed);
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AShooterPlayer::ReloadButtonPressed);
+	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AShooterPlayer::GrenadeButtonPressed);
 
 
 
@@ -467,6 +468,15 @@ void AShooterPlayer::PlayReloadMontage()
 	}
 }
 
+void AShooterPlayer::PlayThrowGrenadeMontage()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && ThrowGrenadeMontage)
+	{
+		AnimInstance->Montage_Play(ThrowGrenadeMontage);
+	}
+}
+
 void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, 
 	AController* InstigatorController, AActor* DamageCausor)
 {
@@ -612,6 +622,14 @@ void AShooterPlayer::ReloadButtonPressed()
 	if (CombatComp)
 	{
 		CombatComp->Reload();
+	}
+}
+
+void AShooterPlayer::GrenadeButtonPressed()
+{
+	if (CombatComp)
+	{
+		CombatComp->ThrowGrenade();
 	}
 }
 

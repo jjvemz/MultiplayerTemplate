@@ -1,0 +1,43 @@
+# Top-most EditorConfig file
+root = true
+
+# Configuración general para todos los archivos
+[*]
+# Tamaño de tabulaciones: 4 espacios
+indent_style = space
+indent_size = 4
+
+# Fin de línea (Unix o Windows)
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+
+# Nomenclatura de clases, funciones y variables para Unreal Engine
+# Clases deben empezar con "U" (para clases de Unreal Engine)
+[*.cpp,*.h]
+# Las clases de Unreal Engine comienzan con una "U", como UMyClass
+dotnet_naming_rule.unreal_classes.symbols = classes
+dotnet_naming_rule.unreal_classes.style = unreal_class_style
+dotnet_naming_symbols.classes.applicable_kinds = class
+dotnet_naming_style.unreal_class_style.capitalization = pascal_case
+dotnet_naming_style.unreal_class_style.required_prefix = U
+
+# Las funciones deben comenzar con una letra mayúscula, PascalCase
+dotnet_naming_rule.unreal_functions.symbols = methods
+dotnet_naming_rule.unreal_functions.style = unreal_function_style
+dotnet_naming_symbols.methods.applicable_kinds = method
+dotnet_naming_style.unreal_function_style.capitalization = pascal_case
+
+# Las variables privadas deben tener el prefijo "m_"
+dotnet_naming_rule.unreal_private_fields.symbols = private_fields
+dotnet_naming_rule.unreal_private_fields.style = unreal_private_field_style
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.unreal_private_field_style.capitalization = camel_case
+dotnet_naming_style.unreal_private_field_style.required_prefix = m_
+
+# Las variables de clase deben empezar con "My" en PascalCase
+dotnet_naming_rule.unreal_fields.symbols = fields
+dotnet_naming_rule.unreal_fields.style = unreal_field_style
+dotnet_naming_symbols.fields.applicable_kinds = field
+dotnet_naming_style.unreal_field_style.capitalization = pascal_case
+dotnet_naming_style.unreal_field_style.required_prefix = My
