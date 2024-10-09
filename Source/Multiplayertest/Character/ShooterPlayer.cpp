@@ -62,6 +62,10 @@ AShooterPlayer::AShooterPlayer()
 	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 	NetUpdateFrequency = 66.f;
 	MinNetUpdateFrequency = 33.f;
+
+    AttachedGrenade = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Attached Grenade"));
+    AttachedGrenade->SetupAttachment(GetMesh(), FName("GrenadeSocket"));
+    AttachedGrenade->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 
@@ -199,8 +203,16 @@ void AShooterPlayer::BeginPlay()
 	UpdateHUDHealth();
 	if (HasAuthority())
 	{
+
 		OnTakeAnyDamage.AddDynamic(this, &AShooterPlayer::ReceiveDamage);
+
 	}
+    if (AttachedGrenade)
+    {
+
+        AttachedGrenade->SetVisibility(false);
+
+    }
 }
 
 void AShooterPlayer::Tick(float DeltaTime)

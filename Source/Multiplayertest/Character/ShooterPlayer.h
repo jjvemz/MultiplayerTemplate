@@ -182,6 +182,11 @@ private:
 	UPROPERTY()
 	class AShooterPlayerState* ShooterPlayerState;
 
+    //Granada
+
+    UPROPERTY(VisibleAnywhere)
+    UStaticMeshComponent* AttachedGrenade;
+
 public:
 	void SetOverlappingWeapon(AWeaponActor* Weapon);
 	bool IsWeaponEquipped();
@@ -201,5 +206,7 @@ public:
 	FORCEINLINE UCombatComponent* GetCombat() const { return CombatComp; }
 	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
 	FORCEINLINE UAnimMontage* GetReloadMontage() const { return ReloadMontage; }
+    FORCEINLINE UStaticMeshComponent* GetAttachedGrenade() const { return AttachedGrenade; }
+
 	ECombatState GetCombatState() const;
 };
