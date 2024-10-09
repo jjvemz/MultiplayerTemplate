@@ -6,8 +6,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Particles/ParticleSystem.h"
+
 #include "Multiplayertest/Character/ShooterPlayer.h"
 #include "Multiplayertest/Multiplayertest.h"
+
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Sound/SoundCue.h"
 
 AProjectile::AProjectile()
@@ -45,6 +49,59 @@ void AProjectile::BeginPlay()
 	{
 		CollisionBox->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 		CollisionBox->IgnoreActorWhenMoving(Owner, true);
+	}
+}
+void AProjectile::StartDestroyTimer()
+{
+	GetWorldTimerManager().SetTimer(
+		DestroyTimer,
+		this,
+		&AProjectile::DestroyTimerFinished,
+		DestroyTime
+	);
+}
+void AProjectile::DestroyTimerFinished()
+{
+	Destroy();
+}
+void AProjectile::SpawnTrailSystem()
+{
+
+	if (TrailSystem)
+	{
+		TrailSystemComponent = UNiagaraFunctionLibrary::SpawnSystemAttached(
+			TrailSystem,
+			GetRootComponent(),
+			FName(),
+			GetActorLocation(),
+			GetActorRotation(),
+			EAttachLocation::KeepWorldPosition,
+			false
+		);
+	}
+}
+void AProjectile::ExplodeDamage()
+{
+	APawn* FiringPawn = GetInstigator();
+	if (FiringPawn && HasAuthority())
+	{
+		AController* FiringController = FiringPawn->GetController();
+		if (FiringController)
+		{
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				this, 
+				Damage,
+				10.f, 
+				GetActorLocation(), 
+				DamageInnerRadius, 
+				DamageOuterRadius, 
+				1.f, 
+				UDamageType::StaticClass(), 
+				TArray<AActor*>(), 
+				this, 
+				FiringController 
+			);
+		}
 	}
 }
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherHitComp, 

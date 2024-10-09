@@ -4,11 +4,14 @@
 #include "WeaponActor.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+
 #include "Multiplayertest/Character/ShooterPlayer.h"
+#include "Multiplayertest/PlayerController/ShooterPlayerController.h"
+#include "Multiplayertest/Components/CombatComponent.h"
+
 #include "Animation/AnimationAsset.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Net/UnrealNetwork.h"
-#include "Multiplayertest/PlayerController/ShooterPlayerController.h"
 
 
 AWeaponActor::AWeaponActor()
@@ -102,6 +105,10 @@ void AWeaponActor::OnRep_Ammo()
 	ShooterCharacter = ShooterCharacter == nullptr ? Cast<AShooterPlayer>(GetOwner()) : ShooterCharacter;
 	SetHUDAmmo();
 
+	if (ShooterCharacter && ShooterCharacter->GetCombat() && IsFull())
+	{
+		ShooterCharacter->GetCombat()->JumpToShotgunEnd();
+	}
 }
 
 
@@ -161,6 +168,11 @@ void AWeaponActor::SetWeaponState(EWeaponState State)
 bool AWeaponActor::IsEmpty()
 {
 	return Ammo <= 0;
+}
+
+bool AWeaponActor::IsFull()
+{
+	return Ammo ==MagCapacity;
 }
 
 void AWeaponActor::OnRep_WeaponState()

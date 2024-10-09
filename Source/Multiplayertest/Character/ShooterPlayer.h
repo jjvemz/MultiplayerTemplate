@@ -43,6 +43,9 @@ public:
 
 	UPROPERTY(Replicated)
 	bool bDisableGameplay = false;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowSniperScopeWidget(bool bShowScope);
 
 protected:
 	
@@ -192,5 +195,6 @@ public:
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	FORCEINLINE UCombatComponent* GetCombat() const { return CombatComp; }
 	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
+	FORCEINLINE UAnimMontage* GetReloadMontage() const { return ReloadMontage; }
 	ECombatState GetCombatState() const;
 };

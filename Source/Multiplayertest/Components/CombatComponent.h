@@ -29,7 +29,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void FinishReloading();
+
 	void FireButtonPressed(bool bPressed);
+
+	UFUNCTION(BlueprintCallable)
+	void ShotgunShellReload();
+
+	void JumpToShotgunEnd();
 
 protected:
 	virtual void BeginPlay() override;
@@ -78,7 +84,7 @@ private:
 	class AWeaponActor* EquippedWeapon;
 
 	UPROPERTY(Replicated)
-	bool bAiming;
+	bool bAiming = false;
 
 	UPROPERTY(EditAnywhere)
 	float BaseWalkSpeed;
@@ -155,6 +161,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	int32 StartingSniperRifleAmmo = 0;
 
+	UPROPERTY(EditAnywhere)
+	int32 StartingGrenadeLauncherAmmo = 0;
+
 	UPROPERTY(ReplicatedUsing = OnRep_CombatState)
 	ECombatState CombatState = ECombatState::ECS_Unoccupied;
 
@@ -162,6 +171,8 @@ private:
 	void OnRep_CombatState();
 
 	void UpdateAmmoValues();
+
+	void UpdateShotgunAmmoValues();
 
 	void InitializeCarriedAmmo();
 public:	

@@ -177,7 +177,19 @@ void AShooterPlayer::MulticastElim_Implementation()
 			GetActorLocation()
 		);
 	}
+
+	bool bHideScope = IsLocallyControlled() &&
+		CombatComp &&
+		CombatComp->bAiming &&
+		CombatComp->EquippedWeapon &&
+		CombatComp->EquippedWeapon->GetWeaponType() == EWeaponType::EWT_SniperRifle;
+
+	if (bHideScope) {
+		ShowSniperScopeWidget(false);
+	}
+
 }
+
 
 void AShooterPlayer::BeginPlay()
 {
@@ -426,18 +438,27 @@ void AShooterPlayer::PlayReloadMontage()
 			break;
 
 		case EWeaponType::EWT_RocketLauncher:
-			SectionName = FName("Rifle");
+			SectionName = FName("RocketLauncher");
+			break;
+
+		case EWeaponType::EWT_Pistol:
+			SectionName = FName("Pistol");
 			break;
 
 		case EWeaponType::EWT_SubmachineGun:
-			SectionName = FName("Rifle");
+			SectionName = FName("Pistol");
 			break;
-
+		
 		case EWeaponType::EWT_Shotgun:
-			SectionName = FName("Rifle");
+			SectionName = FName("Shotgun");
 			break;
-		case EWeaponType::EWT_SniperRifle:
-			SectionName = FName("Rifle");
+		
+		case EWeaponType::EWT_SniperRifle:	
+			SectionName = FName("SniperRifle");
+			break;
+		
+		case EWeaponType::EWT_GrenadeLauncher:
+			SectionName = FName("GrenadeLauncher");			
 			break;
 		}
 
