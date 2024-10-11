@@ -62,6 +62,9 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void ServerThrowGrenade();
 
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<class AProjectile> GrenadeClass;
+
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
 
