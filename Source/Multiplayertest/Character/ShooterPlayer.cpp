@@ -12,6 +12,9 @@
 
 #include "Multiplayertest/Weapons/WeaponActor.h"
 #include "Multiplayertest/Components/CombatComponent.h"
+#include "Multiplayertest/Components/LagCompensationComponent.h"
+#include "Multiplayertest/Components/BuffComponent.h"
+
 #include "Multiplayertest/Multiplayertest.h"
 #include "Multiplayertest/PlayerController/ShooterPlayerController.h"
 #include "Multiplayertest/GameMode/ShooterPlayerGameMode.h"
@@ -24,6 +27,7 @@
 #include "Net/UnrealNetwork.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Components/BoxComponent.h"
 
 
 AShooterPlayer::AShooterPlayer()
@@ -41,6 +45,7 @@ AShooterPlayer::AShooterPlayer()
 
     bUseControllerRotationYaw = false;
     GetCharacterMovement()->bOrientRotationToMovement = true;
+    
     /*
     OverHeadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
     OverHeadWidget->SetupAttachment(RootComponent);
@@ -49,6 +54,12 @@ AShooterPlayer::AShooterPlayer()
 
     CombatComp = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
     CombatComp->SetIsReplicated(true);
+
+    BuffComp = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
+    BuffComp->SetIsReplicated(true);
+     
+    LagCompensationComp = CreateDefaultSubobject<ULagCompensationComponent>(TEXT("LagCompensationComponent"));
+
 
     GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
@@ -66,6 +77,102 @@ AShooterPlayer::AShooterPlayer()
     AttachedGrenade = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Attached Grenade"));
     AttachedGrenade->SetupAttachment(GetMesh(), FName("GrenadeSocket"));
     AttachedGrenade->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    head = CreateDefaultSubobject<UBoxComponent>(TEXT("head"));
+    head->SetupAttachment(GetMesh(), FName("head"));
+    HitCollisionBoxes.Add(FName("head"), head);
+
+    pelvis = CreateDefaultSubobject<UBoxComponent>(TEXT("Pelvis"));
+    pelvis->SetupAttachment(GetMesh(), FName("Pelvis"));
+    HitCollisionBoxes.Add(FName("Pelvis"), pelvis);
+
+    spine_02 = CreateDefaultSubobject<UBoxComponent>(TEXT("spine_02"));
+    spine_02->SetupAttachment(GetMesh(), FName("spine_02"));
+    HitCollisionBoxes.Add(FName("spine_02"), spine_02);
+
+
+    spine_03 = CreateDefaultSubobject<UBoxComponent>(TEXT("spine_03"));
+    spine_03->SetupAttachment(GetMesh(), FName("spine_03"));
+    HitCollisionBoxes.Add(FName("spine_03"), spine_03);
+
+    
+    upperarm_l = CreateDefaultSubobject<UBoxComponent>(TEXT("UpperArm_L"));
+    upperarm_l->SetupAttachment(GetMesh(), FName("UpperArm_L"));
+    HitCollisionBoxes.Add(FName("UpperArm_L"), upperarm_l);
+
+    
+    upperarm_r = CreateDefaultSubobject<UBoxComponent>(TEXT("UpperArm_R"));
+    upperarm_r->SetupAttachment(GetMesh(), FName("UpperArm_R"));
+    HitCollisionBoxes.Add(FName("UpperArm_R"), upperarm_r);
+
+    lowerarm_l = CreateDefaultSubobject<UBoxComponent>(TEXT("lowerarm_l"));
+    lowerarm_l->SetupAttachment(GetMesh(), FName("lowerarm_l"));
+    HitCollisionBoxes.Add(FName("lowerarm_l"), lowerarm_l);
+
+    
+    lowerarm_r = CreateDefaultSubobject<UBoxComponent>(TEXT("lowerarm_r"));
+    lowerarm_r->SetupAttachment(GetMesh(), FName("lowerarm_r"));
+    HitCollisionBoxes.Add(FName("lowerarm_r"), lowerarm_r);
+
+    hand_l = CreateDefaultSubobject<UBoxComponent>(TEXT("Hand_L"));
+    hand_l->SetupAttachment(GetMesh(), FName("Hand_L"));
+    HitCollisionBoxes.Add(FName("Hand_L"), hand_l);
+
+    
+    hand_r = CreateDefaultSubobject<UBoxComponent>(TEXT("Hand_R"));
+    hand_r->SetupAttachment(GetMesh(), FName("Hand_R"));
+    HitCollisionBoxes.Add(FName("Hand_R"), hand_r);
+
+    
+    blanket = CreateDefaultSubobject<UBoxComponent>(TEXT("blanket"));
+    blanket->SetupAttachment(GetMesh(), FName("backpack"));
+    HitCollisionBoxes.Add(FName("blanket"), blanket);
+
+    
+    backpack = CreateDefaultSubobject<UBoxComponent>(TEXT("backpack"));
+    backpack->SetupAttachment(GetMesh(), FName("backpack"));
+    HitCollisionBoxes.Add(FName("backpack"), backpack);
+
+    
+    thigh_l = CreateDefaultSubobject<UBoxComponent>(TEXT("Thigh_L"));
+    thigh_l->SetupAttachment(GetMesh(), FName("Thigh_L"));
+    HitCollisionBoxes.Add(FName("Thigh_L"), thigh_l);
+
+    
+    thigh_r = CreateDefaultSubobject<UBoxComponent>(TEXT("Thigh_R"));
+    thigh_r->SetupAttachment(GetMesh(), FName("Thigh_R"));
+    HitCollisionBoxes.Add(FName("Thigh_R"), thigh_r);
+
+    
+    calf_l = CreateDefaultSubobject<UBoxComponent>(TEXT("calf_l"));
+    calf_l->SetupAttachment(GetMesh(), FName("calf_l"));
+    HitCollisionBoxes.Add(FName("calf_l"), calf_l);
+
+    
+    calf_r = CreateDefaultSubobject<UBoxComponent>(TEXT("calf_r"));
+    calf_r->SetupAttachment(GetMesh(), FName("calf_r"));
+    HitCollisionBoxes.Add(FName("calf_r"), calf_r);
+
+    
+    foot_l = CreateDefaultSubobject<UBoxComponent>(TEXT("Foot_L"));
+    foot_l->SetupAttachment(GetMesh(), FName("Foot_L"));
+    HitCollisionBoxes.Add(FName("Foot_L"), foot_l);
+    
+    foot_r = CreateDefaultSubobject<UBoxComponent>(TEXT("Foot_R"));
+    foot_r->SetupAttachment(GetMesh(), FName("Foot_R"));
+    HitCollisionBoxes.Add(FName("Foot_R"), foot_r);
+
+
+    for (auto Box : HitCollisionBoxes)
+    {
+        if (Box.Value)
+        {
+            Box.Value->SetCollisionObjectType(ECC_HitBox);
+            Box.Value->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+            Box.Value->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
+            Box.Value->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        }
+    }
 }
 
 
@@ -97,6 +204,7 @@ void AShooterPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 
     DOREPLIFETIME_CONDITION(AShooterPlayer, OverlappingWeapon, COND_OwnerOnly);
     DOREPLIFETIME(AShooterPlayer, CurrHealth);
+    DOREPLIFETIME(AShooterPlayer, CurrShield);
     DOREPLIFETIME(AShooterPlayer, bDisableGameplay);
 
 }
@@ -111,6 +219,10 @@ void AShooterPlayer::OnRep_ReplicatedMovement()
 void AShooterPlayer::Elim()
 {
     if (CombatComp && CombatComp->EquippedWeapon)
+    {
+        CombatComp->EquippedWeapon->Destroy();
+    }
+    else 
     {
         CombatComp->EquippedWeapon->DroppedWeapon();
     }
@@ -200,18 +312,18 @@ void AShooterPlayer::BeginPlay()
 {
     Super::BeginPlay();
 
+    SpawnDefaultWeapon();
+    UpdateHUDAmmo();
     UpdateHUDHealth();
+    UpdateHUDShield();
     if (HasAuthority())
     {
-
         OnTakeAnyDamage.AddDynamic(this, &AShooterPlayer::ReceiveDamage);
-
     }
+
     if (AttachedGrenade)
     {
-
         AttachedGrenade->SetVisibility(false);
-
     }
 }
 
@@ -230,6 +342,23 @@ void AShooterPlayer::PostInitializeComponents()
     if (CombatComp)
     {
         CombatComp->Character = this;
+    }
+    if (BuffComp)
+    {
+        BuffComp->Character = this;
+        BuffComp->SetInitialSpeeds(
+            GetCharacterMovement()->MaxWalkSpeed,
+            GetCharacterMovement()->MaxWalkSpeedCrouched
+        );
+        BuffComp->SetInitialJumpVelocity(GetCharacterMovement()->JumpZVelocity);
+    }
+    if (LagCompensationComp)
+    {
+        LagCompensationComp->ShooterCharacter = this;
+        if (Controller)
+        {
+            LagCompensationComp->ShooterController = Cast<AShooterPlayerController>(Controller);
+        }
     }
 }
 
@@ -299,17 +428,7 @@ void AShooterPlayer::EquippedPressedButton()
     if (bDisableGameplay) return;
     if (CombatComp)
     {
-        UE_LOG(LogTemp, Warning, TEXT("Deberia tomar el arma"));
-        if (HasAuthority())
-        {
-            CombatComp->EquipWeapon(OverlappingWeapon);
-            UE_LOG(LogTemp, Warning, TEXT("EquippedWeapon is set to: %s"), *CombatComp->GetClass()->GetName());
-
-        }
-        else
-        {
-            ServerEquippedButtonPressed();
-        }
+        ServerEquippedButtonPressed();
     }
 }
 
@@ -318,6 +437,14 @@ void AShooterPlayer::ServerEquippedButtonPressed_Implementation()
     if (CombatComp)
     {
         CombatComp->EquipWeapon(OverlappingWeapon);
+        if (OverlappingWeapon) 
+        {
+            CombatComp->EquipWeapon(OverlappingWeapon);
+        }
+        else if (CombatComp->ShouldSwapWeapons())
+        {
+            CombatComp->SwapWeapons();
+        }
     }
 
 }
@@ -425,6 +552,35 @@ void AShooterPlayer::PlayHitReactMontage()
     }
 }
 
+void AShooterPlayer::DropOrDestroyWeapon(AWeaponActor* Weapon)
+{
+    if (Weapon == nullptr) return;
+
+    if (Weapon->bDestroyWeapon)
+    {
+        Weapon->Destroy();
+    }
+    else
+    {
+        Weapon->DroppedWeapon();
+    }
+}
+
+void AShooterPlayer::DropOrDestroyWeapons()
+{
+    if (CombatComp)
+    {
+        if (CombatComp->EquippedWeapon)
+        {
+            DropOrDestroyWeapon(CombatComp->EquippedWeapon);
+        }
+        if (CombatComp->SecondaryWeapon)
+        {
+            DropOrDestroyWeapon(CombatComp->SecondaryWeapon);
+        }
+    }
+}
+
 void AShooterPlayer::PlayEliminationMontage()
 {
     UAnimInstance* AnimationInstance = GetMesh()->GetAnimInstance();
@@ -495,13 +651,34 @@ void AShooterPlayer::PlayThrowGrenadeMontage()
 void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType,
     AController* InstigatorController, AActor* DamageCausor)
 {
-    CurrHealth = FMath::Clamp(CurrHealth - Damage, 0.f, MaxHealth);
+    if (bIsEliminated) return;
+
+    float DamageToHealth = Damage;
+    if (CurrShield > 0.f) 
+    {
+        if (CurrShield >= Damage)
+        {
+            CurrShield = FMath::Clamp(CurrShield - Damage, 0.f, MaxShield);
+            DamageToHealth = 0.f;
+        }
+        else 
+        {
+            CurrShield = 0;
+            CurrShield = FMath::Clamp(DamageToHealth, 0.f, Damage);
+
+        }
+    }
+    CurrHealth = FMath::Clamp(CurrHealth - DamageToHealth, 0.f, MaxHealth);
+
     UpdateHUDHealth();
+    UpdateHUDShield();
     PlayHitReactMontage();
-    AShooterPlayerGameMode* ShooterGameMode = GetWorld()->GetAuthGameMode<AShooterPlayerGameMode>();
+
 
     if (CurrHealth == 0.f)
     {
+        AShooterPlayerGameMode* ShooterGameMode = GetWorld()->GetAuthGameMode<AShooterPlayerGameMode>();
+
         if (ShooterGameMode)
         {
             ShooterPlayerController = ShooterPlayerController == NULL ?
@@ -522,6 +699,42 @@ void AShooterPlayer::UpdateHUDHealth()
     if (ShooterPlayerController)
     {
         ShooterPlayerController->SetHUDHealth(CurrHealth, MaxHealth);
+    }
+}
+
+void AShooterPlayer::UpdateHUDShield()
+{
+    ShooterPlayerController = ShooterPlayerController == nullptr ? Cast<AShooterPlayerController>(Controller) : ShooterPlayerController;
+    if (ShooterPlayerController)
+    {
+        ShooterPlayerController->SetHUDShield(CurrShield, MaxShield);
+    }
+}
+
+void AShooterPlayer::UpdateHUDAmmo()
+{
+    ShooterPlayerController = ShooterPlayerController == nullptr ? Cast<AShooterPlayerController>(Controller) : ShooterPlayerController;
+    if (ShooterPlayerController && CombatComp && CombatComp->EquippedWeapon)
+    {
+        ShooterPlayerController->SetHUDcarriedAmmo(CombatComp->CarriedAmmo);
+        ShooterPlayerController->SetHUDWeaponAmmo(CombatComp->EquippedWeapon->GetAmmo());
+
+    }
+
+}
+
+void AShooterPlayer::SpawnDefaultWeapon()
+{
+    AShooterPlayerGameMode* ShooterPlayerGameMode = Cast<AShooterPlayerGameMode>(UGameplayStatics::GetGameMode(this));
+    UWorld* World = GetWorld();
+
+    if (ShooterPlayerGameMode && World && !bIsEliminated && DefaultWeapon)
+    {
+        AWeaponActor* StartingWeapon = World->SpawnActor<AWeaponActor>(DefaultWeapon);
+        if (CombatComp)
+        {
+            CombatComp->EquipWeapon(StartingWeapon);
+        }
     }
 }
 
@@ -689,10 +902,23 @@ void AShooterPlayer::ElimTimerFinished()
 
 }
 
-void AShooterPlayer::OnRep_Health()
+void AShooterPlayer::OnRep_Health(float LastHealth)
 {
     UpdateHUDHealth();
-    PlayHitReactMontage();
+    if (CurrHealth < LastHealth) 
+    {
+        PlayHitReactMontage();
+
+    }
+}
+
+void AShooterPlayer::OnRep_Shield(float LastShield)
+{
+    UpdateHUDShield();
+    if (CurrShield < LastShield)
+    {
+        PlayHitReactMontage();
+    }
 }
 
 void AShooterPlayer::SetOverlappingWeapon(AWeaponActor* Weapon)
@@ -737,6 +963,12 @@ AWeaponActor* AShooterPlayer::GetEquippedWeapon()
 {
     if (CombatComp == nullptr) return nullptr;
     return CombatComp->EquippedWeapon;
+}
+
+bool AShooterPlayer::IsLocallyReloading()
+{
+    if (CombatComp == nullptr) return false;
+    return CombatComp->bLocallyReloading;
 }
 
 ECombatState AShooterPlayer::GetCombatState() const
