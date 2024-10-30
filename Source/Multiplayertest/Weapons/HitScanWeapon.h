@@ -18,8 +18,6 @@ public:
 	virtual void Fire(const FVector& HitTarget) override;
 
 protected:
-
-	FVector TraceEndWithScatter(const FVector& TraceStart, const FVector& HitTarget);
 	
 	void WeaponTraceHit(const FVector& TraceStart, const FVector& HitTarget, FHitResult& OutHit);
 
@@ -28,9 +26,6 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	USoundCue* HitSound;
-
-	UPROPERTY(EditAnywhere)
-	float Damage = 20.f;
 
 
 private:
@@ -46,14 +41,4 @@ private:
 
 
 
-	//El trazo termina con un esparcimiento de balas
-
-	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
-	float distanceToSphere = 800.f;
-
-	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
-	float SphereRadius = 75.f;
-
-	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
-	bool bUseScatter = false;
 };

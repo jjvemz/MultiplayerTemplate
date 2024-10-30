@@ -16,11 +16,15 @@ class MULTIPLAYERTEST_API AShooterPlayerController : public APlayerController
 	
 public:
 	void SetHUDHealth(float CurrHealth, float MaxHealth);
+    void SetHUDShield(float CurrShield, float MaxShield);
 	virtual void OnPossess(APawn* InPawn) override;
 	void SetHUDScore(float Score);
 	void SetHUDDefeats(int32 Defeats);
+
 	void SetHUDWeaponAmmo(int32 Ammo);
 	void SetHUDcarriedAmmo(int32 Ammo);
+    void SetHUDGrenades(int32 Grenades);
+
 	void SetHUDMatchCountdown(float CountdownTime);
 	void SetHUDAnnouncementCountdown(float CountdownTime);
 
@@ -35,7 +39,7 @@ public:
 	void HandleMatchHasStarted();
 	void HandleCooldown();
 
-
+    float SingleTripTime = 0;
 protected:
 
 	virtual void BeginPlay() override;
@@ -64,6 +68,10 @@ protected:
 	UFUNCTION(Client, Reliable)
 	void ClientJoinMidgame(FName StateOfMatch, float Warmup, float Match, float Cooldown, float StartingTime);
 
+    void HighPingWarning();
+    void StopHighPingWarning();
+    void CheckPing(float DeltaTime);
+
 private:
 
 
@@ -85,8 +93,40 @@ private:
 	UPROPERTY()
 	class UCharacterOverlay* CharacterOverlay;
 	bool bInitializeCharacterOverlay = false;
-	float HUDHealth;
+	
+    float HUDHealth;
 	float HUDMaxHealth;
-	float HUDScore;
+    bool bInitializeHealth = false;
+	
+    float HUDScore; 
+    bool bInitializeScore = false;
+
 	int32 HUDDefeats;
+    bool bInitializeDefeats = false;
+
+    int32 HUDGrenades;
+    bool bInitializeGrenades = false;
+
+    float HUDShield;
+    float HUDMaxShield;
+    bool bInitializeShield = false;
+
+    float HUDCarriedAmmo;
+    bool bInitializeCarriedAmmo = false;
+
+    float HUDWeaponAmmo;
+    bool bInitializeWeaponAmmo = false;
+
+    float HighPingRunningTime = 0.f;
+
+    UPROPERTY(EditAnywhere)
+    float HighPingDuration = 5.f;
+
+    float PingAnimRuningTime = 0.f;
+
+    UPROPERTY(EditAnywhere)
+    float CheckPingFrequency = 20.f;
+
+    UPROPERTY(EditAnywhere)
+    float HighPingThreshold = 50.f;
 };

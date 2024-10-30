@@ -7,10 +7,14 @@
 #include "particles/ParticleSystemComponent.h"
 #include "Sound/SoundCue.h"
 #include "Kismet/KismetMathLibrary.h"
+
+#include "Multiplayertest/Character/ShooterPlayer.h"
+#include "Multiplayertest/PlayerController/ShooterPlayerController.h"
+#include "Multiplayertest/Components/LagCompensationComponent.h"
 #include "WeaponTypes.h"
 #include "DrawDebugHelpers.h"
 
-#include "Multiplayertest/Character//ShooterPlayer.h"
+
 
 void AHitScanWeapon::Fire(const FVector& HitTarget)
 {
@@ -30,15 +34,35 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 		WeaponTraceHit(Start, HitTarget, FireHit);
 
 		AShooterPlayer* ShooterPlayer = Cast<AShooterPlayer>(FireHit.GetActor());
-		if (ShooterPlayer && HasAuthority() && InstigatorController)
+		if (ShooterPlayer && InstigatorController)
 		{
-			UGameplayStatics::ApplyDamage(
-				ShooterPlayer,
-				Damage,
-				InstigatorController,
-				this,
-				UDamageType::StaticClass()
-			);
+            if (HasAuthority() && !bUseServerSideRewind)
+            {
+                UGameplayStatics::ApplyDamage(
+                    ShooterPlayer,
+                    Damage,
+                    InstigatorController,
+                    this,
+                    UDamageType::StaticClass()
+                );
+            }
+            if (!HasAuthority() && bUseServerSideRewind)
+            {
+                ShooterCharacter = ShooterCharacter == nullptr ? Cast<AShooterPlayer>(OwnerPawn) : ShooterCharacter;
+                ShooterOwnerController = ShooterOwnerController == nullptr ? Cast<AShooterPlayerController>(InstigatorController) : ShooterOwnerController;
+                if (ShooterOwnerController && ShooterCharacter 
+                    && ShooterCharacter->GetLagCompensation() && ShooterCharacter->IsLocallyControlled())
+                {
+                    ShooterCharacter->GetLagCompensation()->ServerScoreRequest(
+                        ShooterCharacter,
+                        Start,
+                        HitTarget,
+                        ShooterOwnerController->GetServerTime() - ShooterOwnerController->SingleTripTime,
+                        this
+                    );
+                }
+            }
+			
 		}
 		if (ImpactParticles)
 		{
@@ -76,7 +100,7 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 		}
 	}
 }
-
+/*
 FVector AHitScanWeapon::TraceEndWithScatter(const FVector& TraceStart, const FVector& HitTarget)
 {
 	FVector ToTargetNormalized = (HitTarget - TraceStart).GetSafeNormal();
@@ -94,28 +118,33 @@ FVector AHitScanWeapon::TraceEndWithScatter(const FVector& TraceStart, const FVe
 		FVector(TraceStart + ToEndLoc * TRACE_LENGTH / ToEndLoc.Size()),
 		FColor::Cyan,
 		true);*/
-
+/*
 	return FVector(TraceStart + ToEndLoc * TRACE_LENGTH / ToEndLoc.Size());
 }
+*/
 
 void AHitScanWeapon::WeaponTraceHit(const FVector& TraceStart, const FVector& HitTarget, FHitResult& OutHit)
 {
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		FVector End = bUseScatter ? TraceEndWithScatter(TraceStart, HitTarget) : TraceStart + (HitTarget - TraceStart) * 1.25f;
-
+        FVector End = TraceStart + (HitTarget - TraceStart) * 1.25f;
 		World->LineTraceSingleByChannel(
 			OutHit,
 			TraceStart,
 			End,
 			ECollisionChannel::ECC_Visibility
 		);
-		FVector BeamEnd = End;
-		if (OutHit.bBlockingHit)
+		
+        FVector BeamEnd = End;
+		
+        if (OutHit.bBlockingHit)
 		{
 			BeamEnd = OutHit.ImpactPoint;
 		}
+
+        DrawDebugSphere(GetWorld(), BeamEnd, 16.f, 12, FColor::Orange, true);
+
 		if (BeamParticles)
 		{
 			UParticleSystemComponent* Beam = UGameplayStatics::SpawnEmitterAtLocation(

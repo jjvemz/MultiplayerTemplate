@@ -31,6 +31,19 @@ public:
 	 UPROPERTY(meta = (BindWidget))
 	 UTextBlock* MagCapacity;
 
+     UPROPERTY(meta = (BindWidget))
+     UTextBlock* GrenadesText;
+
 	 UPROPERTY(meta = (BindWidget))
 	 UTextBlock* MatchCountdownText;
+
+     UPROPERTY(meta = (BindWidget))
+     UProgressBar* ShieldBar;
+
+     UPROPERTY(meta = (BindWidget))
+     class UImage* HighPingImage;
+
+     UPROPERTY(meta = (BindWidgetAnim), Transient)
+     UWidgetAnimation* HighPingAnim;
+  
 };

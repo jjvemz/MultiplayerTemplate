@@ -17,6 +17,18 @@ public:
 
 	virtual void Destroyed() override;
 
+    //Usarlos para el Server Side Rewind
+
+    bool bUseServerSideRewind = false;
+    FVector_NetQuantize TraceStart;
+    FVector_NetQuantize100 InitialVelocity;
+
+    UPROPERTY(EditAnywhere)
+    float InitialSpeed = 15000;
+
+    UPROPERTY(EditAnywhere)
+    float Damage = 20.f;
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -32,8 +44,7 @@ protected:
 	UFUNCTION()
 	virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherHitComp, FVector NormalImpulse, const FHitResult& Hit);
 
-	UPROPERTY(EditAnywhere)
-	float Damage = 15.f;
+
 
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* ImpactParticles;

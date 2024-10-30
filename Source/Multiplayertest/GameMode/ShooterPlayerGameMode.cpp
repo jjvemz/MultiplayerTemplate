@@ -113,6 +113,7 @@ void AShooterPlayerGameMode::RequestRespawn(ACharacter* EliminatedCharacter, ACo
 
 	if (EliminatedController)
 	{
+        UE_LOG(LogTemp, Warning, TEXT("ElimmedController valid"))
 		TArray<AActor*> LevelPlayer;
 		UGameplayStatics::GetAllActorsOfClass(this, APlayerStart::StaticClass(), LevelPlayer);
 		int32 Selection = FMath::RandRange(0, LevelPlayer.Num()-1);

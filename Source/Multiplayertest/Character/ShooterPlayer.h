@@ -10,6 +10,7 @@
 #include "Multiplayertest/BlasterTypes/TurnInPlace.h"
 #include "Multiplayertest/PlayerState/ShooterPlayerState.h"
 #include "Multiplayertest/BlasterTypes/CombatState.h"
+#include "Multiplayertest/Weapons/Projectile.h"
 
 #include "ShooterPlayer.generated.h"
 
@@ -17,196 +18,303 @@
 UCLASS()
 class MULTIPLAYERTEST_API AShooterPlayer : public ACharacter, public IInteractCrosshairsInterface
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	AShooterPlayer();
-	
-	virtual void Tick(float DeltaTime) override;
+    AShooterPlayer();
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	virtual void PostInitializeComponents() override;
+    virtual void Tick(float DeltaTime) override;
 
-	void PlayShootingMontage(bool bAiming);
-	void PlayEliminationMontage();
-	void PlayReloadMontage();
-	void PlayThrowGrenadeMontage();
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    virtual void PostInitializeComponents() override;
 
-	virtual void OnRep_ReplicatedMovement() override;
-	
-	void Elim();
+    //Animation Montages del personaje
+    void PlayShootingMontage(bool bAiming);
+    void PlayEliminationMontage();
+    void PlayReloadMontage();
+    void PlayThrowGrenadeMontage();
 
-	UFUNCTION(NetMulticast, Reliable)
-	void MulticastElim();
+    //Metodos del HUD
+    void UpdateHUDHealth();
+    void UpdateHUDShield();
+    void UpdateHUDAmmo();
 
-	virtual void Destroyed() override;
+    void SpawnDefaultWeapon();
 
-	UPROPERTY(Replicated)
-	bool bDisableGameplay = false;
-	
-	UFUNCTION(BlueprintImplementableEvent)
-	void ShowSniperScopeWidget(bool bShowScope);
+    UPROPERTY()
+    TMap<FName, class UBoxComponent*> HitCollisionBoxes;
+
+
+    virtual void OnRep_ReplicatedMovement() override;
+
+    void Elim();
+
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastElim();
+
+    virtual void Destroyed() override;
+
+    UPROPERTY(Replicated)
+    bool bDisableGameplay = false;
+
+    UFUNCTION(BlueprintImplementableEvent)
+    void ShowSniperScopeWidget(bool bShowScope);
 
 protected:
-	
-	virtual void BeginPlay() override;
 
-	void Forward(float value);
-	void Right(float value);
-	void Turn(float value);
-	void Yaw(float value);
-	
-	virtual void Jump() override;
+    virtual void BeginPlay() override;
 
-	void EquippedPressedButton();
-	void CrouchButtonPressed();
-	
-	void AimButtonPressed();
-	void AimButtonReleased();
+    void Forward(float value);
+    void Right(float value);
+    void Turn(float value);
+    void Yaw(float value);
 
-	void AimOffset(float DeltaTime);
-	void CalculateAO_Pitch();
-	void SimProxiesTurn();
+    virtual void Jump() override;
 
-	void FireButtonPressed();
-	void FireButtonReleased();
+    void EquippedPressedButton();
+    void CrouchButtonPressed();
 
-	void ReloadButtonPressed();
-	void GrenadeButtonPressed();
+    void AimButtonPressed();
+    void AimButtonReleased();
 
-	void PlayHitReactMontage();
+    void AimOffset(float DeltaTime);
+    void CalculateAO_Pitch();
+    void SimProxiesTurn();
 
-	UFUNCTION()
-	void ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCausor);
-	void UpdateHUDHealth();
+    void FireButtonPressed();
+    void FireButtonReleased();
 
-	void PollInit();
-	void RotateInPlace(float DeltaTime);
+    void ReloadButtonPressed();
+    void GrenadeButtonPressed();
+
+    void PlayHitReactMontage();
+
+    void DropOrDestroyWeapon(AWeaponActor* Weapon);
+    void DropOrDestroyWeapons();
+
+    UFUNCTION()
+    void ReceiveDamage(AActor* DamagedACtor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCausor);
+
+    void PollInit();
+    void RotateInPlace(float DeltaTime);
+
+
+    //HitBoxes para el Server Side rewind
+
+    UPROPERTY(EditAnywhere)
+    class UBoxComponent* head;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* pelvis;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* spine_02;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* spine_03;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* upperarm_l;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* upperarm_r;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* lowerarm_l;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* lowerarm_r;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* hand_l;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* hand_r;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* backpack;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* blanket;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* thigh_l;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* thigh_r;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* calf_l;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* calf_r;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* foot_l;
+
+    UPROPERTY(EditAnywhere)
+    UBoxComponent* foot_r;
+
 private:
-	UPROPERTY(VisibleAnywhere, Category = Camera)
-	class USpringArmComponent* CameraBoom;
+    UPROPERTY(VisibleAnywhere, Category = Camera)
+    class USpringArmComponent* CameraBoom;
 
-	UPROPERTY(VisibleAnywhere, Category = Camera)
-	class UCameraComponent* FollowCamera;
+    UPROPERTY(VisibleAnywhere, Category = Camera)
+    class UCameraComponent* FollowCamera;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UWidgetComponent* OverHeadWidget; */
+    /*UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    class UWidgetComponent* OverHeadWidget; */
 
-	UPROPERTY(ReplicatedUsing = OnRep_OverlappingWeapon)
-	class AWeaponActor* OverlappingWeapon;
+    UPROPERTY(ReplicatedUsing = OnRep_OverlappingWeapon)
+    class AWeaponActor* OverlappingWeapon;
 
-	UFUNCTION()
-	void OnRep_OverlappingWeapon(AWeaponActor* LastWeapon);
+    UFUNCTION()
+    void OnRep_OverlappingWeapon(AWeaponActor* LastWeapon);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UCombatComponent* CombatComp;
+    //ShooterPlayer components
 
-	UFUNCTION(Server, Reliable)
-	void ServerEquippedButtonPressed();
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    class UCombatComponent* CombatComp;
 
-	float AO_Yaw;
-	float InterptAO_Way;
-	float AO_Pitch;
-	FRotator StartingAimRotation;
+    UPROPERTY(VisibleAnywhere)
+    class ULagCompensationComponent* LagCompensationComp;
 
-	ETurningInPlace TurningInPlace;
-	void TurnInPlace(float DeltaTime);
+    UPROPERTY(VisibleAnywhere)
+    class UBuffComponent* BuffComp;
 
-	UPROPERTY(EditAnywhere, Category= Combat)
-	class UAnimMontage* FireWeaponMontage;
+    UFUNCTION(Server, Reliable)
+    void ServerEquippedButtonPressed();
 
-	UPROPERTY(EditAnywhere, Category = Combat)
-	class UAnimMontage* HitReactMontage;
+    float AO_Yaw;
+    float InterptAO_Way;
+    float AO_Pitch;
+    FRotator StartingAimRotation;
 
-	UPROPERTY(EditAnywhere, Category = Combat)
-	class UAnimMontage* EliminationMontage;
+    ETurningInPlace TurningInPlace;
+    void TurnInPlace(float DeltaTime);
 
-	UPROPERTY(EditAnywhere, Category = Combat)
-	class UAnimMontage* ReloadMontage;
+    UPROPERTY(EditAnywhere, Category = Combat)
+    class UAnimMontage* FireWeaponMontage;
 
-	UPROPERTY(EditAnywhere, Category = Combat)
-	UAnimMontage* ThrowGrenadeMontage;
+    UPROPERTY(EditAnywhere, Category = Combat)
+    class UAnimMontage* HitReactMontage;
 
-	void HideCameraIfTheCaharacterisClose();
+    UPROPERTY(EditAnywhere, Category = Combat)
+    class UAnimMontage* EliminationMontage;
 
-	UPROPERTY(EditAnywhere, Category = CameraTweaks)
-	float CameraThreshold = 200.f;
+    UPROPERTY(EditAnywhere, Category = Combat)
+    class UAnimMontage* ReloadMontage;
 
-	bool bRotateRootBone;
+    UPROPERTY(EditAnywhere, Category = Combat)
+    UAnimMontage* ThrowGrenadeMontage;
 
-	UPROPERTY(EditAnywhere, Category = CameraTweaks)
+    void HideCameraIfTheCaharacterisClose();
 
-	float TurnThreshold = 0.5f;
+    UPROPERTY(EditAnywhere, Category = CameraTweaks)
+    float CameraThreshold = 200.f;
 
-	FRotator ProxyRotationLastFrame;
-	FRotator ProxyRotation;
+    bool bRotateRootBone;
 
-	float ProxyYaw;
-	float TimeSinceLastMovementReplication;
-	float CalculateSpeed();
+    UPROPERTY(EditAnywhere, Category = CameraTweaks)
 
-	//Vida del jugador
+    float TurnThreshold = 0.5f;
 
-	UPROPERTY(EditAnywhere, Category="Player Stats")
-	float MaxHealth = 100.f;
+    FRotator ProxyRotationLastFrame;
+    FRotator ProxyRotation;
 
-	UPROPERTY(ReplicatedUsing= OnRep_Health, VisibleAnywhere, Category="PlayerStats")
-	float CurrHealth = 100.f;
+    float ProxyYaw;
+    float TimeSinceLastMovementReplication;
+    float CalculateSpeed();
 
-	bool bIsEliminated = false;
+    //Vida del jugador
 
-	FTimerHandle ElimTimer;
+    UPROPERTY(EditAnywhere, Category = "Player Stats")
+    float MaxHealth = 100.f;
 
-	UPROPERTY(EditDefaultsOnly)
-	float ElimDelay = 3.f;
+    UPROPERTY(ReplicatedUsing = OnRep_Health, VisibleAnywhere, Category = "PlayerStats")
+    float CurrHealth = 100.f;
 
-	void ElimTimerFinished();
+    bool bIsEliminated = false;
 
-	UFUNCTION()
-	void OnRep_Health();
+    FTimerHandle ElimTimer;
 
-	UPROPERTY()
-	class AShooterPlayerController* ShooterPlayerController;
+    UPROPERTY(EditDefaultsOnly)
+    float ElimDelay = 3.f;
 
-	//Elim Bot
-	UPROPERTY(EditAnywhere)
-	UParticleSystem* ElimBotEffect;
-	
-	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* ElimBotComponent;
-	
-	UPROPERTY(EditAnywhere)
-	class USoundCue* ElimBotSound;
+    void ElimTimerFinished();
 
-	UPROPERTY()
-	class AShooterPlayerState* ShooterPlayerState;
+    UFUNCTION()
+    void OnRep_Health(float LastHealth);
+
+    //Player Shield
+
+    UPROPERTY(EditAnywhere, Category = "Player Stats")
+    float MaxShield = 100.f;
+
+    UPROPERTY(ReplicatedUsing = OnRep_Shield, EditAnywhere, Category = "Player Stats")
+    float CurrShield = 25.f;
+
+    UFUNCTION()
+    void OnRep_Shield(float LastShield);
+
+    UPROPERTY()
+    class AShooterPlayerController* ShooterPlayerController;
+
+    //Elim Bot
+    UPROPERTY(EditAnywhere)
+    UParticleSystem* ElimBotEffect;
+
+    UPROPERTY(VisibleAnywhere)
+    UParticleSystemComponent* ElimBotComponent;
+
+    UPROPERTY(EditAnywhere)
+    class USoundCue* ElimBotSound;
+
+    UPROPERTY()
+    class AShooterPlayerState* ShooterPlayerState;
 
     //Granada
-
     UPROPERTY(VisibleAnywhere)
     UStaticMeshComponent* AttachedGrenade;
 
+    //Arma por defecto
+
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<AWeaponActor> DefaultWeapon;
+
 public:
-	void SetOverlappingWeapon(AWeaponActor* Weapon);
-	bool IsWeaponEquipped();
-	bool IsAiming();
+    void SetOverlappingWeapon(AWeaponActor* Weapon);
+    bool IsWeaponEquipped();
+    bool IsAiming();
 
-	FVector GetHitTarget() const;
-	AWeaponActor* GetEquippedWeapon();
+    FVector GetHitTarget() const;
+    AWeaponActor* GetEquippedWeapon();
 
-	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
-	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
-	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
-	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	FORCEINLINE bool ShouldRotateRootBone() const { return bRotateRootBone; }
-	FORCEINLINE bool IsEliminated() const { return bIsEliminated; }
-	FORCEINLINE float GetCurrHealth() const { return CurrHealth; }
-	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
-	FORCEINLINE UCombatComponent* GetCombat() const { return CombatComp; }
-	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
-	FORCEINLINE UAnimMontage* GetReloadMontage() const { return ReloadMontage; }
+    FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
+    FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
+    FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
+    
+    FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+    FORCEINLINE bool ShouldRotateRootBone() const { return bRotateRootBone; }
+    
+    FORCEINLINE bool IsEliminated() const { return bIsEliminated; }
+
+    FORCEINLINE void SetHealth(float Amount) { CurrHealth = Amount; }
+    FORCEINLINE float GetCurrHealth() const { return CurrHealth; }
+    FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+    
+    FORCEINLINE void SetShield(float Amount) { CurrShield = Amount; }
+    FORCEINLINE float GetShield() const { return CurrShield; }
+    FORCEINLINE float GetMaxShield() const { return MaxShield; }
+
+    FORCEINLINE UCombatComponent* GetCombat() const { return CombatComp; }
+    FORCEINLINE ULagCompensationComponent* GetLagCompensation() const { return LagCompensationComp; }
+    FORCEINLINE UBuffComponent* GetBuff() const { return BuffComp; }
     FORCEINLINE UStaticMeshComponent* GetAttachedGrenade() const { return AttachedGrenade; }
-
-	ECombatState GetCombatState() const;
+    FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
+    FORCEINLINE UAnimMontage* GetReloadMontage() const { return ReloadMontage; }
+    
+    bool IsLocallyReloading();
+    ECombatState GetCombatState() const;
 };

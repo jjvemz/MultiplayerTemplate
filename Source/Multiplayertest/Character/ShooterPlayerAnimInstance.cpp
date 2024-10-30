@@ -72,10 +72,13 @@ void UShooterPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 		}
 
 		bUseFABRIK = ShooterPlayer->GetCombatState() == ECombatState::ECS_Unoccupied;
+        
+        if (ShooterPlayer->IsLocallyControlled() && ShooterPlayer->GetCombatState() != ECombatState::ECS_ThrowingGrenade)
+        {
+            bUseFABRIK = !ShooterPlayer->IsLocallyReloading();
+        }
 		bUseAimOffsets = ShooterPlayer->GetCombatState() == ECombatState::ECS_Unoccupied && !ShooterPlayer->GetDisableGameplay();
 		bTransformRightHand = ShooterPlayer->GetCombatState() == ECombatState::ECS_Unoccupied && !ShooterPlayer->GetDisableGameplay();
 
-		FTransform MuzzleTipTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("MuzzleFlash"), ERelativeTransformSpace::RTS_World);
-		FVector MuzzleX(FRotationMatrix(MuzzleTipTransform.GetRotation().Rotator()).GetUnitAxis(EAxis::X));
 	}
 }

@@ -12,10 +12,21 @@ enum class EWeaponState : uint8
 {
 	EWS_Initial UMETA(DisplayName = "Initial State"),
 	EWS_Equipped UMETA(DisplayName = "Equipped"),
+    EWS_EquippedSecondary UMETA(DisplayName = "Equipped Secondary"),
 	EWS_Dropped UMETA(DisplayName = "Dropped"),
 
 	EWS_MAX UMETA(DisplayName = "DefaultMax")
 
+};
+
+UENUM(BlueprintType)
+enum class EFireType : uint8
+{
+    EFT_HitScan UMETA(DisplayName = "Hit Scan Weapon"),
+    EFT_Projectile UMETA(DisplayName = "Projectile Weapon"),
+    EFT_Shotgun UMETA(DisplayName = "Shotgun Weapon"),
+
+    EFT_MAX UMETA(DisplayName = "DefaultMAX")
 };
 
 UCLASS()
@@ -36,6 +47,8 @@ public:
 	void DroppedWeapon();
 
 	void AddAmmo(int32 AmmoToAdd);
+
+    FVector TraceEndWithScatter(const FVector& HitTarget);
 
 	UPROPERTY(EditAnywhere, Category = "Crosshairs")
 	class UTexture2D* CrosshairsCenter;
@@ -73,8 +86,20 @@ public:
 
 	void EnableCustomDepth(bool bEnable);
 
+    bool bDestroyWeapon = false;
+
+    UPROPERTY(EditAnywhere)
+    EFireType FireType;
+
+    UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+    bool bUseScatter = false;
 protected:
 	virtual void BeginPlay() override;
+
+    virtual void OnWeaponStateSet();
+    virtual void OnEquipped();
+    virtual void OnDropped();
+    virtual void OnEquippedSecondary();
 
 	UFUNCTION()
 	virtual void OnSphereOverlap(
@@ -92,6 +117,28 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex
 	);
+
+    //Trace end con expansión
+
+    UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+    float DistanceToSphere = 800.f;
+
+    UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+    float SphereRadius = 75.f;
+
+    UPROPERTY(EditAnywhere)
+    float Damage = 20.f;
+
+    UPROPERTY(EditAnywhere)
+    bool bUseServerSideRewind = false;
+
+    UPROPERTY()
+    class AShooterPlayer* ShooterCharacter;
+
+    UPROPERTY()
+    class AShooterPlayerController* ShooterOwnerController;
+
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
 	USkeletalMeshComponent* WeaponMesh;
@@ -111,26 +158,30 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
 	class UAnimationAsset* FireAnimation;
 
-	UPROPERTY(EditAnywhere, ReplicatedUsing = OnRep_Ammo)
+	UPROPERTY(EditAnywhere)
 	int32 Ammo;
+
+    UFUNCTION(Client, Reliable)
+    void ClientUpdateAmmo(int32 ServerAmmo);
+
+    UFUNCTION(Client, Reliable)
+    void ClientAddAmmo(int32 AmmoToAdd);
 
 	UPROPERTY(EditAnywhere)
 	int32 MagCapacity;
 
-	UFUNCTION()
-	void OnRep_Ammo();
+    // Numero de request sin procesar del servidor para la munición.
+    //Incrementado en SpendRound, Decrementado en ClientUpdateAmmo.
+    int32 Sequence = 0;
 
 	void SpendRound();
 
-	UPROPERTY()
-	class AShooterPlayer* ShooterCharacter;
-
-	UPROPERTY()
-	class AShooterPlayerController* ShooterOwnerController;
+	
 
 	UPROPERTY(EditAnywhere)
 	EWeaponType WeaponType;
-	
+
+
 public:
 	FORCEINLINE void SetWeaponState(EWeaponState State);
 	FORCEINLINE USphereComponent* GetAreaSphere() const { return AreaSphere; }
@@ -140,6 +191,7 @@ public:
 	FORCEINLINE EWeaponType GetWeaponType() const { return WeaponType; }
 	FORCEINLINE int32 GetAmmo() const { return Ammo; }
 	FORCEINLINE int32 GetMagCapacity() const { return MagCapacity; }
+    FORCEINLINE float GetDamage() const { return Damage; }
 
 	bool IsEmpty();
 	bool IsFull();

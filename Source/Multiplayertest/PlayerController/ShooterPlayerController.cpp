@@ -5,6 +5,7 @@
 
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 
 #include "Multiplayertest/HUD/ShooterHUD.h"
 #include "Multiplayertest/HUD/CharacterOverlay.h"
@@ -53,7 +54,7 @@ void AShooterPlayerController::SetHUDScore(float Score)
 	}
 	else
 	{
-		bInitializeCharacterOverlay = true;
+        bInitializeScore = true;
 		HUDScore = Score;
 	}
 }
@@ -70,10 +71,29 @@ void AShooterPlayerController::SetHUDHealth(float CurrHealth, float MaxHealth)
 	}
 	else
 	{
-		bInitializeCharacterOverlay = true;
+        bInitializeHealth = true;
 		HUDHealth = CurrHealth;
 		HUDMaxHealth = MaxHealth;
 	}
+}
+
+void AShooterPlayerController::SetHUDShield(float CurrShield, float MaxShield)
+{
+    ShooterHUD = ShooterHUD == nullptr ? Cast<AShooterHUD>(GetHUD()) : ShooterHUD;
+    
+    if (ShooterHUD &&
+        ShooterHUD->CharacterOverlay &&
+        ShooterHUD->CharacterOverlay->ShieldBar)
+    {
+        const float ShieldPercent = CurrShield / MaxShield;
+        ShooterHUD->CharacterOverlay->ShieldBar->SetPercent(ShieldPercent);
+    }
+    else
+    {
+        bInitializeShield = true;
+        HUDShield =CurrShield;
+        HUDMaxShield = MaxShield;
+    }
 }
 
 
@@ -90,7 +110,7 @@ void AShooterPlayerController::SetHUDDefeats(int32 Defeats)
 	}
 	else
 	{
-		bInitializeCharacterOverlay = true;
+        bInitializeDefeats = true;
 		HUDDefeats = Defeats;
 	}
 }
@@ -106,6 +126,11 @@ void AShooterPlayerController::SetHUDWeaponAmmo(int32 Ammo)
 		FString AmmoText = FString::Printf(TEXT("%d"), Ammo);
 		ShooterHUD->CharacterOverlay->WeaponAmmoAmount->SetText(FText::FromString(AmmoText));
 	}
+    else
+    {
+        bInitializeWeaponAmmo = true;
+        HUDWeaponAmmo = Ammo;
+    }
 }
 
 void AShooterPlayerController::SetHUDcarriedAmmo(int32 Ammo)
@@ -119,6 +144,28 @@ void AShooterPlayerController::SetHUDcarriedAmmo(int32 Ammo)
 		FString MagText = FString::Printf(TEXT("%d"), Ammo);
 		ShooterHUD->CharacterOverlay->MagCapacity->SetText(FText::FromString(MagText));
 	}
+    else
+    {
+        bInitializeCarriedAmmo = true;
+        HUDCarriedAmmo = Ammo;
+    }
+}
+
+void AShooterPlayerController::SetHUDGrenades(int32 Grenades)
+{
+    ShooterHUD = ShooterHUD == nullptr ? Cast<AShooterHUD>(GetHUD()) : ShooterHUD;
+    if (ShooterHUD &&
+        ShooterHUD->CharacterOverlay &&
+        ShooterHUD->CharacterOverlay->GrenadesText)
+    {
+        FString GrenadesText = FString::Printf(TEXT("%d"), Grenades);
+        ShooterHUD->CharacterOverlay->GrenadesText->SetText(FText::FromString(GrenadesText));
+    }
+    else
+    {
+        bInitializeGrenades = true;
+        HUDGrenades = Grenades;
+    }
 }
 
 void AShooterPlayerController::SetHUDMatchCountdown(float CountdownTime)
@@ -173,6 +220,71 @@ void AShooterPlayerController::CheckTimeSync(float DeltaTime)
 	}
 }
 
+void AShooterPlayerController::HighPingWarning()
+{
+    ShooterHUD = ShooterHUD == nullptr ? Cast<AShooterHUD>(GetHUD()) : ShooterHUD;
+
+    if (ShooterHUD &&
+        ShooterHUD->CharacterOverlay &&
+        ShooterHUD->CharacterOverlay->HighPingImage &&
+        ShooterHUD->CharacterOverlay->HighPingAnim) 
+    {
+        ShooterHUD->CharacterOverlay->HighPingImage->SetOpacity(1.f);
+        ShooterHUD->CharacterOverlay->PlayAnimation(
+            ShooterHUD->CharacterOverlay->HighPingAnim,
+            0.f,
+            5
+        );
+    }
+}
+
+void AShooterPlayerController::StopHighPingWarning()
+{
+    ShooterHUD = ShooterHUD == nullptr ? Cast<AShooterHUD>(GetHUD()) : ShooterHUD;
+
+    if (ShooterHUD &&
+        ShooterHUD->CharacterOverlay &&
+        ShooterHUD->CharacterOverlay->HighPingImage &&
+        ShooterHUD->CharacterOverlay->HighPingAnim)
+    {
+        ShooterHUD->CharacterOverlay->HighPingImage->SetOpacity(0.f);
+        if (ShooterHUD->CharacterOverlay->IsAnimationPlaying(ShooterHUD->CharacterOverlay->HighPingAnim))
+        {
+            ShooterHUD->CharacterOverlay->StopAnimation(ShooterHUD->CharacterOverlay->HighPingAnim);
+        }
+    }
+}
+
+void AShooterPlayerController::CheckPing(float DeltaTime)
+{
+    HighPingRunningTime += DeltaTime;
+    if (HighPingRunningTime > CheckPingFrequency)
+    {
+        PlayerState = PlayerState == nullptr ? GetPlayerState<APlayerState>() : PlayerState;
+        if (PlayerState)
+        {
+            if (PlayerState->GetPing() * 4 > HighPingThreshold)
+            {
+                HighPingWarning();
+                PingAnimRuningTime = 0.f;
+            }
+        }
+        HighPingRunningTime = 0.f;
+    }
+    if (ShooterHUD &&
+        ShooterHUD->CharacterOverlay &&
+        ShooterHUD->CharacterOverlay->HighPingAnim &&
+        ShooterHUD->CharacterOverlay->IsAnimationPlaying(ShooterHUD->CharacterOverlay->HighPingAnim))
+        {
+        
+            PingAnimRuningTime += DeltaTime;
+            if (PingAnimRuningTime > HighPingDuration)
+            {
+                StopHighPingWarning();
+            }
+        }
+}
+
 
 
 void AShooterPlayerController::ServerCheckMatchState_Implementation()
@@ -221,6 +333,7 @@ void AShooterPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	SetHUDTime();
 	PollInit();
+    CheckPing(DeltaTime);
 }
 
 void AShooterPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -354,9 +467,23 @@ void AShooterPlayerController::PollInit()
 			CharacterOverlay = ShooterHUD->CharacterOverlay;
 			if (CharacterOverlay)
 			{
-				SetHUDHealth(HUDHealth, HUDMaxHealth);
-				SetHUDScore(HUDScore);
-				SetHUDDefeats(HUDDefeats);
+                if(bInitializeHealth) SetHUDHealth(HUDHealth, HUDMaxHealth);
+
+                if (bInitializeShield) SetHUDShield(HUDShield, HUDMaxShield);
+
+                if (bInitializeScore) SetHUDScore(HUDScore);
+
+                if (bInitializeDefeats) SetHUDDefeats(HUDDefeats);
+
+                if (bInitializeCarriedAmmo) SetHUDcarriedAmmo(HUDCarriedAmmo);
+
+                if (bInitializeWeaponAmmo) SetHUDWeaponAmmo(HUDWeaponAmmo);
+
+                AShooterPlayer* ShooterPlayer = Cast<AShooterPlayer>(GetPawn());
+                if (ShooterPlayer && ShooterPlayer->GetCombat())
+                {
+                    if (bInitializeGrenades) SetHUDGrenades(ShooterPlayer->GetCombat()->GetGrenades());
+                }
 			}
 		}
 	}
@@ -371,7 +498,8 @@ void AShooterPlayerController::ServerRequestServerTime_Implementation(float Time
 void AShooterPlayerController::ClientReportServerTime_Implementation(float TimeOfClientRequest, float TimeServerReceivedClientRequest)
 {
 	float RoundTripTime = GetWorld()->GetTimeSeconds() - TimeOfClientRequest;
-	float CurrentServerTime = TimeServerReceivedClientRequest + (0.5f * RoundTripTime);
+    SingleTripTime = (0.5f * RoundTripTime);
+	float CurrentServerTime = TimeServerReceivedClientRequest + SingleTripTime;
 	ClientServerDelta = CurrentServerTime - GetWorld()->GetTimeSeconds();
 }
 
