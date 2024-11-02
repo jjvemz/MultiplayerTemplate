@@ -176,6 +176,89 @@ FServerSideRewindResult ULagCompensationComponent::ConfirmHit(const FFramePackag
     return FServerSideRewindResult{ false, false };
 }
 
+FServerSideRewindResult ULagCompensationComponent::ProjectileConfirmHit(const FFramePackage& Package, AShooterPlayer* HitCharacter, const FVector_NetQuantize &TraceStart, const FVector_NetQuantize100& InitialVelocity, float HitTime)
+{
+    FFramePackage CurrentFrame;
+    CacheBoxPositions(HitCharacter, CurrentFrame);
+    MoveBoxes(HitCharacter, Package);
+    EnableCharacterMeshCollision(HitCharacter, ECollisionEnabled::NoCollision);
+
+    //Activar la colisión para la cabeza
+    UBoxComponent* HeadBox = HitCharacter->HitCollisionBoxes[FName("Head")];
+    HeadBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    HeadBox->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
+
+    FPredictProjectilePathParams PathParams;
+    PathParams.bTraceWithCollision = true;
+    PathParams.MaxSimTime = MaxRecordTime;
+    PathParams.LaunchVelocity = InitialVelocity;
+    PathParams.StartLocation = TraceStart;
+    PathParams.SimFrequency = 15.f;
+    PathParams.ProjectileRadius =5.f;
+    PathParams.TraceChannel = ECC_HitBox;
+    PathParams.ActorsToIgnore.Add(GetOwner());
+    PathParams.DrawDebugTime = 5.f;
+    PathParams.DrawDebugType = EDrawDebugTrace::ForDuration;
+
+    FPredictProjectilePathResult PathRes;
+    UGameplayStatics::PredictProjectilePath(this, PathParams, PathRes);
+
+    if(PathRes.HitResult.bBlockingHit) //Le dimos a la cabeza, entramos al return de una
+    {
+        if(PathRes.HitResult.Component.IsValid())
+        {
+            UBoxComponent* Box = Cast<UBoxComponent>(PathRes.HitResult.Component);
+            if(Box)
+            {
+                DrawDebugBox(GetWorld(), Box->GetComponentLocation(), Box->GetScaledBoxExtent(), FQuat(Box->GetComponentRotation()), FColor::Red, false, 8.f);
+            }
+        }
+        ResetHitBoxes(HitCharacter, CurrentFrame);
+        EnableCharacterMeshCollision(HitCharacter, ECollisionEnabled::QueryAndPhysics);
+        return FServerSideRewindResult{
+            true,
+            true
+        };
+    }
+    else //No fue headshot; Hay que revisar el resto de las cajas
+    {
+        for (auto& HitBoxPair : HitCharacter->HitCollisionBoxes)
+		{
+			if (HitBoxPair.Value != nullptr)
+			{
+				HitBoxPair.Value->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+				HitBoxPair.Value->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
+			}
+		}
+
+    UGameplayStatics::PredictProjectilePath(this, PathParams, PathRes);
+    if(PathRes.HitResult.bBlockingHit)
+        {
+            if (PathRes.HitResult.Component.IsValid())
+			{
+				UBoxComponent* Box = Cast<UBoxComponent>(PathRes.HitResult.Component);
+				if (Box)
+				{
+					DrawDebugBox(GetWorld(), Box->GetComponentLocation(), Box->GetScaledBoxExtent(), FQuat(Box->GetComponentRotation()), FColor::Blue, false, 8.f);
+				}
+			}
+            ResetHitBoxes(HitCharacter, CurrentFrame);
+            EnableCharacterMeshCollision(HitCharacter, ECollisionEnabled::QueryAndPhysics);
+            return FServerSideRewindResult {
+                true, 
+                false
+            };
+        }   
+    }
+
+    ResetHitBoxes(HitCharacter, CurrentFrame);
+    EnableCharacterMeshCollision(HitCharacter, ECollisionEnabled::QueryAndPhysics);
+    return FServerSideRewindResult{
+        false,
+        false
+    };
+}
+
 FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunConfirmHit(const TArray<FFramePackage>& FramePackages, const FVector_NetQuantize& TraceStart, const TArray<FVector_NetQuantize>& HitLocations)
 {
     for (auto& Frame : FramePackages)
@@ -202,6 +285,7 @@ FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunConfirmHit(cons
         HeadBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
         HeadBox->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
     }
+
 
     UWorld* World = GetWorld();
     // check for head shots
@@ -424,13 +508,6 @@ void ULagCompensationComponent::ShowFramePackage(const FFramePackage& Package, c
     }
 }
 
-FServerSideRewindResult ULagCompensationComponent::ServerSideRewind(AShooterPlayer* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize& HitLocation, float HitTime)
-{
-
-    FFramePackage FrameToCheck = GetFrameToCheck(HitCharacter, HitTime);
-    return ConfirmHit(FrameToCheck, HitCharacter, TraceStart, HitLocation);
-}
-
 FFramePackage ULagCompensationComponent::GetFrameToCheck(AShooterPlayer* HitCharacter, float HitTime)
 {
     bool bReturn = HitCharacter == nullptr
@@ -499,7 +576,21 @@ FFramePackage ULagCompensationComponent::GetFrameToCheck(AShooterPlayer* HitChar
     return FrameToCheck;
 }
 
-FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunServerSideRewind(const TArray<AShooterPlayer*>& HitCharacters, const FVector_NetQuantize& TraceStart, const TArray<FVector_NetQuantize>& HitLocations, float HitTime)
+FServerSideRewindResult ULagCompensationComponent::ServerSideRewind(AShooterPlayer* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize& HitLocation, float HitTime)
+{
+
+    FFramePackage FrameToCheck = GetFrameToCheck(HitCharacter, HitTime);
+    return ConfirmHit(FrameToCheck, HitCharacter, TraceStart, HitLocation);
+}
+
+FServerSideRewindResult ULagCompensationComponent::ProjectileServerSideRewind(AShooterPlayer *HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize100& InitialVelocity, float HitTime)
+{
+
+    FFramePackage FrameToCheck = GetFrameToCheck(HitCharacter, HitTime);
+    return ProjectileConfirmHit(FrameToCheck, HitCharacter, TraceStart, InitialVelocity, HitTime);
+}
+
+FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunServerSideRewind(const TArray<AShooterPlayer *> &HitCharacters, const FVector_NetQuantize &TraceStart, const TArray<FVector_NetQuantize> &HitLocations, float HitTime)
 {
     TArray<FFramePackage> FramesToCheck;
 
