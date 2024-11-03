@@ -96,6 +96,15 @@ void AWeaponActor::OnEquipped()
         WeaponMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
     }
     EnableCustomDepth(false);
+    ShooterCharacter = ShooterCharacter == nullptr ? Cast<AShooterPlayer>(GetOwner()) : ShooterCharacter;
+    if (ShooterCharacter )
+    {
+        ShooterOwnerController = ShooterOwnerController == nullptr ? Cast<AShooterPlayerController>(ShooterCharacter->Controller) : ShooterOwnerController;
+        if (ShooterOwnerController && HasAuthority() && !ShooterOwnerController->HighPingDelegate.IsBound())
+        {
+            ShooterOwnerController->HighPingDelegate.AddDynamic(this, &AWeaponActor::OnPingTooHigh);
+        }
+    }
 }
 
 void AWeaponActor::OnDropped()
@@ -113,6 +122,16 @@ void AWeaponActor::OnDropped()
     WeaponMesh->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
     WeaponMesh->MarkRenderStateDirty();
     EnableCustomDepth(true);
+
+    ShooterCharacter = ShooterCharacter == nullptr ? Cast<AShooterPlayer>(GetOwner()) : ShooterCharacter;
+    if (ShooterCharacter)
+    {
+        ShooterOwnerController = ShooterOwnerController == nullptr ? Cast<AShooterPlayerController>(ShooterCharacter->Controller) : ShooterOwnerController;
+        if (ShooterOwnerController && HasAuthority() && ShooterOwnerController->HighPingDelegate.IsBound())
+        {
+            ShooterOwnerController->HighPingDelegate.RemoveDynamic(this, &AWeaponActor::OnPingTooHigh);
+        }
+    }
 }
 
 void AWeaponActor::OnEquippedSecondary()
@@ -145,6 +164,8 @@ void AWeaponActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AWeaponActor, WeaponState);
+    DOREPLIFETIME_CONDITION(AWeaponActor, bUseServerSideRewind, COND_OwnerOnly);
+
 }
 
 
@@ -332,6 +353,11 @@ FVector AWeaponActor::TraceEndWithScatter(const FVector& HitTarget)
         FColor::Cyan,
         true);*/
     return FVector(TraceStart + ToEndLocaction * TRACE_LENGTH / ToEndLocaction.Size());
+}
+
+void AWeaponActor::OnPingTooHigh(bool bPingTooHigh)
+{
+    bUseServerSideRewind = !bPingTooHigh;
 }
 
 void AWeaponActor::OnRep_WeaponState()

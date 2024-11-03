@@ -36,7 +36,8 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 		AShooterPlayer* ShooterPlayer = Cast<AShooterPlayer>(FireHit.GetActor());
 		if (ShooterPlayer && InstigatorController)
 		{
-            if (HasAuthority() && !bUseServerSideRewind)
+            bool bCauseAuthDamage = !bUseServerSideRewind || OwnerPawn->IsLocallyControlled();
+            if (HasAuthority() && bCauseAuthDamage)
             {
                 UGameplayStatics::ApplyDamage(
                     ShooterPlayer,

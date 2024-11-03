@@ -442,8 +442,22 @@ void ULagCompensationComponent::EnableCharacterMeshCollision(AShooterPlayer* Hit
     }
 }
 
+ void ULagCompensationComponent::ProjectileServerScoreRequest_Implementation(AShooterPlayer* HitCharacter,const FVector_NetQuantize& TraceStart,const FVector_NetQuantize100& InitialVelocity,float HitTime)
+ {
+    FServerSideRewindResult Confirm = ProjectileServerSideRewind(HitCharacter, TraceStart, InitialVelocity, HitTime);
 
+     if (ShooterCharacter && HitCharacter  && Confirm.bHitConfirmed)
+    {
+        UGameplayStatics::ApplyDamage(
+            HitCharacter,
+            ShooterCharacter->GetEquippedWeapon()->GetDamage(),
+            ShooterCharacter->Controller,
+            ShooterCharacter->GetEquippedWeapon(),
+            UDamageType::StaticClass()
+        );
+    }
 
+ }
 
 void ULagCompensationComponent::ServerScoreRequest_Implementation(AShooterPlayer* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize& HitLocation, float HitTime, AWeaponActor* DamageCauser)
 {
