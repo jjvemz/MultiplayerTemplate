@@ -34,6 +34,7 @@ public:
     void PlayEliminationMontage();
     void PlayReloadMontage();
     void PlayThrowGrenadeMontage();
+    void PlaySwapWeapon();
 
     //Metodos del HUD
     void UpdateHUDHealth();
@@ -45,6 +46,7 @@ public:
     UPROPERTY()
     TMap<FName, class UBoxComponent*> HitCollisionBoxes;
 
+    bool bFinishedSwapping = false;
 
     virtual void OnRep_ReplicatedMovement() override;
 
@@ -208,6 +210,9 @@ private:
 
     UPROPERTY(EditAnywhere, Category = Combat)
     UAnimMontage* ThrowGrenadeMontage;
+
+    UPROPERTY(EditAnywhere, Category = Combat)
+    UAnimMontage* WeaponSwapMontage;
 
     void HideCameraIfTheCaharacterisClose();
 

@@ -428,7 +428,16 @@ void AShooterPlayer::EquippedPressedButton()
     if (bDisableGameplay) return;
     if (CombatComp)
     {
-        ServerEquippedButtonPressed();
+        if(CombatComp->CombatState == ECombatState::ECS_Unoccupied) ServerEquippedButtonPressed();
+        if (CombatComp->ShouldSwapWeapons() 
+            && !HasAuthority() 
+            && CombatComp->CombatState == ECombatState::ECS_Unoccupied
+            && OverlappingWeapon == nullptr) 
+        {
+            PlaySwapWeapon();
+            CombatComp->CombatState = ECombatState::ECS_SwappingWeapons;
+            bFinishedSwapping = false;
+        }
     }
 }
 
@@ -645,6 +654,15 @@ void AShooterPlayer::PlayThrowGrenadeMontage()
     if (AnimInstance && ThrowGrenadeMontage)
     {
         AnimInstance->Montage_Play(ThrowGrenadeMontage);
+    }
+}
+
+void AShooterPlayer::PlaySwapWeapon()
+{
+    UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+    if (AnimInstance && WeaponSwapMontage)
+    {
+        AnimInstance->Montage_Play(WeaponSwapMontage);
     }
 }
 

@@ -249,19 +249,12 @@ void UCombatComponent::EquipWeapon(AWeaponActor* WeaponToEquip)
 
 void UCombatComponent::SwapWeapons()
 {
-    if (CombatState != ECombatState::ECS_Unoccupied) return;
-    AWeaponActor* TempWeapon = EquippedWeapon;
-    EquippedWeapon = SecondaryWeapon;
-    SecondaryWeapon = TempWeapon;
+    if (CombatState != ECombatState::ECS_Unoccupied || Character == nullptr || !Character->HasAuthority()) return;
 
-    EquippedWeapon->SetWeaponState(EWeaponState::EWS_Equipped);
-    AttachActorToRightHand(EquippedWeapon);
-    EquippedWeapon->SetHUDAmmo();
-    UpdateCarriedAmmo();
-    PlayEquipWeaponSound(EquippedWeapon);
-
-    SecondaryWeapon->SetWeaponState(EWeaponState::EWS_EquippedSecondary);
-    AttachActorToBackpack(SecondaryWeapon);
+    Character->PlaySwapWeapon();
+    CombatState = ECombatState::ECS_SwappingWeapons;
+    Character->bFinishedSwapping = false;
+    if (SecondaryWeapon) SecondaryWeapon->EnableCustomDepth(false);
 }
 
 
@@ -278,6 +271,32 @@ void UCombatComponent::FinishReloading()
     {
         Fire();
     }
+}
+
+void UCombatComponent::FinishSwap()
+{
+    if (Character && Character->HasAuthority())
+    {
+        CombatState = ECombatState::ECS_Unoccupied;
+    }
+    if (Character) Character->bFinishedSwapping = true;
+    if (SecondaryWeapon) SecondaryWeapon->EnableCustomDepth(true);
+}
+
+void UCombatComponent::FinishSwapAttachWeapons()
+{
+    AWeaponActor* TempWeapon = EquippedWeapon;
+    EquippedWeapon = SecondaryWeapon;
+    SecondaryWeapon = TempWeapon;
+
+    EquippedWeapon->SetWeaponState(EWeaponState::EWS_Equipped);
+    AttachActorToRightHand(EquippedWeapon);
+    EquippedWeapon->SetHUDAmmo();
+    UpdateCarriedAmmo();
+    PlayEquipWeaponSound(EquippedWeapon);
+
+    SecondaryWeapon->SetWeaponState(EWeaponState::EWS_EquippedSecondary);
+    AttachActorToBackpack(SecondaryWeapon);
 }
 
 void UCombatComponent::UpdateAmmoValues()
@@ -340,6 +359,14 @@ void UCombatComponent::OnRep_CombatState()
             AttachActorToLeftHand(EquippedWeapon);
             ShowAttachedGrenade(true);
         }
+        break;
+
+    case ECombatState::ECS_SwappingWeapons:
+        if (Character && !Character->IsLocallyControlled())
+        {
+            Character->PlaySwapWeapon();
+        }
+
         break;
     }
 }
@@ -426,7 +453,7 @@ void UCombatComponent::OnRep_SecondaryWeapon()
     {
         SecondaryWeapon->SetWeaponState(EWeaponState::EWS_EquippedSecondary);
         AttachActorToBackpack(SecondaryWeapon);
-
+        PlayEquipWeaponSound(EquippedWeapon);
     }
 }
 
@@ -545,7 +572,7 @@ void UCombatComponent::SetHUDCrosshairs(float DeltaTime)
             }
             CrosshairShootingFactor = FMath::FInterpTo(CrosshairShootingFactor, 0.f, DeltaTime, 40.f);
 
-            HUDPackage.CrosshairSpread = CrosshairVelocityFactor + CrosshairInAirFactor
+            HUDPackage.CrosshairSpread = 0.5f + CrosshairVelocityFactor + CrosshairInAirFactor
                 + CrosshairCrouchedFactor + CrosshairAimFactor + CrosshairShootingFactor;
 
             HUD->SetHUDPackage(HUDPackage);
@@ -581,7 +608,10 @@ void UCombatComponent::AttachActorToBackpack(AActor* ActorToAttach)
     if (Character == nullptr || Character->GetMesh() == nullptr || ActorToAttach == nullptr) return;
     const USkeletalMeshSocket* BackpackSocket = Character->GetMesh()->GetSocketByName(FName("BackpackSocket"));
     
-    if (BackpackSocket) BackpackSocket->AttachActor(ActorToAttach, Character->GetMesh());
+    if (BackpackSocket)
+    {
+        BackpackSocket->AttachActor(ActorToAttach, Character->GetMesh());
+    }
 }
 
 void UCombatComponent::UpdateCarriedAmmo()
@@ -804,20 +834,10 @@ void UCombatComponent::InterpFOV(float DeltaTime)
 }
 bool UCombatComponent::CanFire()
 {
-    if (!EquippedWeapon)
-    {
-        return false;
-    }
-    if (bLocallyReloading)
-    {
-        // Se puede disparar la escopeta al recargar
-        if (!EquippedWeapon->IsEmpty() && bCanFire && CombatState == ECombatState::ECS_Reloading && EquippedWeapon->GetWeaponType() == EWeaponType::EWT_Shotgun)
-        {
-            bLocallyReloading = false;
-            return true;
-        }
-        return false;
-    }
+    if (EquippedWeapon== nullptr) return false;
+    if (!EquippedWeapon->IsEmpty() && bCanFire && CombatState == ECombatState::ECS_Reloading 
+    && EquippedWeapon->GetWeaponType() == EWeaponType::EWT_Shotgun) return true;
+    if (bLocallyReloading) return false;    
     return !EquippedWeapon->IsEmpty() && bCanFire && CombatState == ECombatState::ECS_Unoccupied;
 }
 
