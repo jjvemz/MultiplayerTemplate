@@ -17,6 +17,8 @@ class MULTIPLAYERTEST_API AShooterPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
+
+
 	void SetHUDHealth(float CurrHealth, float MaxHealth);
     void SetHUDShield(float CurrShield, float MaxShield);
 	virtual void OnPossess(APawn* InPawn) override;
@@ -48,6 +50,8 @@ protected:
 
 	virtual void BeginPlay() override;
 
+    virtual void SetupInputComponent() override;
+
 	void SetHUDTime();
 	void PollInit();
 
@@ -76,8 +80,19 @@ protected:
     void StopHighPingWarning();
     void CheckPing(float DeltaTime);
 
+    void ShowReturnToMainMenu();
+
 private:
 
+    //Para regresar al menu principal
+
+    UPROPERTY(EditAnywhere, Category=HUD)
+    TSubclassOf<class UUserWidget> ReturnToMainMenuWidget;
+
+    UPROPERTY(EditAnywhere, Category = HUD)
+    class UReturnToMainMenu* ReturnToMainMenu;
+
+    bool bReturnToMainMenu = false;
 
 	class AShooterHUD* ShooterHUD;
 

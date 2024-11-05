@@ -26,7 +26,7 @@ public:
 	UMultiplayerSessionsSubsystem();
 
 	/*
-		Para manejar la funcionalidad de las sesiones. EL menu llamar· a estas
+		Para manejar la funcionalidad de las sesiones. EL menu llamar√° a estas
 	*/
 
 	void CreateSession(int32 NumPublicConnections, FString MatchType);

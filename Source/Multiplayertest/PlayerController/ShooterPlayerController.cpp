@@ -10,6 +10,7 @@
 #include "Multiplayertest/HUD/ShooterHUD.h"
 #include "Multiplayertest/HUD/CharacterOverlay.h"
 #include "Multiplayertest/HUD/Announcement.h"
+#include "Multiplayertest/HUD/ReturnToMainMenu.h"
 #include "Multiplayertest/Character/ShooterPlayer.h"
 #include "Multiplayertest/GameMode/ShooterPlayerGameMode.h"
 #include "Multiplayertest/PlayerState/ShooterPlayerState.h"
@@ -28,6 +29,14 @@ void AShooterPlayerController::BeginPlay()
 
 	ShooterHUD = Cast<AShooterHUD>(GetHUD());
 	ServerCheckMatchState();
+}
+
+void AShooterPlayerController::SetupInputComponent()
+{
+    Super::SetupInputComponent();
+    if (InputComponent == nullptr) return;
+
+    InputComponent->BindAction("Quit", IE_Pressed, this, &AShooterPlayerController::ShowReturnToMainMenu);
 }
 
 
@@ -271,8 +280,8 @@ void AShooterPlayerController::CheckPing(float DeltaTime)
         PlayerState = PlayerState == nullptr ? GetPlayerState<APlayerState>() : PlayerState;
         if (PlayerState) 
         {
-            UE_LOG(LogTemp, Warning, TEXT("PlayerState->GetPing() * 4 : %d"), PlayerState->GetPing() * 4);
-            if (PlayerState->GetPing() * 4 > HighPingThreshold)
+            UE_LOG(LogTemp, Warning, TEXT("PlayerState->GetPing() * 4 : %d"), PlayerState->GetPingInMilliseconds() * 4);
+            if (PlayerState->GetPingInMilliseconds() * 4 > HighPingThreshold)
             {
                 HighPingWarning();
                 PingAnimRuningTime = 0.f;
@@ -292,6 +301,28 @@ void AShooterPlayerController::CheckPing(float DeltaTime)
         if (PingAnimRuningTime > HighPingDuration)
         {
             StopHighPingWarning();
+        }
+    }
+}
+
+void AShooterPlayerController::ShowReturnToMainMenu()
+{
+    if(ReturnToMainMenuWidget == nullptr) return;
+    if (ReturnToMainMenu == nullptr)
+    {
+        ReturnToMainMenu = CreateWidget<UReturnToMainMenu>(this, ReturnToMainMenuWidget);
+    }
+    if (ReturnToMainMenu)
+    {
+        //Abre el menu
+        bReturnToMainMenu = !bReturnToMainMenu;
+        if (bReturnToMainMenu)
+        {
+            ReturnToMainMenu->MenuSetup();
+        }
+        else
+        {
+            ReturnToMainMenu->MenuTearDown();
         }
     }
 }
