@@ -23,6 +23,8 @@ public:
 protected:
 virtual bool Initialize() override;
 
+void OnPlayerLeftGame();
+
 UFUNCTION()
 void OnDestroySession(bool bWasSuccesful);
 

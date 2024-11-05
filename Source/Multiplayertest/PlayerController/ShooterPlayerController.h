@@ -89,7 +89,7 @@ private:
     UPROPERTY(EditAnywhere, Category=HUD)
     TSubclassOf<class UUserWidget> ReturnToMainMenuWidget;
 
-    UPROPERTY(EditAnywhere, Category = HUD)
+    UPROPERTY()
     class UReturnToMainMenu* ReturnToMainMenu;
 
     bool bReturnToMainMenu = false;

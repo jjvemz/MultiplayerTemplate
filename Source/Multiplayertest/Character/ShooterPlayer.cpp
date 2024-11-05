@@ -18,6 +18,7 @@
 #include "Multiplayertest/Multiplayertest.h"
 #include "Multiplayertest/PlayerController/ShooterPlayerController.h"
 #include "Multiplayertest/GameMode/ShooterPlayerGameMode.h"
+#include "Multiplayertest/GameState/ShooterPlayerGameState.h"
 #include "Multiplayertest/Weapons/WeaponTypes.h"
 #include "Multiplayertest/BlasterTypes/CombatState.h"
 
@@ -27,6 +28,8 @@
 #include "Net/UnrealNetwork.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Components/BoxComponent.h"
 
 
@@ -216,23 +219,12 @@ void AShooterPlayer::OnRep_ReplicatedMovement()
     TimeSinceLastMovementReplication = 0.f;
 }
 
-void AShooterPlayer::Elim()
+void AShooterPlayer::Elim(bool bPlayerLeftGame)
 {
-    if (CombatComp && CombatComp->EquippedWeapon)
-    {
-        CombatComp->EquippedWeapon->Destroy();
-    }
-    else 
-    {
-        CombatComp->EquippedWeapon->DroppedWeapon();
-    }
-    MulticastElim();
-    GetWorldTimerManager().SetTimer(
-        ElimTimer,
-        this,
-        &AShooterPlayer::ElimTimerFinished,
-        ElimDelay
-    );
+    
+    DropOrDestroyWeapons();
+    MulticastElim(bPlayerLeftGame);
+    
 }
 
 void AShooterPlayer::Destroyed()
@@ -252,8 +244,9 @@ void AShooterPlayer::Destroyed()
     }
 }
 
-void AShooterPlayer::MulticastElim_Implementation()
+void AShooterPlayer::MulticastElim_Implementation(bool bPlayerLeftGame)
 {
+    bLeftGame = bPlayerLeftGame;
     if (ShooterPlayerController)
     {
         ShooterPlayerController->SetHUDWeaponAmmo(0);
@@ -305,8 +298,49 @@ void AShooterPlayer::MulticastElim_Implementation()
         ShowSniperScopeWidget(false);
     }
 
+    if (CrownComponent)
+    {
+        CrownComponent->DestroyComponent();
+    }
+
+    GetWorldTimerManager().SetTimer(
+        ElimTimer,
+        this,
+        &AShooterPlayer::ElimTimerFinished,
+        ElimDelay
+    );
+
 }
 
+
+void AShooterPlayer::MulticastGainedTheLead_Implementation()
+{
+    if (CrownSystem == nullptr) return;
+    if (CrownComponent == nullptr)
+    {
+        CrownComponent = UNiagaraFunctionLibrary::SpawnSystemAttached(
+            CrownSystem,
+            GetCapsuleComponent(),
+            FName(),
+            GetActorLocation() + FVector(0.f, 0.f, 110.f),
+            GetActorRotation(),
+            EAttachLocation::KeepWorldPosition,
+            false
+        );
+    }
+    if (CrownComponent)
+    {
+        CrownComponent->Activate();
+    }
+}
+
+void AShooterPlayer::MulticastLostTheLead_Implementation()
+{
+    if (CrownComponent)
+    {
+        CrownComponent->DestroyComponent();
+    }
+}
 
 void AShooterPlayer::BeginPlay()
 {
@@ -766,6 +800,11 @@ void AShooterPlayer::PollInit()
             ShooterPlayerState->AddToScore(0.f);
             ShooterPlayerState->AddToDefeats(0);
 
+            AShooterPlayerGameState* ShooterPlayerGameState = Cast<AShooterPlayerGameState>(UGameplayStatics::GetGameState(this));
+            if (ShooterPlayerGameState && ShooterPlayerGameState->TopScoringPlayers.Contains(ShooterPlayerState))
+            {
+                MulticastGainedTheLead();
+            }
         }
     }
 }
@@ -913,10 +952,26 @@ void AShooterPlayer::HideCameraIfTheCaharacterisClose()
 void AShooterPlayer::ElimTimerFinished()
 {
     AShooterPlayerGameMode* ShooterPlayerGameMode = GetWorld()->GetAuthGameMode<AShooterPlayerGameMode>();
-    if (ShooterPlayerGameMode)
+    if (ShooterPlayerGameMode && !bLeftGame)
     {
         ShooterPlayerGameMode->RequestRespawn(this, Controller);
     }
+    if (bLeftGame && IsLocallyControlled())
+    {
+        OnLeftGame.Broadcast();
+    }
+
+}
+
+void AShooterPlayer::ServerLeaveGame_Implementation()
+{
+    AShooterPlayerGameMode* ShooterPlayerGameMode = GetWorld()->GetAuthGameMode<AShooterPlayerGameMode>();
+    ShooterPlayerState = ShooterPlayerState == nullptr? GetPlayerState<AShooterPlayerState>() : ShooterPlayerState;
+    if (ShooterPlayerGameMode && ShooterPlayerState)
+    {
+        ShooterPlayerGameMode->PlayerLeftGame(ShooterPlayerState);
+    }
+
 
 }
 

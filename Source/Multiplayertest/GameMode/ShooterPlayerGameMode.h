@@ -8,7 +8,7 @@
 
 namespace MatchState
 {
-	extern MULTIPLAYERTEST_API const FName Cooldown; // Para cuando la duración de la partida haya concluido y se muestre al jugador
+	extern MULTIPLAYERTEST_API const FName Cooldown; // Para cuando la duraciÃ³n de la partida haya concluido y se muestre al jugador
 }
 /**
  * 
@@ -23,6 +23,7 @@ class MULTIPLAYERTEST_API AShooterPlayerGameMode : public AGameMode
 	virtual void PlayerElim(class AShooterPlayer* EliminatedPlyr, 
 	class AShooterPlayerController* VictimController, class AShooterPlayerController* AttackerController );
 	virtual void RequestRespawn(class ACharacter* EliminatedCharacter, AController* EliminatedController);
+    void PlayerLeftGame(class AShooterPlayerState* PlayerLeaving);
 
 	UPROPERTY(EditDefaultsOnly)
 	float WarmupTime = 10.f;

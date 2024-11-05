@@ -14,6 +14,7 @@
 
 #include "ShooterPlayer.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLeftGame);
 
 UCLASS()
 class MULTIPLAYERTEST_API AShooterPlayer : public ACharacter, public IInteractCrosshairsInterface
@@ -50,10 +51,10 @@ public:
 
     virtual void OnRep_ReplicatedMovement() override;
 
-    void Elim();
+    void Elim(bool bPlayerLeftGame);
 
     UFUNCTION(NetMulticast, Reliable)
-    void MulticastElim();
+    void MulticastElim(bool bPlayerLeftGame);
 
     virtual void Destroyed() override;
 
@@ -62,6 +63,17 @@ public:
 
     UFUNCTION(BlueprintImplementableEvent)
     void ShowSniperScopeWidget(bool bShowScope);
+
+    UFUNCTION(Server, Reliable)
+    void ServerLeaveGame();
+
+    FOnLeftGame OnLeftGame;
+
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastGainedTheLead();
+
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastLostTheLead();
 
 protected:
 
@@ -249,6 +261,8 @@ private:
 
     void ElimTimerFinished();
 
+    bool bLeftGame = false;
+
     UFUNCTION()
     void OnRep_Health(float LastHealth);
 
@@ -278,6 +292,12 @@ private:
 
     UPROPERTY()
     class AShooterPlayerState* ShooterPlayerState;
+
+    UPROPERTY(EditAnywhere)
+    class UNiagaraSystem* CrownSystem;
+
+    UPROPERTY()
+    class UNiagaraComponent* CrownComponent;
 
     //Granada
     UPROPERTY(VisibleAnywhere)
