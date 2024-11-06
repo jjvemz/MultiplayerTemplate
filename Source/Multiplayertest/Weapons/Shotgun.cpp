@@ -22,28 +22,32 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 	AController* InstigatorController = OwnerPawn->GetController();
 
 	const USkeletalMeshSocket* MuzzleFlashSocket = GetWeaponMesh()->GetSocketByName("MuzzleFlash");
-	if (MuzzleFlashSocket)
-	{
+    if (MuzzleFlashSocket)
+    {
         const FTransform SocketTransform = MuzzleFlashSocket->GetSocketTransform(GetWeaponMesh());
         const FVector Start = SocketTransform.GetLocation();
 
-		TMap<AShooterPlayer*, uint32> HitMap;
-		for (FVector_NetQuantize HitTarget : HitTargets)
-		{
-			FHitResult FireHit;
-			WeaponTraceHit(Start, HitTarget, FireHit);
+        TMap<AShooterPlayer*, uint32> HitMap;
+        TMap<AShooterPlayer*, uint32> HeadShotHitMap;
+        for (FVector_NetQuantize HitTarget : HitTargets)
+        {
+            FHitResult FireHit;
+            WeaponTraceHit(Start, HitTarget, FireHit);
 
-			AShooterPlayer* ShooterPlayer = Cast<AShooterPlayer>(FireHit.GetActor());
-			if (ShooterPlayer)
-			{
-				if (HitMap.Contains(ShooterPlayer))
-				{
-					HitMap[ShooterPlayer]++;
-				}
-				else
-				{
-					HitMap.Emplace(ShooterPlayer, 1);
-				}
+            AShooterPlayer* ShooterPlayer = Cast<AShooterPlayer>(FireHit.GetActor());
+            if (ShooterPlayer)
+            {
+                const bool bHeadShot = FireHit.BoneName.ToString() == FString("head");
+                if (bHeadShot)
+                {
+                    if (HeadShotHitMap.Contains(ShooterPlayer)) HeadShotHitMap[ShooterPlayer]++;
+                    else HeadShotHitMap.Emplace(ShooterPlayer, 1);
+                }
+                else
+                {
+                    if (HitMap.Contains(ShooterPlayer)) HitMap[ShooterPlayer]++;
+                    else HitMap.Emplace(ShooterPlayer, 1);
+                }
 
                 if (ImpactParticles)
                 {
@@ -64,14 +68,34 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
                         FMath::FRandRange(-.5f, .5f)
                     );
                 }
-			}
-			
-		}
+            }
+
+        }
         TArray<AShooterPlayer*> HitCharacters;
+    
+        //Maps del personaje para el total de daño  con un Map de Jugador, daño en float total 
+        TMap<AShooterPlayer*, float> DamageMap;
 		for (auto HitPair : HitMap)
 		{
-			if (HitPair.Key && InstigatorController)
+			if (HitPair.Key)
 			{
+                DamageMap.Emplace(HitPair.Key, HitPair.Value * Damage);
+
+                HitCharacters.AddUnique(HitPair.Key);
+			}
+		}
+
+        //Calcula el daño con un Map de Jugador, daño en float total para el headshot
+        for (auto HeadShotHitPair : HeadShotHitMap)
+        {
+            if (HeadShotHitPair.Key)
+            {
+
+                if (DamageMap.Contains(HeadShotHitPair.Key)) HeadShotHitMap[HeadShotHitPair.Key]+= HeadShotHitPair.Value * HeadShotDamage;
+                else DamageMap.Emplace(HeadShotHitPair.Key, HeadShotHitPair.Value * HeadShotDamage);
+
+                HitCharacters.AddUnique(HeadShotHitPair.Key);
+                /*
                 bool bCauseAuthDamage = !bUseServerSideRewind || OwnerPawn->IsLocallyControlled();
 
                 if (HasAuthority() && bCauseAuthDamage)
@@ -85,8 +109,28 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
                     );
                 }
                 HitCharacters.Add(HitPair.Key);
-			}
-		}
+                */
+            }
+        }
+
+        for (auto DamagePair : DamageMap)
+        {
+            if (DamagePair.Key && InstigatorController)
+            {
+                bool bCauseAuthDamage = !bUseServerSideRewind || OwnerPawn->IsLocallyControlled();
+
+                if (HasAuthority() && bCauseAuthDamage)
+                {
+                    UGameplayStatics::ApplyDamage(
+                        DamagePair.Key,
+                        DamagePair.Value, //Daño calculado en los for de arriba
+                        InstigatorController,
+                        this,
+                        UDamageType::StaticClass()
+                    );
+                }
+            }
+        }
 
         if (!HasAuthority() && bUseServerSideRewind)
         {
