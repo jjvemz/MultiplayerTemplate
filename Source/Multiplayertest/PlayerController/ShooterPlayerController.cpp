@@ -360,7 +360,7 @@ void AShooterPlayerController::ClientEliminationAnnouncement_Implementation(APla
             }
             if (Attacker == Victim && Attacker != Self)
             {
-                ShooterHUD->AddEliminationAnnouncement(Attacker->GetPlayerName(), "ellos mismos");
+                ShooterHUD->AddEliminationAnnouncement(Attacker->GetPlayerName(), "si mismo");
                 return;
             }
             ShooterHUD->AddEliminationAnnouncement(Attacker->GetPlayerName(), Victim->GetPlayerName());

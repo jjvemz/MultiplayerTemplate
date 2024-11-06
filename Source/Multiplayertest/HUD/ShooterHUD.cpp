@@ -108,11 +108,11 @@ void AShooterHUD::AddEliminationAnnouncement(FString Attacker, FString Victim)
     OwningPlayer = OwningPlayer == nullptr ? GetOwningPlayerController() : OwningPlayer;
     if (OwningPlayer && EliminationAnnouncementClass)
     {
-        UEliminationWidget* EliminationAnouncementWidget = CreateWidget<UEliminationWidget>(OwningPlayer, EliminationAnnouncementClass);
-        if (EliminationAnouncementWidget)
+        UEliminationWidget* EliminationAnnouncementWidget = CreateWidget<UEliminationWidget>(OwningPlayer, EliminationAnnouncementClass);
+        if (EliminationAnnouncementWidget)
         {
-            EliminationAnouncementWidget->SetEliminationAnnouncementText(Attacker, Victim);
-            EliminationAnouncementWidget->AddToViewport();
+            EliminationAnnouncementWidget->SetEliminationAnnouncementText(Attacker, Victim);
+            EliminationAnnouncementWidget->AddToViewport();
 
             for (UEliminationWidget* Msg : EliminationMessages)
             {
@@ -131,11 +131,11 @@ void AShooterHUD::AddEliminationAnnouncement(FString Attacker, FString Victim)
                 }
             }
 
-            EliminationMessages.Add(EliminationAnouncementWidget);
+            EliminationMessages.Add(EliminationAnnouncementWidget);
 
             FTimerHandle EliminationMsgTimer;
             FTimerDelegate EliminationMsgDelegate;
-            EliminationMsgDelegate.BindUFunction(this, FName("EliminationAnnouncementTimerFinished"), EliminationAnouncementWidget);
+            EliminationMsgDelegate.BindUFunction(this, FName("EliminationAnnouncementTimerFinished"), EliminationAnnouncementWidget);
             GetWorldTimerManager().SetTimer(
                 EliminationMsgTimer,
                 EliminationMsgDelegate,

@@ -6,7 +6,7 @@
 
 void UEliminationWidget::SetEliminationAnnouncementText(FString AttackerName, FString VictimName)
 {
-    FString EliminationAnnouncementText = FString::Printf(TEXT("%s eliminated %s!!"), *AttackerName, *VictimName);
+    FString EliminationAnnouncementText = FString::Printf(TEXT("%s eliminó %s!!"), *AttackerName, *VictimName);
     if (AnnouncementText)
     {
         AnnouncementText->SetText(FText::FromString(EliminationAnnouncementText));
