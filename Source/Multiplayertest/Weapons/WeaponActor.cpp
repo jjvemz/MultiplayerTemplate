@@ -101,7 +101,7 @@ void AWeaponActor::OnEquipped()
     }
     EnableCustomDepth(false);
     ShooterCharacter = ShooterCharacter == nullptr ? Cast<AShooterPlayer>(GetOwner()) : ShooterCharacter;
-    if (ShooterCharacter )
+    if (ShooterCharacter && bUseServerSideRewind)
     {
         ShooterOwnerController = ShooterOwnerController == nullptr ? Cast<AShooterPlayerController>(ShooterCharacter->Controller) : ShooterOwnerController;
         if (ShooterOwnerController && HasAuthority() && !ShooterOwnerController->HighPingDelegate.IsBound())

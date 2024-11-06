@@ -2,9 +2,15 @@
 
 
 #include "ShooterHUD.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "GameFramework/PlayerController.h"
-#include "CharacterOverlay.h"
+
+#include "Components/CanvasPanelSlot.h"
+#include "Components/HorizontalBox.h"
+
 #include "Announcement.h"
+#include "CharacterOverlay.h"
+#include "EliminationWidget.h"
 
 
 void AShooterHUD::BeginPlay()
@@ -95,4 +101,56 @@ void AShooterHUD::AddAnnouncement()
 		Announcement = CreateWidget<UAnnouncement>(PlayerController, AnnouncementClass);
 		Announcement->AddToViewport();
 	}
+}
+
+void AShooterHUD::AddEliminationAnnouncement(FString Attacker, FString Victim)
+{
+    OwningPlayer = OwningPlayer == nullptr ? GetOwningPlayerController() : OwningPlayer;
+    if (OwningPlayer && EliminationAnnouncementClass)
+    {
+        UEliminationWidget* EliminationAnouncementWidget = CreateWidget<UEliminationWidget>(OwningPlayer, EliminationAnnouncementClass);
+        if (EliminationAnouncementWidget)
+        {
+            EliminationAnouncementWidget->SetEliminationAnnouncementText(Attacker, Victim);
+            EliminationAnouncementWidget->AddToViewport();
+
+            for (UEliminationWidget* Msg : EliminationMessages)
+            {
+                if (Msg && Msg->AnnouncementBox)
+                {
+                    UCanvasPanelSlot* CanvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(Msg->AnnouncementBox);
+                    if (CanvasSlot) 
+                    {
+                        FVector2D Pos = CanvasSlot->GetPosition();
+                        FVector2D NewPosition(
+                            CanvasSlot->GetPosition().X,
+                            Pos.Y - CanvasSlot->GetSize().Y
+                        );
+                        CanvasSlot->SetPosition(NewPosition);
+                    }
+                }
+            }
+
+            EliminationMessages.Add(EliminationAnouncementWidget);
+
+            FTimerHandle EliminationMsgTimer;
+            FTimerDelegate EliminationMsgDelegate;
+            EliminationMsgDelegate.BindUFunction(this, FName("EliminationAnnouncementTimerFinished"), EliminationAnouncementWidget);
+            GetWorldTimerManager().SetTimer(
+                EliminationMsgTimer,
+                EliminationMsgDelegate,
+                EliminationAnnouncementTime,
+                false
+            );
+        }
+    }
+}
+
+
+void AShooterHUD::EliminationAnnouncementTimerFinished(UEliminationWidget* MsgToRemove)
+{
+    if (MsgToRemove)
+    {
+        MsgToRemove->RemoveFromParent();
+    }
 }

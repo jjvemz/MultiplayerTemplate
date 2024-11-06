@@ -22,6 +22,11 @@
 #include "Net/UnrealNetwork.h"
 
 
+void AShooterPlayerController::BroadcastElimination(APlayerState* Attacker, APlayerState* Victim)
+{
+    ClientEliminationAnnouncement(Attacker, Victim);
+}
+
 void AShooterPlayerController::BeginPlay()
 {
 
@@ -323,6 +328,42 @@ void AShooterPlayerController::ShowReturnToMainMenu()
         else
         {
             ReturnToMainMenu->MenuTearDown();
+        }
+    }
+}
+
+void AShooterPlayerController::ClientEliminationAnnouncement_Implementation(APlayerState* Attacker, APlayerState* Victim)
+{
+    APlayerState* Self = GetPlayerState<APlayerState>();
+
+    if (Attacker && Victim && Self)
+    {
+        ShooterHUD = ShooterHUD == nullptr ? Cast<AShooterHUD>(GetHUD()) : ShooterHUD;
+        if (ShooterHUD)
+        {
+            if (Attacker == Self && Victim != Self)
+            {
+                ShooterHUD->AddEliminationAnnouncement("Tu", Victim->GetPlayerName());
+                return;
+            }
+
+            if (Victim == Self && Attacker != Self)
+            {
+                ShooterHUD->AddEliminationAnnouncement(Attacker->GetPlayerName(), "you");
+                return;
+            }
+
+            if (Attacker == Victim && Attacker == Self)
+            {
+                ShooterHUD->AddEliminationAnnouncement("Tu", "Tu mismo");
+                return;
+            }
+            if (Attacker == Victim && Attacker != Self)
+            {
+                ShooterHUD->AddEliminationAnnouncement(Attacker->GetPlayerName(), "ellos mismos");
+                return;
+            }
+            ShooterHUD->AddEliminationAnnouncement(Attacker->GetPlayerName(), Victim->GetPlayerName());
         }
     }
 }

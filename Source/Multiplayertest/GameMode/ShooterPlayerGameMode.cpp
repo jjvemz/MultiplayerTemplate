@@ -127,6 +127,15 @@ void AShooterPlayerGameMode::PlayerElim(AShooterPlayer* EliminatedPlyr, AShooter
 	{
 		EliminatedPlyr->Elim(false);
 	}
+
+    for (FConstPlayerControllerIterator it = GetWorld()->GetPlayerControllerIterator(); it; ++it)
+    {
+        AShooterPlayerController* ShooterPlayer = Cast<AShooterPlayerController>(*it);
+        if (ShooterPlayer && AttackerPlayerState && VictimPlayerState)
+        {
+            ShooterPlayer->BroadcastElimination(AttackerPlayerState, VictimPlayerState);
+        }
+    }
 }
 
 void AShooterPlayerGameMode::RequestRespawn(ACharacter* EliminatedCharacter, AController* EliminatedController)

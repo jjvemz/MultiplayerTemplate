@@ -49,16 +49,35 @@ public:
 
 	void AddAnnouncement();
 
+    void AddEliminationAnnouncement(FString Attacker, FString Victim);
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
+
+    UPROPERTY()
+    class APlayerController* OwningPlayer;
+
 	FHUDPackage HUDPackage;
 
 	UPROPERTY(EditAnywhere)
 	float CrosshairSpreadMax = 16.f;
 
 	void DrawCrosshair(UTexture2D* Texture, FVector2D ViewportCenter, FVector2D Spread, FLinearColor CrossHairColor);
+
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<class UEliminationWidget> EliminationAnnouncementClass;
+
+    UPROPERTY(EditAnywhere)
+    float EliminationAnnouncementTime = 3.f;
+
+    UFUNCTION()
+    void EliminationAnnouncementTimerFinished(UEliminationWidget* MsgToRemove);
+
+    UPROPERTY()
+    TArray<UEliminationWidget*> EliminationMessages;
+
 public:
 	FORCEINLINE void SetHUDPackage(const FHUDPackage& Package) { HUDPackage = Package; }
 };
