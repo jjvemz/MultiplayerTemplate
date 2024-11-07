@@ -101,11 +101,10 @@ public:
 
     UFUNCTION(Server, Reliable)
     void ServerScoreRequest(
-        AShooterPlayer* HitCharacter,
-        const FVector_NetQuantize& TraceStart,
-        const FVector_NetQuantize& HitLocation,
-        float HitTime,
-        class AWeaponActor* DamageCauser
+        AShooterPlayer* HitCharacter, 
+        const FVector_NetQuantize& TraceStart, 
+        const FVector_NetQuantize& HitLocation, 
+        float HitTime
     );
 
 

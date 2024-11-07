@@ -715,8 +715,9 @@ void AShooterPlayer::ReceiveDamage(AActor* DamagedACtor, float Damage, const UDa
         }
         else 
         {
-            CurrShield = 0;
             CurrShield = FMath::Clamp(DamageToHealth, 0.f, Damage);
+            CurrShield = 0;
+
 
         }
     }
